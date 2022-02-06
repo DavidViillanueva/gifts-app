@@ -1,0 +1,22 @@
+.form__container-centered {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+
+    form {
+        min-width: 215px;
+        width: 300px;
+        border-radius: 10px;
+        background-color: #2F85DF;
+        padding: 20px;
+        color: white;
+    }
+}
+
+.form__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

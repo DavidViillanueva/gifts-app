@@ -1,0 +1,22 @@
+.main-content {
+    background-color: transparent;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    max-height: 700px;
+    
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    span {
+        max-width: 900px;
+        font-size: 79px;
+        text-align: center;
+    }
+
+    button {
+        margin-top: 20px;
+    }   
+}
+

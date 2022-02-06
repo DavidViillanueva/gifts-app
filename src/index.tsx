@@ -1,12 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import GiftsApp from './GiftsApp';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { ChakraProvider } from '@chakra-ui/react'
+
+import './configs/i18n';
+import './styles/styles.scss'
+import Background from './components/layout/Background';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Register from './components/auth/Register';
+import Login from './components/auth/Login';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <ChakraProvider>
+        <Background />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<GiftsApp />} />
+            
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+            </Routes>
+          </BrowserRouter>
+      </ChakraProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
