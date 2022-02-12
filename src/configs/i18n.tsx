@@ -28,11 +28,15 @@ i18n
                     password: "Contraseña",
                     passwordConfirm: "Contraseña (Otra vez)",
                     email: "Correo Electronico"
-                  }
+                  },
+                  login: "Ingresar",
+                  createAccount: "Crear Cuenta",
+                  return: "Regresar"
                 },
                 button:{
                     login: "Ingresar",
-                    createAccount: "Crear Cuenta"
+                    createAccount: "Crear Cuenta",
+                    return: "Regresar"
                 }
             }
         }

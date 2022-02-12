@@ -5,7 +5,7 @@
     z-index: -100;
 }
 
-$bubble-count: 50;
+$bubble-count: 25;
 $sway-type: "sway-left-to-right", "sway-right-to-left";
 
 @function random_range($min, $max) {
@@ -42,7 +42,7 @@ $sway-type: "sway-left-to-right", "sway-right-to-left";
     left: 0;
     width: 100%;
     height: 100%;
-    background: hsla(183, 94%, 76%, 0.3);
+    background: #3182ce50;
     border-radius: inherit;
     animation: var(--bubble-sway-type) var(--bubble-sway-duration) var(--bubble-sway-delay) ease-in-out alternate infinite;
   }
