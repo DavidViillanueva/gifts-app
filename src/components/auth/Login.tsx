@@ -1,15 +1,22 @@
+import React from 'react';
 import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
 import { useFormik } from 'formik';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { startLoginWithEmailPassword } from '../../store/actions/auth.actions';
+import { RootState } from '../../store/store';
 
 const Login = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     let navigate = useNavigate();
+    
+    let userData = useSelector((state: RootState) => {
+        return state.auth
+    })
+
+    console.log( userData );
 
     const formik = useFormik({
         initialValues: {
@@ -18,7 +25,8 @@ const Login = () => {
         },
         onSubmit: values => {
             dispatch( startLoginWithEmailPassword(values.email, values.password) );
-            navigate('/profile/1234');
+            if( userData.uid )
+                navigate(`/profile/${ userData.uid}`);
         },
     });
 

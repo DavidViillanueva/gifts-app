@@ -1,6 +1,7 @@
+import { configureStore } from '@reduxjs/toolkit';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { authReducer } from './reducers/auth.reducer';
+import  authReducer  from './reducers/auth.reducer';
 
 
 declare global {
@@ -11,15 +12,24 @@ declare global {
 const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
 const reducers = combineReducers({
-  auth: authReducer
+  auth : authReducer
 });
+
+
+export const store = configureStore({
+  reducer: {
+    auth: authReducer
+  },
+  devTools: true,
+  middleware: [thunk] 
+})
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
 
-export const store = createStore(
-    reducers,
-    composeEnhancers(
-        applyMiddleware( thunk )
-    )
-);
+// export const store = createStore(
+//     reducers,
+//     composeEnhancers(
+//         applyMiddleware( thunk )
+//     )
+// );

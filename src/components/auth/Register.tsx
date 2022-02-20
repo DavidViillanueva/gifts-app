@@ -18,7 +18,7 @@ const Register = () => {
         //   passwordConfirm: '',
         },
         onSubmit: values => {
-            dispatch( startRegisterWithEmailPasswordName(values.email,values.password,values.name))
+            dispatch( startRegisterWithEmailPasswordName(values.email,values.password,values.name) )
         },
     });
 

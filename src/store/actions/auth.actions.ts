@@ -1,8 +1,7 @@
 import firebase from 'firebase/compat/app';
 import { auth } from '../../configs/firebaseConfig';
 import { types } from "../../configs/types";
-import { createUserWithEmailAndPassword, getAuth, updateCurrentUser } from "firebase/auth";
-import { Navigate } from 'react-router-dom';
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 
 export const startLoginWithEmailPassword = ( email: string, password:string) => {
@@ -15,7 +14,7 @@ export const startLoginWithEmailPassword = ( email: string, password:string) => 
                     )
             })
             .catch( e => {
-                console.error(e)
+                alert(e)
             })
     }
 };
@@ -25,24 +24,20 @@ export const startRegisterWithEmailPasswordName = ( email:string , password:stri
         createUserWithEmailAndPassword(auth, email, password )
             .then( async( userCredential ) =>{
                 const user = userCredential.user;
-
                 if( user ) {  
-                    updateCurrentUser( auth , {
-                        ...user,
-                        displayName: name
-                    })
+                    updateProfile(user,{ displayName: name})
                     dispatch(
                         login( user.uid, name)
                     );
                 }
             })
             .catch( e => {
-                console.error(e)
+                alert(e)
             })
     }   
 }
 
-export const login = ( uid:any, displayName:any) => ({
+export const login = ( uid:string, displayName:string|null) => ({
     type: types.login,
     payload: {
         uid,
