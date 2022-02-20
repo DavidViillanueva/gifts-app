@@ -7,27 +7,16 @@ import { ChakraProvider } from '@chakra-ui/react'
 import './configs/i18n';
 import './styles/styles.scss'
 import Background from './components/layout/Background';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Login from "./components/auth/Login";
-import Register from "./components/auth/Register";
-import GiftsApp from './GiftsApp';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
+import AppRouter from './routes/AppRouter';
 
 ReactDOM.render(
   <React.StrictMode>
       <Provider store={store}>
         <ChakraProvider>
           <Background />
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<GiftsApp />} />
-
-                <Route path="/register" element={<Register />} />
-
-                <Route path="/login" element={<Login />} />
-              </Routes>
-            </BrowserRouter>
+            <AppRouter />
         </ChakraProvider>
       </Provider>
   </React.StrictMode>,

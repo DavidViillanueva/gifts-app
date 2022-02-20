@@ -5,7 +5,7 @@ const Background = () => {
 
   const bubbles: JSX.Element[] = []
   for (let i = 0; i < amountBubbles; i++) {
-    bubbles.push(<div className="bubble" style={{backgroundColor: "#3182ce85"}}></div>)
+    bubbles.push(<div className="bubble" key={`backgroundBubble-${i}`} style={{backgroundColor: "#3182ce85"}}></div>)
   }
   return (
   <div className='background'>

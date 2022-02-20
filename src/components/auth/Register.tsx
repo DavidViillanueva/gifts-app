@@ -1,22 +1,27 @@
 import { Button, FormControl, FormHelperText, FormLabel, Input } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import {  useFormik } from 'formik';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { startRegisterWithEmailPasswordName } from '../../store/actions/auth.actions';
 
 const Register = () => {
+    const { t } = useTranslation();
+    const dispatch = useDispatch();
+    let navigate = useNavigate();
+
     const formik = useFormik({
         initialValues: {
           name: '',
           email: '',
           password: '',
-          passwordConfirm: '',
+        //   passwordConfirm: '',
         },
         onSubmit: values => {
-          alert(JSON.stringify(values, null, 2));
+            dispatch( startRegisterWithEmailPasswordName(values.email,values.password,values.name))
         },
     });
 
-    const { t } = useTranslation();
     return(   
         <div className='form__container-centered'>
             <form onSubmit={ formik.handleSubmit }>
@@ -34,10 +39,10 @@ const Register = () => {
                     <FormLabel htmlFor='password'>{ t('labels.form.password') }</FormLabel>
                     <Input id='password' type='password' name="password" onChange={formik.handleChange} value={formik.values.password} />
                 </FormControl>
-                <FormControl>
+                {/* <FormControl>
                     <FormLabel htmlFor='passwordConfirm'>{ t('labels.form.passwordConfirm') }</FormLabel>
                     <Input id='passwordConfirm' type='password' name="passwordConfirm" onChange={formik.handleChange} value={formik.values.passwordConfirm} />
-                </FormControl>
+                </FormControl> */}
                 <div className='form__buttons'>
                     <Link to="/">
                         <Button

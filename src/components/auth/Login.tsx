@@ -2,20 +2,26 @@ import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { startLoginWithEmailPassword } from '../../store/actions/auth.actions';
 
 const Login = () => {
+    const { t } = useTranslation();
+    const dispatch = useDispatch();
+    let navigate = useNavigate();
+
     const formik = useFormik({
         initialValues: {
             email: '',
             password: '',
         },
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+            dispatch( startLoginWithEmailPassword(values.email, values.password) );
+            navigate('/profile/1234');
         },
     });
 
-    const { t } = useTranslation();
     return(
         <div className='form__container-centered'>
             <form onSubmit={ formik.handleSubmit }>
