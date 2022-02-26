@@ -37,9 +37,7 @@ const AppRouter = () => {
         
         <Route path="/profile/:profileId" 
           element={
-            <PrivateRoute isLogged= { isLogged }>
               <Profile />
-            </PrivateRoute>
           } 
         />
       </Routes>
