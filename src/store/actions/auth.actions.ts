@@ -1,7 +1,8 @@
 import firebase from 'firebase/compat/app';
-import { auth } from '../../configs/firebaseConfig';
+import { auth, databaseRef } from '../../configs/firebaseConfig';
 import { types } from "../../configs/types";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { doc, setDoc } from 'firebase/firestore';
 
 
 export const startLoginWithEmailPassword = ( email: string, password:string) => {
@@ -29,6 +30,9 @@ export const startRegisterWithEmailPasswordName = ( email:string , password:stri
                     dispatch(
                         login( user.uid, name)
                     );
+
+                    await setDoc(doc(databaseRef, "items", user.uid ), {});
+
                 }
             })
             .catch( e => {

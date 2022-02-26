@@ -16,7 +16,6 @@ const Login = () => {
         return state.auth
     })
 
-    console.log( userData );
 
     const formik = useFormik({
         initialValues: {
