@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import  authReducer  from './reducers/auth.reducer';
+import itemsReducer from './reducers/items.reducer';
 
 
 declare global {
@@ -18,7 +19,8 @@ const reducers = combineReducers({
 
 export const store = configureStore({
   reducer: {
-    auth: authReducer
+    auth: authReducer,
+    items: itemsReducer
   },
   devTools: true,
   middleware: [thunk] 

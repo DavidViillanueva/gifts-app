@@ -25,7 +25,7 @@ const Login = () => {
         onSubmit: values => {
             dispatch( startLoginWithEmailPassword(values.email, values.password) );
             if( userData.uid )
-                navigate(`/profile/${ userData.uid}`);
+                navigate(`/profile/${ userData.uid }`);
         },
     });
 

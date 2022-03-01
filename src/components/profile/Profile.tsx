@@ -1,29 +1,58 @@
-import React from 'react'
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'
+import { errors } from '../../configs/errors.types';
+import { startLoadingItems } from '../../store/actions/items.actions';
 import { RootState } from '../../store/store';
+import { isObjEmpty } from '../../utils/isObjEmpty';
 
 const Profile = () => {
-
+  const dispatch = useDispatch();
   const { profileId } = useParams();
+
+  let itemsData = useSelector((state: RootState) => {
+    return state.items
+  })
+
+  useEffect(() => {
+    if(profileId)
+      dispatch( startLoadingItems( profileId ) );
+  }, [profileId, dispatch])
+  
+
   let isThisUser: boolean = false;
-  // deberiamos ver si el usuario existe o no, si existe ver si coincide con el id del logueado
-  let userData = useSelector((state: RootState) => {
+  let auth  = useSelector((state: RootState) => {
     return state.auth
   })
 
-  if( profileId === userData.uid )
+  
+
+  if( profileId === auth.uid )
     isThisUser = true;
 
+  if( itemsData.loading )
+    return (
+      <h1>Loading</h1>
+    )
 
   return (
     <div>
       {( isThisUser ) &&
         <div>
-          <p>Es el perfile del usuario logueado!</p>
+          <p>Es el perfil del usuario logueado!</p>
         </div>
       }
-      <div><p>{profileId}</p></div>
+
+      {(itemsData.error === errors.E100)?
+        <p>No existe el usuario</p>
+        :
+        isObjEmpty(itemsData.items)?
+         <p>El usuario no tiene data</p>
+         :
+         <p>El usuario tiene data</p>
+
+      }
+
     </div>
   )
 }
