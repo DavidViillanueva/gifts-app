@@ -7,15 +7,18 @@ import { doc, setDoc } from 'firebase/firestore';
 
 export const startLoginWithEmailPassword = ( email: string, password:string) => {
     return ( dispatch:any) => {
+        dispatch( setLoading() );
         firebase.auth().signInWithEmailAndPassword(email,password)
             .then( ({ user }) => {
                 if (user)
                     dispatch (
                         login( user.uid, user.displayName )
                     )
+                dispatch( unsetLoading() );
             })
             .catch( e => {
                 alert(e)
+                dispatch( unsetLoading() );
             })
     }
 };
@@ -48,3 +51,11 @@ export const login = ( uid:string, displayName:string|null) => ({
         displayName
     }
 });
+
+const setLoading = () => ({
+    type: types.authSetLoading
+})
+
+const unsetLoading = () => ({
+    type: types.authUnsetLoading
+})

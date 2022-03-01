@@ -54,6 +54,7 @@ const Login = () => {
                         mt={4}
                         colorScheme='blue'
                         type='submit'
+                        isLoading={ userData.loading }
                     >
                         {t('button.login')}
                     </Button>
