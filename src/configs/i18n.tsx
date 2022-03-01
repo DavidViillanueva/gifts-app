@@ -27,7 +27,10 @@ i18n
                     name: "Nombre",
                     password: "Contraseña",
                     passwordConfirm: "Contraseña (Otra vez)",
-                    email: "Correo Electronico"
+                    email: "Correo Electronico",
+                    itemName: "Nombre del producto",
+                    itemPrice: "Precio",
+                    itemDescription: "Descripcion",
                   },
                   login: "Ingresar",
                   createAccount: "Crear Cuenta",
@@ -36,7 +39,8 @@ i18n
                 button:{
                     login: "Ingresar",
                     createAccount: "Crear Cuenta",
-                    return: "Regresar"
+                    return: "Regresar",
+                    itemSave: "Guardar producto!"
                 }
             }
         }

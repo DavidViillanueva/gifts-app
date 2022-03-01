@@ -5,6 +5,8 @@ import { errors } from '../../configs/errors.types';
 import { startLoadingItems } from '../../store/actions/items.actions';
 import { RootState } from '../../store/store';
 import { isObjEmpty } from '../../utils/isObjEmpty';
+import AddItemForm from '../shared/AddItemForm';
+import ChakraModal from '../shared/ChakraModal';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -40,6 +42,10 @@ const Profile = () => {
       {( isThisUser ) &&
         <div>
           <p>Es el perfil del usuario logueado!</p>
+          <ChakraModal 
+            children={ <AddItemForm /> }
+            buttonText= "Add Item"
+          />
         </div>
       }
 
