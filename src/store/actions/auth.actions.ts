@@ -34,7 +34,7 @@ export const startRegisterWithEmailPasswordName = ( email:string , password:stri
                         login( user.uid, name)
                     );
 
-                    await setDoc(doc(databaseRef, "items", user.uid ), {});
+                    await setDoc(doc(databaseRef, user.uid, "giftapp"), {}); 
 
                 }
             })

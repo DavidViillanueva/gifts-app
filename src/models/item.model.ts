@@ -1,6 +1,6 @@
-export default interface item {
-    id: string,
-    name: string,
-    price: number,
-    description?: string
+export interface IItem {
+    id?: string,
+    itemName: string,
+    itemPrice: number,
+    itemDescription?: string
 }

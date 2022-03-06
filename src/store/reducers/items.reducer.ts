@@ -1,15 +1,18 @@
 import { types } from "../../configs/types";
+import { IItem } from "../../models/item.model";
 
 interface itemsState {
-    items: [] | object,
+    items: [] | IItem[],
     loading: boolean,
-    error: string
+    error: string,
+    loadingItem: boolean
 }
 
 const initialState:itemsState = {
     items: [],
     loading: false,
-    error: ""
+    error: "",
+    loadingItem: false
 }
 
 export default function itemsReducer( state = initialState, action: any):itemsState {
@@ -37,10 +40,28 @@ export default function itemsReducer( state = initialState, action: any):itemsSt
                 error: ""
             }
         
-        case types.itemsAdd:
+        case types.itemsSet:
             return {
                 ...state,
                 items: action.payload.items 
+            }
+
+        case types.itemsAdd: 
+            return {
+                ...state,
+                items: [...state.items, action.payload.item ]
+            }
+
+        case types.itemsSetLoadingItem: 
+            return {
+                ...state,
+                loadingItem: true
+            }
+        
+        case types.itemsUnsetLoadingItem:
+            return {
+                ...state,
+                loadingItem: false
             }
         
         default:

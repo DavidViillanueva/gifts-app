@@ -2,19 +2,32 @@ import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react'
 import { useFormik } from 'formik';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux';
+import { startAddingItem } from '../../store/actions/items.actions';
+import { RootState } from '../../store/store';
 
 const AddItemForm = () => {
 
+  const dispatch = useDispatch();
+
   const { t } = useTranslation();
+
+  let auth  = useSelector((state: RootState) => {
+    return state.auth
+  })
+
+  let itemsData = useSelector((state: RootState) => {
+    return state.items
+  })
 
   const formik = useFormik({
     initialValues: {
         itemName: '',
-        itemPrice: '',
+        itemPrice: 0,
         itemDescription: ''
     },
     onSubmit: values => {
-      alert( values )
+      dispatch( startAddingItem( values, auth.uid ) )
     },
 });
 
@@ -37,7 +50,7 @@ const AddItemForm = () => {
               mt={4}
               colorScheme='blue'
               type='submit'
-              // isLoading
+              isLoading= { itemsData.loadingItem }
           >
               {t('button.itemSave')}
           </Button>
