@@ -5,8 +5,10 @@ import { errors } from '../../configs/errors.types';
 import { startLoadingItems } from '../../store/actions/items.actions';
 import { RootState } from '../../store/store';
 import { isObjEmpty } from '../../utils/isObjEmpty';
+import ItemsCollection from '../layout/ItemsCollection';
 import AddItemForm from '../shared/AddItemForm';
 import ChakraModal from '../shared/ChakraModal';
+import ItemCard from '../shared/ItemCard';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -38,26 +40,29 @@ const Profile = () => {
     )
 
   return (
-    <div>
-      {( isThisUser ) &&
-        <div>
-          <p>Es el perfil del usuario logueado!</p>
-          <ChakraModal 
-            children={ <AddItemForm /> }
-            buttonText= "Add Item"
+    <div className='profile__container'>
+      <div className='profile__panel'>
+        {( isThisUser ) &&
+          <div>
+            <p>Es el perfil del usuario logueado!</p>
+            <ChakraModal 
+              children={ <AddItemForm /> }
+              buttonText= "Add Item"
+            />
+          </div>
+        }
+
+        {(itemsData.error === errors.E100)?
+          <p>No existe el usuario</p>
+          :
+          isObjEmpty(itemsData.items)?
+          <p>El usuario no tiene data</p>
+          :
+          <ItemsCollection 
+            items={ itemsData.items}
           />
-        </div>
-      }
-
-      {(itemsData.error === errors.E100)?
-        <p>No existe el usuario</p>
-        :
-        isObjEmpty(itemsData.items)?
-         <p>El usuario no tiene data</p>
-         :
-         <p>El usuario tiene data</p>
-
-      }
+        }
+      </div>
 
     </div>
   )
