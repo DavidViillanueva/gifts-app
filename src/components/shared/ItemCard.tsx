@@ -5,7 +5,6 @@ const ItemCard = ({Item}:{Item: IItem}) => {
 
     return(
         <>
-        
             <h1>{ Item.itemName}</h1>
             <span>{ Item.itemPrice}</span>
             <span>{ Item.itemDescription}</span>

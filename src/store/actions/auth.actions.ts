@@ -1,8 +1,9 @@
 import firebase from 'firebase/compat/app';
-import { auth, databaseRef } from '../../configs/firebaseConfig';
+import { auth, authGoogleProvider, databaseRef } from '../../configs/firebaseConfig';
 import { types } from "../../configs/types";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc } from 'firebase/firestore';
+import { signInWithPopup } from "firebase/auth";
 
 
 export const startLoginWithEmailPassword = ( email: string, password:string) => {
@@ -22,6 +23,33 @@ export const startLoginWithEmailPassword = ( email: string, password:string) => 
             })
     }
 };
+
+export const starLoginWithGoogle = () => {
+return ( (dispatch:any) => {
+    dispatch( setLoading() );
+    signInWithPopup(auth, authGoogleProvider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        // const credential = GoogleAuthProvider.credentialFromResult(result);
+        // let token;
+        // if ( credential )
+        //     token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        dispatch( login(user.uid, user.displayName) );
+        dispatch( unsetLoading() );
+      }).catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error( errorCode + errorMessage)
+        dispatch( unsetLoading() );
+      });
+} )
+}
+
+export const startRegisterWithGoogle = () => {
+
+}
 
 export const startRegisterWithEmailPasswordName = ( email:string , password:string, name:string ) => {
     return ( dispatch:any ) => {

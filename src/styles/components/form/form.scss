@@ -22,3 +22,18 @@
     flex-direction: row;
     justify-content: space-between;
 }
+
+.form__socialButtons {
+    margin-top: 10px;
+}
+
+.google-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid $primary;
+    border-radius: 5px;
+    cursor: pointer;
+}

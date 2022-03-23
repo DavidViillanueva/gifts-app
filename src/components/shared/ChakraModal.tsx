@@ -1,5 +1,5 @@
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, useDisclosure } from '@chakra-ui/react'
-import React, { createRef, useRef } from 'react'
+import React from 'react'
 
 const ChakraModal = ({ children, buttonText = "" } : { children: JSX.Element, buttonText: string }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();

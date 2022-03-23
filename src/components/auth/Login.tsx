@@ -4,7 +4,8 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { startLoginWithEmailPassword } from '../../store/actions/auth.actions';
+import { starLoginWithGoogle, startLoginWithEmailPassword } from '../../store/actions/auth.actions';
+import { FcGoogle } from "react-icons/fc";
 import { RootState } from '../../store/store';
 
 const Login = () => {
@@ -28,6 +29,10 @@ const Login = () => {
                 navigate(`/profile/${ userData.uid }`);
         },
     });
+
+    const handleGoogleLogin = () => {
+        dispatch( starLoginWithGoogle() )
+    }
 
     return(
         <div className='form__container-centered'>
@@ -59,6 +64,18 @@ const Login = () => {
                         {t('button.login')}
                     </Button>
                 </div>
+
+                <div className='form__socialButtons'>
+                    <div 
+                        className="google-btn"
+                        onClick= { handleGoogleLogin }
+                    >
+                        <div className="google-icon-wrapper">
+                            <FcGoogle /> 
+                        </div>
+                    </div>
+                </div>
+
 
             </form>
         </div>

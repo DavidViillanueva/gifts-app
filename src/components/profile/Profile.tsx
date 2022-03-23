@@ -8,7 +8,6 @@ import { isObjEmpty } from '../../utils/isObjEmpty';
 import ItemsCollection from '../layout/ItemsCollection';
 import AddItemForm from '../shared/AddItemForm';
 import ChakraModal from '../shared/ChakraModal';
-import ItemCard from '../shared/ItemCard';
 
 const Profile = () => {
   const dispatch = useDispatch();

@@ -2,7 +2,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import { getFirestore } from "firebase/firestore";
-
+import { GoogleAuthProvider } from "firebase/auth";
 import {getAuth} from 'firebase/auth'
 
 const firebaseConfig = {
@@ -17,9 +17,12 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
+
+const authGoogleProvider = new GoogleAuthProvider();
+
 const databaseRef = getFirestore(firebaseApp);
 
 const auth = getAuth(firebaseApp);
 
 export default Object.freeze({ auth, databaseRef })
-export { auth, databaseRef , firebaseApp }
+export { auth, databaseRef , firebaseApp, authGoogleProvider }
