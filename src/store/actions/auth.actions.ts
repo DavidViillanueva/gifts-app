@@ -87,3 +87,15 @@ const setLoading = () => ({
 const unsetLoading = () => ({
     type: types.authUnsetLoading
 })
+
+export const startLogout = () => {
+    return async( dispatch:any ) => {
+        await auth.signOut();
+        // dispatch( logoutCleaning() );
+        dispatch( logout() );
+    };
+};
+
+export const logout = () => ({
+    type: types.logout
+});

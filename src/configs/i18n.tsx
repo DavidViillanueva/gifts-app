@@ -21,6 +21,7 @@ i18n
             translation:{
                 appName:"Mi lista de deseos",
                 labels: {
+                  hello: "Hola",
                   yourWishList: "¡Bienvenido a tu lista de deseos!",
                   welcome: "Hola! Esta puede ser tu lista de regalos, carga los productos que te gustaria recibir y podes compartir con tus amigos tu lista de regalos deseados.",
                   form: {
@@ -33,8 +34,11 @@ i18n
                     itemDescription: "Descripcion",
                   },
                   login: "Ingresar",
+                  loginWithGoogle: "Ingresar con Google",
+                  profile: "Perfil",
                   createAccount: "Crear Cuenta",
-                  return: "Regresar"
+                  return: "Regresar",
+                  logout: "Salir"
                 },
                 button:{
                     login: "Ingresar",

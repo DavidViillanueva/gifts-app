@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import { Button, FormControl, FormLabel, Input, Tooltip } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -66,14 +66,16 @@ const Login = () => {
                 </div>
 
                 <div className='form__socialButtons'>
-                    <div 
-                        className="google-btn"
-                        onClick= { handleGoogleLogin }
-                    >
-                        <div className="google-icon-wrapper">
-                            <FcGoogle /> 
+                    <Tooltip label={t('labels.loginWithGoogle')}>
+                        <div 
+                            className="google-btn"
+                            onClick= { handleGoogleLogin }
+                        >
+                                <div className="google-icon-wrapper">
+                                    <FcGoogle /> 
+                                </div>
                         </div>
-                    </div>
+                    </Tooltip>
                 </div>
 
 
