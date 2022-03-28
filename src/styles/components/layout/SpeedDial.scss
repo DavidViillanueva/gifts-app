@@ -1,0 +1,22 @@
+
+.speedDial_floatingSpace {
+    position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:#0C9;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all ease-in-out 300ms;
+    
+    &:hover {
+        box-shadow: 3px 3px 4px #999;
+    }
+}

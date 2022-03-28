@@ -1,18 +1,17 @@
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, useDisclosure } from '@chakra-ui/react'
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, useDisclosure } from '@chakra-ui/react'
+import { Add } from '@mui/icons-material';
 import React from 'react'
+import BasicSpeedDial from './BasicSpeedDial';
 
-const ChakraModal = ({ children, buttonText = "" } : { children: JSX.Element, buttonText: string }) => {
+const ChakraModal = ({ children } : { children: JSX.Element }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
     <>
-        <Button 
-            onClick={onOpen}
-            colorScheme="blue"
-        >
-            { buttonText }
-        </Button>
-
+        <BasicSpeedDial 
+            icon={<Add />}
+            onClick={ onOpen }
+        />
         <Modal
             isOpen={ isOpen }
             onClose={ onClose }
