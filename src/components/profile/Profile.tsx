@@ -1,6 +1,4 @@
-import { Add, AddIcCallOutlined } from '@mui/icons-material';
 import React, { useEffect } from 'react'
-import { FcGoogle } from 'react-icons/fc';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'
 import { errors } from '../../configs/errors.types';
@@ -9,7 +7,6 @@ import { RootState } from '../../store/store';
 import { isObjEmpty } from '../../utils/isObjEmpty';
 import ItemsCollection from '../layout/ItemsCollection';
 import AddItemForm from '../shared/AddItemForm';
-import BasicSpeedDial from '../shared/BasicSpeedDial';
 import ChakraModal from '../shared/ChakraModal';
 
 
@@ -29,6 +26,7 @@ const Profile = () => {
 
   let isThisUser: boolean = false;
   let auth  = useSelector((state: RootState) => {
+    // console.log( auth );
     return state.auth
   })
 

@@ -35,7 +35,11 @@ const NavBar = () => {
                   <MenuButton as={Button} rightIcon={<FcExpand />}>¡{t('labels.hello')} {auth.name}!</MenuButton>
                   <Portal>
                     <MenuList>
-                      <MenuItem>{t('labels.profile')}</MenuItem>
+                        <Link to={`/profile/${auth.uid}`}>
+                      <MenuItem>
+                          {t('labels.profile')}
+                      </MenuItem>
+                        </Link>
                       <MenuItem
                         onClick={ handleLogout }
                       >{t('labels.logout')}</MenuItem>
