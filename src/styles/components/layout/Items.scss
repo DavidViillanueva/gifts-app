@@ -1,0 +1,14 @@
+.item__collection {
+    display: flex;
+    max-width: 1060px;
+    flex-wrap: wrap;
+}
+
+.item__card {
+    height: 330px;
+    width: 224px;
+    margin: 20px;
+    padding: 7px;
+    border-radius: 9px;
+    border: 1px black solid;
+}

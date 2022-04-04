@@ -3,13 +3,13 @@ import { IItem } from '../../models/item.model'
 import ItemCard from '../shared/ItemCard'
 const ItemsCollection = ({ items = []}: { items: IItem[]}) => {
     return(
-        <>
-        {items.map( (item: IItem) => 
-            <ItemCard
-                Item={ item }
-            ></ItemCard>
-        )}
-        </>
+        <div className='item__collection'>
+            {items.map( (item: IItem) => 
+                <ItemCard
+                    Item={ item }
+                ></ItemCard>
+            )}
+        </div>
     )
 }
 
