@@ -51,6 +51,12 @@ export default function itemsReducer( state = initialState, action: any):itemsSt
                 ...state,
                 items: [...state.items, action.payload.item ]
             }
+        
+        case types.itemsRemove: 
+            return {
+                ...state,
+                items: state.items.filter( item => item.id !== action.payload.item.id )
+            }
 
         case types.itemsSetLoadingItem: 
             return {

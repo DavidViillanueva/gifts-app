@@ -6,7 +6,8 @@ const ItemsCollection = ({ items = []}: { items: IItem[]}) => {
         <div className='item__collection'>
             {items.map( (item: IItem) => 
                 <ItemCard
-                    Item={ item }
+                    item={ item }
+                    key={ `${item.id}`}
                 ></ItemCard>
             )}
         </div>

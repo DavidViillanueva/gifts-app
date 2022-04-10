@@ -1,5 +1,4 @@
-import { useId } from "@chakra-ui/react";
-import { addDoc, collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { errors } from "../../configs/errors.types";
 import { databaseRef } from "../../configs/firebaseConfig";
 import { types } from "../../configs/types";
@@ -48,6 +47,21 @@ export const startAddingItem = ( item: IItem, uid: string ) => {
     }
 }
 
+export const starDeleteItem = ( item: IItem, uid: string ) => {
+    return ( dispatch: any ) => {
+        dispatch( setLoadingItem() )
+        deleteDoc(doc( databaseRef, `${uid}/giftapp/items/${item.id}`))
+            .then( () => {
+                dispatch( deleteItem(item) );
+                dispatch( unsetLoadingItem() );
+            })
+            .catch( e => {
+                console.error( e );
+                dispatch( unsetLoadingItem() );
+            })
+    }
+}
+
 const setLoading = () => ({
     type: types.itemsSetLoading
 })
@@ -86,5 +100,12 @@ const addItem = ( item: IItem ) => ({
     type: types.itemsAdd,
     payload: {
         item: item
+    }
+})
+
+const deleteItem = ( item:IItem ) => ({
+    type: types.itemsRemove,
+    payload: {
+        item
     }
 })

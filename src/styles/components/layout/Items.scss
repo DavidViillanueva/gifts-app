@@ -11,4 +11,13 @@
     padding: 7px;
     border-radius: 9px;
     border: 1px black solid;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.item__actions {
+    display: flex;
+    flex-direction: row-reverse;
 }
