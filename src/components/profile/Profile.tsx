@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'
 import { errors } from '../../configs/errors.types';
@@ -12,6 +13,7 @@ import ChakraModal from '../shared/ChakraModal';
 
 const Profile = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const { profileId } = useParams();
 
   let itemsData = useSelector((state: RootState) => {
@@ -44,7 +46,7 @@ const Profile = () => {
       <div className='profile__panel'>
         {( isThisUser ) &&
           <div>
-            <p>Es el perfil del usuario logueado!</p>
+            <p>{t('labels.yourProfile')}</p>
             <ChakraModal 
               children={ <AddItemForm /> }
             />

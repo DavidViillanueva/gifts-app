@@ -21,9 +21,9 @@ const ItemCard = ({item, editPermission}:{item: IItem, editPermission: boolean})
     return(
         <div className='item__card'>
             <div className='item__body'>
-                <h1>{ item.itemName}</h1> <br />
-                <span>{ item.itemPrice}</span><br />
-                <span>{ item.itemDescription}</span>
+                <h1 className='item__name'>{ item.itemName}</h1>
+                <span className='item__price'>$ { item.itemPrice}</span>
+                <p>{ item.itemDescription}</p>
             </div>
 
             <div className='item__actions'>

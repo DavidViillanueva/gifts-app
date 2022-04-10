@@ -36,6 +36,7 @@ i18n
                   login: "Ingresar",
                   loginWithGoogle: "Ingresar con Google",
                   profile: "Perfil",
+                  yourProfile: "Este es tu perfil",
                   createAccount: "Crear Cuenta",
                   return: "Regresar",
                   logout: "Salir"

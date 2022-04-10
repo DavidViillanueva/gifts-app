@@ -1,3 +1,4 @@
+
 .item__collection {
     display: flex;
     max-width: 1060px;
@@ -8,13 +9,43 @@
     height: 330px;
     width: 224px;
     margin: 20px;
-    padding: 7px;
+    padding: 9px;
     border-radius: 9px;
-    border: 1px black solid;
+    border: 1px $gray solid;
 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    transition: all 200ms ease-in-out;
+
+    -webkit-box-shadow: -5px 5px 31px -10px rgba(0,0,0,0.63); 
+    box-shadow: -5px 5px 31px -10px rgba(0,0,0,0.63);
+    .item__body {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        font-family: Proxima Nova,-apple-system,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif;
+        color: $black;
+        .item__name{
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        span {
+            padding-right: 10px;
+            font-size: 20px;
+            color: $green;
+        }
+
+        p {
+            padding: 20px;
+        }
+    }
+
+    &:hover{
+        transform: scale(1.01);
+    }
 }
 
 .item__actions {
