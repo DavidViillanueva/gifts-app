@@ -1,4 +1,4 @@
-import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react'
+import { Button, FormControl, FormLabel, Input, InputGroup, InputLeftAddon, Textarea } from '@chakra-ui/react'
 import { useFormik } from 'formik';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -39,11 +39,21 @@ const AddItemForm = () => {
       </FormControl>
       <FormControl>
           <FormLabel htmlFor='itemPrice'>{ t('labels.form.itemPrice') }</FormLabel>
-          <Input id='itemPrice' type='number' name="itemPrice"  onChange={formik.handleChange} value={formik.values.itemPrice}/>
+          <InputGroup>
+            <InputLeftAddon children='$' />
+            <Input id='itemPrice' type='number' name="itemPrice"  onChange={formik.handleChange} value={formik.values.itemPrice}/>
+          </InputGroup>
       </FormControl>
       <FormControl>
           <FormLabel htmlFor='itemDescription'>{ t('labels.form.itemDescription') }</FormLabel>
-          <Input id='itemDescription' type='text' name="itemDescription"  onChange={formik.handleChange} value={formik.values.itemDescription}/>
+          <Textarea
+            value={formik.values.itemDescription}
+            onChange={formik.handleChange}
+            name="itemDescription"
+            id='itemDescription'
+            placeholder={t('labels.form.placeholderDescription')}
+            size='sm'
+          />
       </FormControl>
       <div className='form__buttons'>
           <Button

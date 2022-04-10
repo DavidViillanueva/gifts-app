@@ -32,6 +32,7 @@ i18n
                     itemName: "Nombre del producto",
                     itemPrice: "Precio",
                     itemDescription: "Descripcion",
+                    placeholderDescription: "Ingrese una descripcion del producto"
                   },
                   login: "Ingresar",
                   loginWithGoogle: "Ingresar con Google",
