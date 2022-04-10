@@ -26,7 +26,6 @@ const Profile = () => {
 
   let isThisUser: boolean = false;
   let auth  = useSelector((state: RootState) => {
-    // console.log( auth );
     return state.auth
   })
 
@@ -58,7 +57,8 @@ const Profile = () => {
           isObjEmpty(itemsData.items)?
           <p>El usuario no tiene data</p>
           :
-          <ItemsCollection 
+          <ItemsCollection
+            editPermission = { isThisUser }
             items={ itemsData.items}
           />
         }

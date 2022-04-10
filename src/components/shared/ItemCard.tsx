@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { starDeleteItem } from '../../store/actions/items.actions';
 
-const ItemCard = ({item}:{item: IItem}) => {
+const ItemCard = ({item, editPermission}:{item: IItem, editPermission: boolean}) => {
 
     const dispatch = useDispatch();
 
@@ -27,12 +27,14 @@ const ItemCard = ({item}:{item: IItem}) => {
             </div>
 
             <div className='item__actions'>
-                <Button 
-                    colorScheme='pink'
-                    onClick={ handleDelete }
-                >
-                    <DeleteIcon />
-                </Button>
+                {editPermission &&
+                    <Button 
+                        colorScheme='pink'
+                        onClick={ handleDelete }
+                    >
+                        <DeleteIcon />
+                    </Button>
+                }
             </div>
         </div>
     )
