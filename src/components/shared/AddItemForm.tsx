@@ -33,18 +33,24 @@ const AddItemForm = () => {
 
   return (
     <form onSubmit={ formik.handleSubmit   }>
-      <FormControl>
+      <FormControl className='formControl'>
           <FormLabel htmlFor='itemName'>{ t('labels.form.itemName') }</FormLabel>
           <Input id='itemName' type='text' name="itemName" onChange={ formik.handleChange } value={ formik.values.itemName }/>
       </FormControl>
-      <FormControl>
+      <FormControl className='formControl'>
           <FormLabel htmlFor='itemPrice'>{ t('labels.form.itemPrice') }</FormLabel>
           <InputGroup>
             <InputLeftAddon children='$' />
             <Input id='itemPrice' type='number' name="itemPrice"  onChange={formik.handleChange} value={formik.values.itemPrice}/>
           </InputGroup>
       </FormControl>
-      <FormControl>
+      <FormControl className='formControl'>
+        <FormLabel htmlFor='picture'>{ t('labels.form.file') }</FormLabel>
+        <div className='fileInputWrapper' data-text={ t('labels.form.selectFile') } upload-text={ t('labels.form.examine') }>
+          <Input type="file" id="picture" name="picture" accept="image/png, image/jpeg" />
+        </div>
+      </FormControl>
+      <FormControl className='formControl'>
           <FormLabel htmlFor='itemDescription'>{ t('labels.form.itemDescription') }</FormLabel>
           <Textarea
             value={formik.values.itemDescription}

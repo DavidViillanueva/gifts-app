@@ -31,6 +31,9 @@ i18n
                     email: "Correo Electronico",
                     itemName: "Nombre del producto",
                     itemPrice: "Precio",
+                    file: "Imagen del producto",
+                    selectFile: "Seleccionar archivo! (.png/.jpeg)",
+                    examine: "Examinar",
                     itemDescription: "Descripcion",
                     placeholderDescription: "Ingrese una descripcion del producto"
                   },
