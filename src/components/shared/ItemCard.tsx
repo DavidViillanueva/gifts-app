@@ -5,6 +5,7 @@ import { Button } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { starDeleteItem } from '../../store/actions/items.actions';
+import noPicture from '../../assets/noImageAvailable.jpg';
 
 const ItemCard = ({item, editPermission}:{item: IItem, editPermission: boolean}) => {
 
@@ -23,7 +24,10 @@ const ItemCard = ({item, editPermission}:{item: IItem, editPermission: boolean})
             <div className='item__body'>
                 <h1 className='item__name'>{ item.itemName}</h1>
                 <span className='item__price'>$ { item.itemPrice}</span>
-                <img src={item.picture}></img>
+                <img 
+                    src={item.picture || noPicture}
+                    className={item.picture ? '' : 'image-filter'}
+                ></img>
                 <p>{ item.itemDescription}</p>
             </div>
 

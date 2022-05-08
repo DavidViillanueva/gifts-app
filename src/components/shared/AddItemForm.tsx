@@ -32,6 +32,10 @@ const AddItemForm = () => {
     },
 });
 
+  const changeInputFileName = (e:any) => {
+    document.getElementById('fileInputWrapper')?.setAttribute('data-text',e);
+  }
+
   return (
     <form onSubmit={ formik.handleSubmit   }>
       <FormControl className='formControl'>
@@ -47,7 +51,7 @@ const AddItemForm = () => {
       </FormControl>
       <FormControl className='formControl'>
         <FormLabel htmlFor='picture'>{ t('labels.form.file') }</FormLabel>
-        <div className='fileInputWrapper' data-text={ t('labels.form.selectFile') } upload-text={ t('labels.form.examine') }>
+        <div id='fileInputWrapper'className='fileInputWrapper' data-text={ t('labels.form.selectFile') } upload-text={ t('labels.form.examine') }>
           <Input type="file" id="picture" name="picture" accept="image/png, image/jpeg" 
             onChange={(e) => {
               const fileReader = new FileReader();
@@ -57,6 +61,7 @@ const AddItemForm = () => {
                 }
               };
               if( e.target.files ){
+                changeInputFileName(e.target.files[0].name);
                 fileReader.readAsDataURL(e?.target?.files[0])
               }
             }}
