@@ -13,4 +13,8 @@ export const types = {
     itemsUnsetLoading: '[Items] Unset Loading',
     itemsSetLoadingItem: '[Items] Set Loading item',
     itemsUnsetLoadingItem: '[Items] Unset Loading item',
+
+
+    uiSetDeleteLoading: '[UI] Set delete loading',
+    uiUnsetDeleteLoading: '[UI] Unset delete loading',
 }

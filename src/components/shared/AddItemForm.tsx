@@ -56,7 +56,6 @@ const AddItemForm = () => {
                   formik.setFieldValue('picture', fileReader.result);
                 }
               };
-              console.log( e.target.files );
               if( e.target.files ){
                 fileReader.readAsDataURL(e?.target?.files[0])
               }

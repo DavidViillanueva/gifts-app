@@ -3,7 +3,8 @@ import { errors } from "../../configs/errors.types";
 import { databaseRef, storage } from "../../configs/firebaseConfig";
 import { types } from "../../configs/types";
 import { IItem} from "../../models/item.model";
-import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref, uploadString } from "firebase/storage";
+import { setDeleteLoading, unsetDeleteLoading } from "./ui.actions";
 
 export const startLoadingItems = ( uid: string ) => {
     return ( dispatch: any) => {
@@ -74,15 +75,21 @@ export const startAddingItem = ( item: IItem, uid: string ) => {
 
 export const starDeleteItem = ( item: IItem, uid: string ) => {
     return ( dispatch: any ) => {
-        dispatch( setLoadingItem() )
+        dispatch( setDeleteLoading(item.id) )
         deleteDoc(doc( databaseRef, `${uid}/giftapp/items/${item.id}`))
             .then( () => {
+                const desertRef = ref(storage, `${uid}/${item.id}`);
+                deleteObject(desertRef).then(() => {
+                // File deleted successfully
+                }).catch((error) => {
+                // Uh-oh, an error occurred!
+                });
                 dispatch( deleteItem(item) );
-                dispatch( unsetLoadingItem() );
+                dispatch( unsetDeleteLoading() );
             })
             .catch( e => {
                 console.error( e );
-                dispatch( unsetLoadingItem() );
+                dispatch( unsetDeleteLoading() );
             })
     }
 }

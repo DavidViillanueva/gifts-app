@@ -3,6 +3,7 @@ import { compose } from 'redux';
 import thunk from 'redux-thunk';
 import  authReducer  from './reducers/auth.reducer';
 import itemsReducer from './reducers/items.reducer';
+import uiReducer from './reducers/ui.reducer';
 
 
 declare global {
@@ -15,7 +16,8 @@ declare global {
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    items: itemsReducer
+    items: itemsReducer,
+    ui: uiReducer
   },
   devTools: true,
   middleware: [thunk] 

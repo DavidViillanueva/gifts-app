@@ -10,8 +10,8 @@ const ItemCard = ({item, editPermission}:{item: IItem, editPermission: boolean})
 
     const dispatch = useDispatch();
 
-    let auth  = useSelector((state: RootState) => {
-        return state.auth
+    let {auth, ui}  = useSelector((state: RootState) => {
+        return state
     })
 
     const handleDelete = () => {
@@ -32,6 +32,7 @@ const ItemCard = ({item, editPermission}:{item: IItem, editPermission: boolean})
                     <Button 
                         colorScheme='pink'
                         onClick={ handleDelete }
+                        isLoading={ ui.deleteLoading == item.id }
                     >
                         <DeleteIcon />
                     </Button>
