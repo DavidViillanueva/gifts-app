@@ -23,6 +23,7 @@ const ItemCard = ({item, editPermission}:{item: IItem, editPermission: boolean})
             <div className='item__body'>
                 <h1 className='item__name'>{ item.itemName}</h1>
                 <span className='item__price'>$ { item.itemPrice}</span>
+                <img src={item.picture}></img>
                 <p>{ item.itemDescription}</p>
             </div>
 

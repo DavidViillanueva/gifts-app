@@ -2,5 +2,6 @@ export interface IItem {
     id?: string,
     itemName: string,
     itemPrice: number,
-    itemDescription?: string
+    itemDescription?: string,
+    picture?: string
 }

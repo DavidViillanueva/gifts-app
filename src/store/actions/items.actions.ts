@@ -1,22 +1,39 @@
 import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { errors } from "../../configs/errors.types";
-import { databaseRef } from "../../configs/firebaseConfig";
+import { databaseRef, storage } from "../../configs/firebaseConfig";
 import { types } from "../../configs/types";
 import { IItem} from "../../models/item.model";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
 export const startLoadingItems = ( uid: string ) => {
     return ( dispatch: any) => {
         dispatch( setLoading() );
         getDocs( collection( databaseRef,`${uid}/giftapp/items` ) )
-            .then( collectionSnap => {
+            .then( async collectionSnap => {
                 collectionSnap.forEach((doc) => {
                     const snapItem: IItem = doc.data() as IItem;
-                    dispatch( addItem({
-                        id: doc.id,
-                        itemName: snapItem.itemName,
-                        itemPrice: snapItem.itemPrice,
-                        itemDescription: snapItem.itemDescription
-                    }));
+                    const pathReference = ref(storage,`${uid}/${doc.id}`);
+                    getDownloadURL(pathReference)
+                        .then((url) => {
+                            dispatch( addItem({
+                                id: doc.id,
+                                itemName: snapItem.itemName,
+                                itemPrice: snapItem.itemPrice,
+                                itemDescription: snapItem.itemDescription,
+                                picture: url
+                            }));
+                        })
+                        .catch((error) => {
+                            dispatch( addItem({
+                                id: doc.id,
+                                itemName: snapItem.itemName,
+                                itemPrice: snapItem.itemPrice,
+                                itemDescription: snapItem.itemDescription,
+                                picture: ''
+                            }));
+                            
+                        })
+                   
                 })
                 dispatch( unsetLoading() )
             })
@@ -36,9 +53,17 @@ export const startAddingItem = ( item: IItem, uid: string ) => {
                     id: snap.id,
                     itemName: item.itemName,
                     itemPrice: item.itemPrice,
-                    itemDescription: item.itemDescription
+                    itemDescription: item.itemDescription,
+                    picture: item.picture
                 }))
+                if( item.picture ) {
+                    const storageRef = ref(storage, `${uid}/${snap.id}`);
+                    uploadString(storageRef, item.picture , 'data_url').then((snapshot) => {
+                        console.log('Uploaded a base64 string!');
+                    });
+                }
                 dispatch( unsetLoadingItem() );
+
             })
             .catch( error => {
                 console.error( error )

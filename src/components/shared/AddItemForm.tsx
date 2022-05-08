@@ -24,7 +24,8 @@ const AddItemForm = () => {
     initialValues: {
         itemName: '',
         itemPrice: 0,
-        itemDescription: ''
+        itemDescription: '',
+        picture: ''
     },
     onSubmit: values => {
       dispatch( startAddingItem( values, auth.uid ) )
@@ -47,7 +48,20 @@ const AddItemForm = () => {
       <FormControl className='formControl'>
         <FormLabel htmlFor='picture'>{ t('labels.form.file') }</FormLabel>
         <div className='fileInputWrapper' data-text={ t('labels.form.selectFile') } upload-text={ t('labels.form.examine') }>
-          <Input type="file" id="picture" name="picture" accept="image/png, image/jpeg" />
+          <Input type="file" id="picture" name="picture" accept="image/png, image/jpeg" 
+            onChange={(e) => {
+              const fileReader = new FileReader();
+              fileReader.onload = () => {
+                if (fileReader.readyState === 2) {
+                  formik.setFieldValue('picture', fileReader.result);
+                }
+              };
+              console.log( e.target.files );
+              if( e.target.files ){
+                fileReader.readAsDataURL(e?.target?.files[0])
+              }
+            }}
+          />
         </div>
       </FormControl>
       <FormControl className='formControl'>

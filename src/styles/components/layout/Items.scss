@@ -39,7 +39,19 @@
         }
 
         p {
-            padding: 20px;
+            padding-top: 7px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        
+        img {
+            height: 140px;
+            align-self: center;
+            object-fit: contain;
         }
     }
 
