@@ -7,6 +7,7 @@ export const types = {
     itemsAdd: '[Items] Add item',
     itemsSet: '[Items] Set items',
     itemsRemove: '[Items] Remove item',
+    itemsReset: '[Items] Reset',
     itemsSetError: '[Items] Set Error',
     itemsUnsetError: '[Items] Unset Error',
     itemsSetLoading: '[Items] Set Loading',

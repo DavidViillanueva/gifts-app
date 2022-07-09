@@ -1,3 +1,4 @@
+import { Alert, AlertIcon, Spinner } from '@chakra-ui/react';
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,7 +39,7 @@ const Profile = () => {
 
   if( itemsData.loading )
     return (
-      <h1>Loading</h1>
+      <div className='loading__container'><Spinner color='blue.500' /></div>
     )
 
   return (
@@ -46,19 +47,32 @@ const Profile = () => {
       <div className='profile__panel'>
         {( isThisUser ) &&
           <div>
-            <p>{t('labels.yourProfile')}</p>
+            <Alert status='success'>
+              <AlertIcon />
+              {t('labels.yourProfile')}
+            </Alert>
             <ChakraModal 
               children={ <AddItemForm /> }
             />
           </div>
         }
+        
 
-        {(itemsData.error === errors.E100)?
-          <p>No existe el usuario</p>
-          :
-          isObjEmpty(itemsData.items)?
-          <p>El usuario no tiene data</p>
-          :
+  
+
+        {(itemsData.error === errors.E100) &&
+          <Alert status='error'>
+            <AlertIcon />
+            No existe el usuario
+          </Alert>
+        } 
+        {(isObjEmpty(itemsData.items)) &&
+          <Alert status='warning'>
+            <AlertIcon />
+            Parece que no hay datos
+          </Alert>
+        }
+        {(!isObjEmpty(itemsData.items)) &&
           <ItemsCollection
             editPermission = { isThisUser }
             items={ itemsData.items}

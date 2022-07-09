@@ -9,3 +9,11 @@
 @import 'components/chakra/modal.scss';
 
 @import 'components/form/form.scss';
+
+
+
+.loading__container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}

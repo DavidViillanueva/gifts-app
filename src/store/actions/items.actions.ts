@@ -141,3 +141,7 @@ const deleteItem = ( item:IItem ) => ({
         item
     }
 })
+
+export const setInitialState = () => ({
+    type: types.itemsReset
+})

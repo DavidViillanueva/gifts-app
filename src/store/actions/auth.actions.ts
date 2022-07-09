@@ -4,6 +4,8 @@ import { types } from "../../configs/types";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc } from 'firebase/firestore';
 import { signInWithPopup } from "firebase/auth";
+import { setInitialState } from './items.actions';
+import { createStandaloneToast, useToast } from '@chakra-ui/react';
 
 
 export const startLoginWithEmailPassword = ( email: string, password:string) => {
@@ -29,12 +31,6 @@ return ( (dispatch:any) => {
     dispatch( setLoading() );
     signInWithPopup(auth, authGoogleProvider)
       .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        // const credential = GoogleAuthProvider.credentialFromResult(result);
-        // let token;
-        // if ( credential )
-        //     token = credential.accessToken;
-        // The signed-in user info.
         const user = result.user;
         dispatch( login(user.uid, user.displayName) );
         dispatch( unsetLoading() );
@@ -91,7 +87,7 @@ const unsetLoading = () => ({
 export const startLogout = () => {
     return async( dispatch:any ) => {
         await auth.signOut();
-        // dispatch( logoutCleaning() );
+        dispatch( setInitialState() );
         dispatch( logout() );
     };
 };

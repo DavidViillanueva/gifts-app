@@ -70,6 +70,9 @@ export default function itemsReducer( state = initialState, action: any):itemsSt
                 loadingItem: false
             }
         
+        case types.itemsReset:
+            return initialState;
+        
         default:
             return state;
     }
