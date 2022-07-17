@@ -8,6 +8,7 @@ import { setDeleteLoading, unsetDeleteLoading } from "./ui.actions";
 
 export const startLoadingItems = ( uid: string ) => {
     return ( dispatch: any) => {
+        dispatch( setInitialState() );
         dispatch( setLoading() );
         getDocs( collection( databaseRef,`${uid}/giftapp/items` ) )
             .then( async collectionSnap => {
