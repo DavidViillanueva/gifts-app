@@ -3,6 +3,8 @@ export const types = {
     logout: '[Auth] Logout',
     authSetLoading: '[Auth] Set loading',
     authUnsetLoading: '[Auth] Unset loading',
+    authSetPublicProfile: '[Auth] Set public profile',
+    authUnsetPublicProfile: '[Auth] Unset public profile',
 
     itemsAdd: '[Items] Add item',
     itemsSet: '[Items] Set items',

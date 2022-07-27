@@ -2,7 +2,7 @@ import firebase from 'firebase/compat/app';
 import { auth, authGoogleProvider, databaseRef } from '../../configs/firebaseConfig';
 import { types } from "../../configs/types";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { signInWithPopup } from "firebase/auth";
 import { setInitialState } from './items.actions';
 import { createStandaloneToast, useToast } from '@chakra-ui/react';
@@ -59,6 +59,7 @@ export const startRegisterWithEmailPasswordName = ( email:string , password:stri
                     );
 
                     await setDoc(doc(databaseRef, user.uid, "giftapp"), {}); 
+                    await setDoc(doc(databaseRef,`${user.uid}/user-data`), { name })
 
                 }
             })
@@ -76,6 +77,23 @@ export const login = ( uid:string, displayName:string|null) => ({
     }
 });
 
+export const startLoadingPublicUser = (uid: string = '') => {
+    return async (dispatch:any) => {
+        const docRef = doc(databaseRef, `${uid}/user-data`);
+        const docSnap = await getDoc(docRef);
+        if(docSnap.exists())
+            dispatch(setPublicUser(docSnap.data()))
+    }
+}
+
+export const setPublicUser = (user:any) => ({
+    type: types.authSetPublicProfile,
+    payload: user
+})
+
+export const unsetPublicUser = () => ({
+    type: types.authUnsetPublicProfile
+})
 const setLoading = () => ({
     type: types.authSetLoading
 })

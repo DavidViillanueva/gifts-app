@@ -12,7 +12,7 @@ const initialState:itemsState = {
     items: [],
     loading: false,
     error: "",
-    loadingItem: false
+    loadingItem: true
 }
 
 export default function itemsReducer( state = initialState, action: any):itemsState {

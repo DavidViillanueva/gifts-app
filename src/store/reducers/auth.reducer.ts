@@ -4,13 +4,15 @@ interface authState {
     logged: boolean,
     name: string,
     uid: string,
-    loading: boolean
+    loading: boolean;
+    publicUser?: any
 }
 const initialState:authState = {
     logged: false,
     name: "",
     uid: "",
-    loading: false
+    loading: false,
+    publicUser: {}
 }
 
 
@@ -34,6 +36,18 @@ export default function authReducer( state = initialState, action: any):authStat
             return {
                 ...state,
                 loading: false
+            }
+        
+        case types.authSetPublicProfile:
+            return {
+                ...state,
+                publicUser: action.payload
+            }
+        
+        case types.authUnsetPublicProfile:
+            return {
+                ...state,
+                publicUser: {}
             }
             
         case types.logout:

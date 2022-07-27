@@ -1,13 +1,14 @@
-import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs } from "firebase/firestore";
 import { errors } from "../../configs/errors.types";
 import { databaseRef, storage } from "../../configs/firebaseConfig";
 import { types } from "../../configs/types";
 import { IItem} from "../../models/item.model";
 import { deleteObject, getDownloadURL, ref, uploadString } from "firebase/storage";
 import { setDeleteLoading, unsetDeleteLoading } from "./ui.actions";
+import { setPublicUser } from "./auth.actions";
 
 export const startLoadingItems = ( uid: string ) => {
-    return ( dispatch: any) => {
+    return async ( dispatch: any) => {
         dispatch( setInitialState() );
         dispatch( setLoading() );
         getDocs( collection( databaseRef,`${uid}/giftapp/items` ) )
@@ -39,9 +40,10 @@ export const startLoadingItems = ( uid: string ) => {
                 })
                 dispatch( unsetLoading() )
             })
-            .catch( e => {
+            .catch( async (e) => {
                 dispatch( setError( errors.E100 ));
                 dispatch( unsetLoading() )
+                
             })
     }
 }

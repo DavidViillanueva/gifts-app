@@ -41,6 +41,7 @@ i18n
                   loginWithGoogle: "Ingresar con Google",
                   profile: "Perfil",
                   yourProfile: "Este es tu perfil",
+                  publicProfile: "Bienvenido al perfil de ",
                   createAccount: "Crear Cuenta",
                   return: "Regresar",
                   logout: "Salir"
