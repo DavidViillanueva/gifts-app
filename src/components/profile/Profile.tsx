@@ -83,9 +83,6 @@ const Profile = () => {
               <AlertIcon />
               {t('labels.publicProfile')}{auth.publicUser.name}
             </Alert>
-            <ChakraModal 
-              children={ <AddItemForm /> }
-            />
           </div>
         }
 
