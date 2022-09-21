@@ -2,3 +2,13 @@
     padding-top: 34px !important;
     padding-bottom: 20px !important;
 }
+
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px;
+    background-color: white;
+    box-shadow: 24px;
+}

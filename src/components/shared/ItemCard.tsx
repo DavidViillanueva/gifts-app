@@ -1,11 +1,11 @@
 import React from 'react'
 import { IItem } from '../../models/item.model';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { starDeleteItem } from '../../store/actions/items.actions';
 import noPicture from '../../assets/noImageAvailable.jpg';
+import { CircularProgress, IconButton } from '@mui/material';
 
 const ItemCard = ({item, editPermission}:{item: IItem, editPermission: boolean}) => {
 
@@ -33,16 +33,16 @@ const ItemCard = ({item, editPermission}:{item: IItem, editPermission: boolean})
 
             <div className='item__actions'>
                 {editPermission &&
-                    <Button 
-                        colorScheme='pink'
-                        onClick={ handleDelete }
-                        isLoading={ ui.deleteLoading == item.id }
-                    >
-                        <DeleteIcon />
-                    </Button>
+                    (ui.deleteLoading === item.id ) 
+                    ?
+                        <CircularProgress color="primary" size={30}/>
+                    :
+                        <IconButton aria-label="delete" size="large" onClick={ handleDelete}>
+                            <DeleteIcon color='error'/>
+                        </IconButton>
                 }
             </div>
-        </div>
+        </div> 
     )
 }
 

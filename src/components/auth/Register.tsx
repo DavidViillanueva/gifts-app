@@ -1,10 +1,10 @@
-import { Button, FormControl, FormHelperText, FormLabel, Input } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import {  useFormik } from 'formik';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { startRegisterWithEmailPasswordName } from '../../store/actions/auth.actions';
 import { RootState } from '../../store/store';
+import { TextField, FormControl, Button } from '@mui/material';
 
 const Register = () => {
     const { t } = useTranslation();
@@ -30,36 +30,53 @@ const Register = () => {
 
     return(   
         <div className='form__container-centered'>
-            <form onSubmit={ formik.handleSubmit }>
+            <form onSubmit={ formik.handleSubmit } className='form__column'>
                 <span>{ t('labels.createAccount')}</span>
-                <FormControl>
-                    <FormLabel htmlFor='name'>{ t('labels.form.name') }</FormLabel>
-                    <Input id='name' type='text' name="name" onChange={ formik.handleChange } value={ formik.values.name }/>
+                <FormControl className="form__control">
+                    <TextField
+                        id="name"
+                        name="name"
+                        label={t('labels.form.name')}
+                        variant="standard"
+                        onChange={formik.handleChange}
+                        value={formik.values.name}
+                    />
                 </FormControl>
-                <FormControl>
-                    <FormLabel htmlFor='email'>{ t('labels.form.email') }</FormLabel>
-                    <Input id='email' type='email' name="email"  onChange={ formik.handleChange } value={ formik.values.email }/>
-                    <FormHelperText>We'll never share your email.</FormHelperText>
+                <FormControl className="form__control">
+                    <TextField
+                        id="email"
+                        name="email"
+                        label={t('labels.form.email')}
+                        variant="standard"
+                        onChange={formik.handleChange}
+                        value={formik.values.email}
+                    />
                 </FormControl>
-                <FormControl>
-                    <FormLabel htmlFor='password'>{ t('labels.form.password') }</FormLabel>
-                    <Input id='password' type='password' name="password" onChange={formik.handleChange} value={formik.values.password} />
+                <FormControl className="form__control">
+                    <TextField
+                        id="password"
+                        name="password"
+                        label={t('labels.form.password')}
+                        variant="standard"
+                        onChange={formik.handleChange}
+                        value={formik.values.password}
+                        type="password"
+                    />
                 </FormControl>
                 <div className='form__buttons'>
-                    <Link to="/">
-                        <Button
-                            mt={4}
-                            colorScheme='blue'
-                        >
-                            {t('button.return')}
-                        </Button>
-                    </Link>
                     <Button
-                        mt={4}
-                        colorScheme='blue'
+                        color='primary'
                         type='submit'
+                        variant="contained"
                     >
                         {t('button.createAccount')}
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color='primary'
+                        onClick={ () => { navigate(-1) }}
+                    >
+                        {t('button.return')}
                     </Button>
                 </div>
 

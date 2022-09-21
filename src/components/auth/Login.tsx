@@ -1,18 +1,19 @@
 import React from 'react';
-import { Button, FormControl, FormLabel, Input, Tooltip } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { starLoginWithGoogle, startLoginWithEmailPassword } from '../../store/actions/auth.actions';
-import { FcGoogle } from "react-icons/fc";
+import { useNavigate } from 'react-router-dom';
+import { startLoginWithEmailPassword } from '../../store/actions/auth.actions';
 import { RootState } from '../../store/store';
+import { TextField, FormControl } from '@mui/material';
+import Button from '@mui/material/Button';
+import { CircularProgress } from '@material-ui/core';
 
 const Login = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     let navigate = useNavigate();
-    
+
     let userData = useSelector((state: RootState) => {
         return state.auth
     })
@@ -24,61 +25,59 @@ const Login = () => {
             password: '',
         },
         onSubmit: values => {
-            dispatch( startLoginWithEmailPassword(values.email, values.password) );
-            if( userData.uid )
-                navigate(`/profile/${ userData.uid }`);
+            dispatch(startLoginWithEmailPassword(values.email, values.password));
+            if (userData.uid)
+                navigate(`/profile/${userData.uid}`);
         },
     });
 
-    const handleGoogleLogin = () => {
-        dispatch( starLoginWithGoogle() )
-    }
-
-    return(
+    return (
         <div className='form__container-centered'>
-            <form onSubmit={ formik.handleSubmit }>
+            <form onSubmit={formik.handleSubmit} className='form__column'>
                 <span>{t('labels.login')}</span>
-                <FormControl>
-                    <FormLabel htmlFor='email'>{ t('labels.form.email') }</FormLabel>
-                    <Input id='email' type='email' name="email" onChange={ formik.handleChange } value={ formik.values.email }/>
+                <FormControl className="form__control">
+                    <TextField
+                        id="email"
+                        name="email"
+                        label={t('labels.form.email')}
+                        variant="standard"
+                        onChange={formik.handleChange}
+                        value={formik.values.email}
+                    />
                 </FormControl>
-                <FormControl>
-                    <FormLabel htmlFor='password'>{ t('labels.form.password') }</FormLabel>
-                    <Input id='password' type='password' name="password"  onChange={formik.handleChange} value={formik.values.password}/>
+                <FormControl className="form__control">
+                    <TextField
+                        id="password"
+                        name="password"
+                        type="password"
+                        label={t('labels.form.password')}
+                        variant="standard"
+                        onChange={formik.handleChange}
+                        value={formik.values.password}
+                        color='primary'
+                    />
                 </FormControl>
                 <div className='form__buttons'>
-                    <Link to="/">
+                    {userData.loading 
+                    ?
+                        <CircularProgress color="primary" size={30}/>
+                    :
                         <Button
-                            mt={4}
-                            colorScheme='blue'
+                            variant="contained"
+                            onClick={ () => formik.handleSubmit() }
+                            color='primary'
                         >
-                            {t('button.return')}
+                            {t('button.login')}
                         </Button>
-                    </Link>
+                    }
                     <Button
-                        mt={4}
-                        colorScheme='blue'
-                        type='submit'
-                        isLoading={ userData.loading }
+                        variant="contained"
+                        color='primary'
+                        onClick={() => { navigate(-1) }}
                     >
-                        {t('button.login')}
+                        {t('button.return')}
                     </Button>
                 </div>
-
-                <div className='form__socialButtons'>
-                    <Tooltip label={t('labels.loginWithGoogle')}>
-                        <div 
-                            className="google-btn"
-                            onClick= { handleGoogleLogin }
-                        >
-                                <div className="google-icon-wrapper">
-                                    <FcGoogle /> 
-                                </div>
-                        </div>
-                    </Tooltip>
-                </div>
-
-
             </form>
         </div>
     );

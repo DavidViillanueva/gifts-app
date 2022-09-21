@@ -1,18 +1,23 @@
-import { Button } from '@chakra-ui/react';
+import { Button } from '@material-ui/core';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Homepage = () => {
 
     const { t } = useTranslation(); 
+    const navigate = useNavigate();
 
     return (
     <div className='main-content'>
         <span>{t('labels.yourWishList')}</span>
-        <Link to="/register">
-            <Button colorScheme='blue'>{t('button.createAccount')}</Button>
-        </Link>
+        <Button 
+            variant="contained" 
+            color='primary' 
+            onClick={ () => { navigate('/register')}}
+        >
+            {t('button.createAccount')}
+        </Button>
     </div>
     ) 
 };

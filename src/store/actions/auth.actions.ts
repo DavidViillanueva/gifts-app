@@ -5,7 +5,6 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { signInWithPopup } from "firebase/auth";
 import { setInitialState } from './items.actions';
-import { createStandaloneToast, useToast } from '@chakra-ui/react';
 
 
 export const startLoginWithEmailPassword = ( email: string, password:string) => {

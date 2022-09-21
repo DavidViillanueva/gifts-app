@@ -17,13 +17,24 @@
     }
 
 }
+.form__column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form__control {
+  margin: 15px 0px !important;
+}
 .formControl {
     margin-bottom: 23px;
 }
 .form__buttons {
+    margin-top: 10px;
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
+    align-items: center;
 }
 
 .form__socialButtons {

@@ -1,4 +1,5 @@
-import { Button, FormControl, FormLabel, Input, InputGroup, InputLeftAddon, Textarea } from '@chakra-ui/react'
+import { CircularProgress } from '@material-ui/core';
+import { TextField, FormControl, Button } from '@mui/material';
 import { useFormik } from 'formik';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -37,22 +38,30 @@ const AddItemForm = () => {
   }
 
   return (
-    <form onSubmit={ formik.handleSubmit   }>
-      <FormControl className='formControl'>
-          <FormLabel htmlFor='itemName'>{ t('labels.form.itemName') }</FormLabel>
-          <Input id='itemName' type='text' name="itemName" onChange={ formik.handleChange } value={ formik.values.itemName }/>
+    <form className='form__column'>
+      <FormControl className='form__control'>
+         <TextField
+            id="itemName"
+            name="itemName"
+            label={t('labels.form.itemName')}
+            variant="standard"
+            onChange={formik.handleChange}
+            value={formik.values.itemName}
+          />
       </FormControl>
-      <FormControl className='formControl'>
-          <FormLabel htmlFor='itemPrice'>{ t('labels.form.itemPrice') }</FormLabel>
-          <InputGroup>
-            <InputLeftAddon children='$' />
-            <Input id='itemPrice' type='number' name="itemPrice"  onChange={formik.handleChange} value={formik.values.itemPrice}/>
-          </InputGroup>
+      <FormControl className='form__control'>
+          <TextField
+            id="itemPrice"
+            name="itemPrice"
+            label={t('labels.form.itemPrice')}
+            variant="standard"
+            onChange={formik.handleChange}
+            value={formik.values.itemPrice}
+          />
       </FormControl>
-      <FormControl className='formControl'>
-        <FormLabel htmlFor='picture'>{ t('labels.form.file') }</FormLabel>
+      <FormControl className='form__control'>
         <div id='fileInputWrapper'className='fileInputWrapper' data-text={ t('labels.form.selectFile') } upload-text={ t('labels.form.examine') }>
-          <Input type="file" id="picture" name="picture" accept="image/png, image/jpeg" 
+          <input type="file" id="picture" name="picture" 
             onChange={(e) => {
               const fileReader = new FileReader();
               fileReader.onload = () => {
@@ -60,34 +69,36 @@ const AddItemForm = () => {
                   formik.setFieldValue('picture', fileReader.result);
                 }
               };
-              if( e.target.files ){
-                changeInputFileName(e.target.files[0].name);
+              if( e.target?.files ){
+                changeInputFileName(e.target?.files[0].name);
                 fileReader.readAsDataURL(e?.target?.files[0])
               }
             }}
           />
         </div>
       </FormControl>
-      <FormControl className='formControl'>
-          <FormLabel htmlFor='itemDescription'>{ t('labels.form.itemDescription') }</FormLabel>
-          <Textarea
-            value={formik.values.itemDescription}
-            onChange={formik.handleChange}
+      <FormControl className='form__control'>
+          <TextField
+            id="itemDescription"
             name="itemDescription"
-            id='itemDescription'
-            placeholder={t('labels.form.placeholderDescription')}
-            size='sm'
+            label={t('labels.form.itemDescription')}
+            variant="standard"
+            onChange={formik.handleChange}
+            value={formik.values.itemDescription}
           />
       </FormControl>
       <div className='form__buttons'>
+        {itemsData.loadingItem 
+        ?
+          <CircularProgress color="primary" size={30}/>
+        :
           <Button
-              mt={4}
-              colorScheme='blue'
-              type='submit'
-              isLoading= { itemsData.loadingItem }
+              variant="contained"
+              onClick={ () => formik.handleSubmit() }
           >
               {t('button.itemSave')}
           </Button>
+        }
       </div>
     </form>
   )
