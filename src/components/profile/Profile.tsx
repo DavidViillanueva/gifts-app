@@ -1,9 +1,9 @@
 import { CircularProgress } from '@material-ui/core';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'
 import { errors } from '../../configs/errors.types';
-import { setPublicUser, startLoadingPublicUser } from '../../store/actions/auth.actions';
+import { startLoadingPublicUser } from '../../store/actions/auth.actions';
 import { startLoadingItems } from '../../store/actions/items.actions';
 import { RootState } from '../../store/store';
 import { isObjEmpty } from '../../utils/isObjEmpty';
@@ -14,82 +14,60 @@ import HeaderProfile from './headerProfile/HeaderProfile';
 
 
 const Profile = () => {
-  const dispatch = useDispatch();
-  const { profileId } = useParams();
+    const dispatch = useDispatch();
+    const { profileId } = useParams();
+    const [isThisUser, setIsThisUser] = useState(false);
 
-  let itemsData = useSelector((state: RootState) => {
-    return state.items
-  })
+    let state = useSelector((state: RootState) => {
+        return state
+    })
 
-  useEffect(() => {
-    if (profileId) {
-      dispatch(startLoadingItems(profileId));
-    }
-  }, [profileId, dispatch])
+    useEffect(() => {
+        if (profileId) {
+            dispatch(startLoadingItems(profileId));
+            if (profileId === state.auth.uid) {
+                setIsThisUser(true);
+            } else {
+                dispatch(startLoadingPublicUser(profileId))
+            }
+        }
+    }, [])
 
 
-  let isThisUser: boolean = false;
-  let auth  = useSelector((state: RootState) => {
-    return state.auth
-  })
+    if (state.items.loading)
+        return (
+            <div className='loading__container'>
+                <CircularProgress color="primary" size={30} />
+            </div>
+        )
 
-  useEffect(() => {
-    if( profileId === auth.uid ) {
-      isThisUser = true;
-      setPublicUser(false);
-    } else {
-      dispatch(startLoadingPublicUser(profileId))
-    }
-    
-  },[auth, profileId])
-
-  useEffect(() => {
-    if( auth.publicUser)
-      setPublicUser(true);
-  },[auth])
-  
-
-  if( profileId === auth.uid ) {
-    isThisUser = true;
-    setPublicUser(false);
-  } else {
-    setPublicUser(true);
-  }
-
-  if( itemsData.loading )
     return (
-      <div className='loading__container'>
-        <CircularProgress color="primary" size={30} />
-      </div>
+        <div className='profile__container'>
+            <div className='profile__panel'>
+                {(isThisUser) &&
+                    <div>
+                        <AddItem
+                            children={<AddItemForm />}
+                        />
+                    </div>
+                }
+
+                {(state.items.error === errors.E100) &&
+                    <h1>No existe el usuario</h1>
+                }
+                {(isObjEmpty(state.items.items)) &&
+                    <h1>Parece que no hay datos</h1>
+                }
+                <HeaderProfile user={state.auth.publicUser} userId={state.auth.uid} editProfile={isThisUser}/>
+                {(!isObjEmpty(state.items.items)) &&
+                    <ItemsCollection
+                        editPermission={isThisUser}
+                        items={state.items.items}
+                    />
+                }
+            </div>
+        </div>
     )
-
-  return (
-    <div className='profile__container'>
-      <div className='profile__panel'>
-        {(isThisUser) &&
-          <div>
-            <AddItem
-              children={<AddItemForm />}
-            />
-          </div>
-        }
-
-        {(itemsData.error === errors.E100) &&
-          <h1>No existe el usuario</h1>
-        }
-        {(isObjEmpty(itemsData.items)) &&
-          <h1>Parece que no hay datos</h1>
-        }
-        <HeaderProfile user={auth.publicUser} />
-        {(!isObjEmpty(itemsData.items)) &&
-          <ItemsCollection
-            editPermission={isThisUser}
-            items={itemsData.items}
-          />
-        }
-      </div>
-    </div>
-  )
 }
 
 export default Profile

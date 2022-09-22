@@ -1,12 +1,19 @@
-import { IconButton } from '@mui/material';
 import React from 'react';
 import profilePic from '../../../assets/profile.png';
-import EditIcon from '@mui/icons-material/Edit';
+import EditProfile from '../editProfile/EditProfile';
 
 interface publicUser {
     name: string
 }
-const HeaderProfile = ({ user }: { user: publicUser}) => {
+
+interface HeaderProfileI {
+    user: publicUser;
+    userId: string;
+    editProfile: boolean
+}
+
+
+const HeaderProfile = ({ user, userId, editProfile }: HeaderProfileI) => {
     console.log(user);
     return (
         <div className='profile__header'>
@@ -16,9 +23,9 @@ const HeaderProfile = ({ user }: { user: publicUser}) => {
             </div>
             <div className='profile__headerControls'>
                 {/* imprimir los iconos de redes sociales asociados */}
-                <IconButton aria-label="edit"  size="small">
-                    <EditIcon  fontSize="inherit"/>
-                </IconButton>
+                {editProfile &&
+                    <EditProfile userId={userId}/>
+                }
             </div>
         </div>
     )
