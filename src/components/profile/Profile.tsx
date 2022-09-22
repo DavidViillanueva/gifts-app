@@ -22,7 +22,7 @@ const Profile = () => {
         return state
     })
 
-    useEffect(() => {
+    useEffect(() => { 
         if (profileId) {
             dispatch(startLoadingItems(profileId));
             if (profileId === state.auth.uid) {
@@ -31,6 +31,7 @@ const Profile = () => {
                 dispatch(startLoadingPublicUser(profileId))
             }
         }
+    // eslint-disable-next-line
     }, [])
 
 

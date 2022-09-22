@@ -1,11 +1,10 @@
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { errors } from "../../configs/errors.types";
 import { databaseRef, storage } from "../../configs/firebaseConfig";
 import { types } from "../../configs/types";
 import { IItem} from "../../models/item.model";
 import { deleteObject, getDownloadURL, ref, uploadString } from "firebase/storage";
 import { setDeleteLoading, unsetDeleteLoading } from "./ui.actions";
-import { setPublicUser } from "./auth.actions";
 
 export const startLoadingItems = ( uid: string ) => {
     return async ( dispatch: any) => {
@@ -120,16 +119,16 @@ const setError = (error: string) => ({
     }
 })
 
-const unsetError = () => ({
-    type: types.itemsUnsetError
-})
+// const unsetError = () => ({
+//     type: types.itemsUnsetError
+// })
 
-const setItems = ( items: [] | object ) => ({
-    type: types.itemsSet,
-    payload: {
-        items: items
-    }
-})
+// const setItems = ( items: [] | object ) => ({
+//     type: types.itemsSet,
+//     payload: {
+//         items: items
+//     }
+// })
 
 const addItem = ( item: IItem ) => ({
     type: types.itemsAdd,

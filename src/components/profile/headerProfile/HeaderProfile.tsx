@@ -14,7 +14,6 @@ interface HeaderProfileI {
 
 
 const HeaderProfile = ({ user, userId, editProfile }: HeaderProfileI) => {
-    console.log(user);
     return (
         <div className='profile__header'>
             <div className='profile__imgContainer'>

@@ -1,7 +1,7 @@
 import { ThemeProvider } from "@material-ui/core";
 import { createTheme } from "@mui/material";
 import { onAuthStateChanged } from "firebase/auth";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "../components/auth/Login";
@@ -20,7 +20,6 @@ const AppRouter = () => {
     const [uid, setUid] = useState('');
 
     onAuthStateChanged(auth, async (user) => {
-        console.log('onauthstatechanged')
         if (user?.uid) {
             dispatch(login(user.uid, user.displayName));
             setUid(user.uid);
