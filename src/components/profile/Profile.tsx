@@ -25,11 +25,11 @@ const Profile = () => {
     useEffect(() => { 
         if (profileId) {
             dispatch(startLoadingItems(profileId));
-            if (profileId === state.auth.uid) {
-                setIsThisUser(true);
-            } else {
-                dispatch(startLoadingPublicUser(profileId))
-            }
+        }
+        if (profileId === state.auth.uid) {
+            setIsThisUser(true);
+        } else {
+            dispatch(startLoadingPublicUser(profileId))
         }
     // eslint-disable-next-line
     }, [])
