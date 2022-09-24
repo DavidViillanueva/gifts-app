@@ -2,11 +2,18 @@ import { types } from "../../configs/types";
 
 
 interface IUi {
-    deleteLoading: string
+    deleteLoading: string,
+    color: any
 }
 
 const initialState: IUi = {
-    deleteLoading: ''
+    deleteLoading: '',
+    color: {
+        light: '#757ce8',
+        main: '#03a9f4',
+        dark: '#087fb6',
+        contrastText: '#fff'
+    }
 }
 export default function uiReducer( state = initialState, action: any):IUi {
 

@@ -21,18 +21,23 @@ const Profile = () => {
     let state = useSelector((state: RootState) => {
         return state
     })
-
+    
+   
     useEffect(() => { 
         if (profileId) {
             dispatch(startLoadingItems(profileId));
-        }
-        if (profileId === state.auth.uid) {
-            setIsThisUser(true);
-        } else {
             dispatch(startLoadingPublicUser(profileId))
         }
     // eslint-disable-next-line
     }, [])
+
+    useEffect(() => {
+        if (profileId === state.auth.uid) {
+            setIsThisUser(true);
+        }
+    // eslint-disable-next-line  
+    }, [state])
+    
 
 
     if (state.items.loading)

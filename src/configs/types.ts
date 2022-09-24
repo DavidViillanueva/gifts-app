@@ -20,4 +20,5 @@ export const types = {
 
     uiSetDeleteLoading: '[UI] Set delete loading',
     uiUnsetDeleteLoading: '[UI] Unset delete loading',
+    uiSetProfileColor: '[UI] set profile color' 
 }
