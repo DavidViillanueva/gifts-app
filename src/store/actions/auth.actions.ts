@@ -2,9 +2,10 @@ import firebase from 'firebase/compat/app';
 import { auth, authGoogleProvider, databaseRef } from '../../configs/firebaseConfig';
 import { types } from "../../configs/types";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { signInWithPopup } from "firebase/auth";
 import { setInitialState } from './items.actions';
+import { ColorI } from '../../models/ui.model';
 
 
 export const startLoginWithEmailPassword = ( email: string, password:string) => {
@@ -83,6 +84,14 @@ export const startLoadingPublicUser = (uid: string = '') => {
         if(docSnap.exists())
             dispatch(setPublicUser(docSnap.data()))
     }
+}
+
+export const startSettingColorThemePublicUser = (uid: string, color: ColorI ) => {
+    return async (dispatch:any) => {
+        if(uid) {
+            await updateDoc(doc(databaseRef,`${uid}/user-data`), { color });
+        }
+    }  
 }
 
 export const setPublicUser = (user:any) => ({

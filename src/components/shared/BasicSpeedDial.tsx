@@ -1,26 +1,20 @@
 import * as React from 'react';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
-import { useTheme } from '@mui/material';
+import { useContext } from 'react';
+import ColorContext from '../../store/context/colorContext';
  
 interface BasicSpeedDialI {
-    icon: ReactJSXElement, 
-    color? : 'primary' | 'secondary',
+    icon: ReactJSXElement,
     onClick: any 
 }
 
-export default function BasicSpeedDial({ icon, color = 'primary', onClick}:BasicSpeedDialI) {
-
-    // const colors = {
-    //     'primary': '#2b6cb0',
-    //     'secondary': '#3182ce85'
-    // }
-    const theme = useTheme()
-    console.log( theme )
+export default function BasicSpeedDial({ icon, onClick}:BasicSpeedDialI) {
+    const {color} = useContext(ColorContext);
 
     return (
             <div 
                 className='speedDial_floatingSpace '
-                style={{background: theme.palette.primary.main}}
+                style={{background: color?.primary?.main, color: color?.primary?.contrastText}}
                 onClick= { onClick }
             >
                 {icon}

@@ -1,8 +1,8 @@
-import { Button, Select, ThemeProvider } from "@material-ui/core";
-import { createTheme, MenuItem } from "@mui/material";
+import { ThemeProvider } from "@material-ui/core";
+import { createTheme } from "@mui/material";
 import { onAuthStateChanged } from "firebase/auth";
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect, useReducer } from "react";
+import { useDispatch } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "../components/auth/Login";
 import Register from "../components/auth/Register";
@@ -12,9 +12,9 @@ import { auth } from "../configs/firebaseConfig";
 import GiftsApp from "../GiftsApp";
 import { login } from "../store/actions/auth.actions";
 import PublicRoute from "./PublicRoute";
-import { RootState } from "../store/store";
 import ColorContext from "../store/context/colorContext";
 import { colors } from "../configs/colors";
+import { colorReducer } from "../store/reducers/color.reducer";
 
 const AppRouter = () => {
     const dispatch = useDispatch();
@@ -22,6 +22,7 @@ const AppRouter = () => {
     const [isLogged, setIsLogged] = useState(false)
     const [uid, setUid] = useState('');
     const [colorTheme, setColorTheme] = useState(colors.pink);
+    const [state, dispatchColor ] = useReducer(colorReducer, colors.pink);    
 
     onAuthStateChanged(auth, async (user) => {
         if (user?.uid) {
@@ -32,13 +33,10 @@ const AppRouter = () => {
             setIsLogged(false);
         }
     })
-
-    // const state = useSelector((state: RootState) => {
-    //     return state
-    // })
-    // useEffect(() => {
-    //     setColorTheme(state.ui.color);
-    // }, [])
+    
+    useEffect(() => {
+        setColorTheme(state.color);
+    }, [state])
     
     const theme = createTheme({
         palette: colorTheme
@@ -46,14 +44,11 @@ const AppRouter = () => {
 
 
     return (
-        <ColorContext.Provider value={colorTheme}>
+        <ColorContext.Provider value={{color: colorTheme, dispatchColor}}>
             <ThemeProvider theme={theme}>
                 <BrowserRouter>
                     <NavBar />
-                    <Button onClick={() => {setColorTheme(colors.red)}}>red</Button>
-                    <Button onClick={() => {setColorTheme(colors.pink)}}>pink</Button>
-                    <Button onClick={() => {setColorTheme(colors.blue)}}>blue</Button>
-                    <Button onClick={() => {setColorTheme(colors.cyan)}}>cyan</Button>
+                    
                     <Routes>
                         <Route path="/" element={<GiftsApp />} />
 

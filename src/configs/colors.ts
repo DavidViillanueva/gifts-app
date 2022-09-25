@@ -1,4 +1,4 @@
-export const colors = {
+export const colors: any = {
     blue: {
         primary: {
             light: '#4dabf5',

@@ -35,7 +35,12 @@ i18n
                     selectFile: "Seleccionar archivo! (.png/.jpeg)",
                     examine: "Examinar",
                     itemDescription: "Descripcion",
-                    placeholderDescription: "Ingrese una descripcion del producto"
+                    placeholderDescription: "Ingrese una descripcion del producto",
+                    colorRed: "Rojo",
+                    colorBlue: "Azul",
+                    colorPink: "Rosa",
+                    colorCyan: "Cyan",
+                    color: "Color del perfil"
                   },
                   login: "Ingresar",
                   loginWithGoogle: "Ingresar con Google",

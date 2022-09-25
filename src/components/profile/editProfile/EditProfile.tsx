@@ -37,7 +37,7 @@ const EditProfile = ({ userId }: any) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <EditProfileForm />
+                    <EditProfileForm userid={userId} />
                 </Box>
             </Modal>
         </>
