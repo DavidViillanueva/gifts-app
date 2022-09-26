@@ -10,3 +10,8 @@ export const setDeleteLoading = (itemId: string | undefined) => ({
 export const unsetDeleteLoading = () => ({
     type: types.uiUnsetDeleteLoading
 })
+
+export const setProfileColor = (color: string) => ({
+    type: types.uiSetProfileColor,
+    payload: color
+})

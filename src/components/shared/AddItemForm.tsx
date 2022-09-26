@@ -1,5 +1,6 @@
 import { CircularProgress } from '@material-ui/core';
-import { TextField, FormControl, Button } from '@mui/material';
+import { TextField, FormControl } from '@mui/material';
+import { Button } from '@material-ui/core';
 import { useFormik } from 'formik';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -95,6 +96,7 @@ const AddItemForm = () => {
           <Button
               variant="contained"
               onClick={ () => formik.handleSubmit() }
+              color="primary"
           >
               {t('button.itemSave')}
           </Button>

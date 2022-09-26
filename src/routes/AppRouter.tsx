@@ -1,7 +1,7 @@
 import { ThemeProvider } from "@material-ui/core";
 import { createTheme } from "@mui/material";
 import { onAuthStateChanged } from "firebase/auth";
-import { useState } from "react";
+import { useState, useEffect, useReducer } from "react";
 import { useDispatch } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "../components/auth/Login";
@@ -12,12 +12,17 @@ import { auth } from "../configs/firebaseConfig";
 import GiftsApp from "../GiftsApp";
 import { login } from "../store/actions/auth.actions";
 import PublicRoute from "./PublicRoute";
+import ColorContext from "../store/context/colorContext";
+import { colors } from "../configs/colors";
+import { colorReducer } from "../store/reducers/color.reducer";
 
 const AppRouter = () => {
     const dispatch = useDispatch();
 
     const [isLogged, setIsLogged] = useState(false)
     const [uid, setUid] = useState('');
+    const [colorTheme, setColorTheme] = useState(colors.pink);
+    const [state, dispatchColor ] = useReducer(colorReducer, colors.pink);    
 
     onAuthStateChanged(auth, async (user) => {
         if (user?.uid) {
@@ -28,42 +33,43 @@ const AppRouter = () => {
             setIsLogged(false);
         }
     })
-
+    
+    useEffect(() => {
+        setColorTheme(state.color);
+    }, [state])
+    
     const theme = createTheme({
-        palette: {
-            primary: {
-                light: '#757ce8',
-                main: '#03a9f4',
-                dark: '#087fb6',
-                contrastText: '#fff',
-            }
-        }
+        palette: colorTheme
     })
 
+
     return (
-        <ThemeProvider theme={theme}>
-            <BrowserRouter>
-                <NavBar />
-                <Routes>
-                    <Route path="/" element={<GiftsApp />} />
+        <ColorContext.Provider value={{color: colorTheme, dispatchColor}}>
+            <ThemeProvider theme={theme}>
+                <BrowserRouter>
+                    <NavBar />
+                    
+                    <Routes>
+                        <Route path="/" element={<GiftsApp />} />
 
-                    <Route path="/register" element={
-                        <PublicRoute isLogged={isLogged} uid={uid}>
-                            <Register />
-                        </PublicRoute>
-                    } />
+                        <Route path="/register" element={
+                            <PublicRoute isLogged={isLogged} uid={uid}>
+                                <Register />
+                            </PublicRoute>
+                        } />
 
-                    <Route path="/login" element={
-                        <PublicRoute isLogged={isLogged} uid={uid}>
-                            <Login />
-                        </PublicRoute>
-                    } />
+                        <Route path="/login" element={
+                            <PublicRoute isLogged={isLogged} uid={uid}>
+                                <Login />
+                            </PublicRoute>
+                        } />
 
 
-                    <Route path="/profile/:profileId" element={<Profile />} />
-                </Routes>
-            </BrowserRouter>
-        </ThemeProvider>
+                        <Route path="/profile/:profileId" element={<Profile />} />
+                    </Routes>
+                </BrowserRouter>
+            </ThemeProvider>
+        </ColorContext.Provider>
     )
 }
 
