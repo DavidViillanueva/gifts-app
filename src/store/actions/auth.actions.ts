@@ -94,6 +94,17 @@ export const startSettingColorThemePublicUser = (uid: string, color: ColorI ) =>
     }  
 }
 
+export const startUpdatingProfile = (uid: string, publicProfile: any) => {
+    return async (dispatch:any) => {
+        dispatch( setLoading() );
+        if(uid) {
+            updateDoc(doc(databaseRef,`${uid}/user-data`), { ...publicProfile }).then(value => {
+                dispatch( unsetLoading() );
+            }).catch( e => {console.error(e); dispatch( unsetLoading() );});
+        }
+    }  
+}
+
 export const setPublicUser = (user:any) => ({
     type: types.authSetPublicProfile,
     payload: user

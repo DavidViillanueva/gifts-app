@@ -40,7 +40,11 @@ i18n
                     colorBlue: "Azul",
                     colorPink: "Rosa",
                     colorCyan: "Cyan",
-                    color: "Color del perfil"
+                    color: "Color del perfil",
+                    facebookInput: "Tu perfil en Facebook",
+                    instagramInput: "Tu perfil en Instagram",
+                    twitterInput: "Tu perfil de Twitter",
+                    cafecitoInput: "Tu perfil en Cafecito.App"
                   },
                   login: "Ingresar",
                   loginWithGoogle: "Ingresar con Google",
@@ -55,7 +59,8 @@ i18n
                     login: "Ingresar",
                     createAccount: "Crear Cuenta",
                     return: "Regresar",
-                    itemSave: "Guardar producto!"
+                    itemSave: "Guardar producto!",
+                    save: "Guardar"
                 }
             }
         }
