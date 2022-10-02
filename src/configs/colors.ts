@@ -1,5 +1,6 @@
 export const colors: any = {
     blue: {
+        key: 'blue',
         primary: {
             light: '#4dabf5',
             main: '#2196f3',
@@ -14,6 +15,7 @@ export const colors: any = {
         }
     },
     red: {
+        key: 'red',
         primary: {
             light: '#f6685e',
             main: '#f44336',
@@ -28,6 +30,7 @@ export const colors: any = {
         }
     },
     pink: {
+        key: 'pink',
         primary: {
             light: '#ed4b82',
             main: '#e91e63',
@@ -42,6 +45,7 @@ export const colors: any = {
         }
     },
     cyan: {
+        key: 'cyan',
         primary: {
             light: '#33c9dc',
             main: '#00bcd4',

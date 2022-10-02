@@ -21,7 +21,7 @@ const style = {
 
 
 
-const EditProfile = ({ userId }: any) => {
+const EditProfile = ({ userId, user }: any) => {
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
     return (
@@ -37,7 +37,7 @@ const EditProfile = ({ userId }: any) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <EditProfileForm userid={userId} />
+                    <EditProfileForm userid={userId} user={user} />
                 </Box>
             </Modal>
         </>

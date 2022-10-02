@@ -4,6 +4,7 @@ export const types = {
     authSetLoading: '[Auth] Set loading',
     authUnsetLoading: '[Auth] Unset loading',
     authSetPublicProfile: '[Auth] Set public profile',
+    authUpdatePublicProfile: '[Auth] Update public profile',
     authUnsetPublicProfile: '[Auth] Unset public profile',
 
     itemsAdd: '[Items] Add item',

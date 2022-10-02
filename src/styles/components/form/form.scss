@@ -26,6 +26,13 @@
 .form__control {
   margin: 15px 0px !important;
 }
+
+.form__centerloading {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .formControl {
     margin-bottom: 23px;
 }
