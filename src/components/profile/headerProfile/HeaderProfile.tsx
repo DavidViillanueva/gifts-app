@@ -25,7 +25,7 @@ const HeaderProfile = ({ user, userId, editProfile }: HeaderProfileI) => {
             <div className='profile__headerControls'>
                 {/* imprimir los iconos de redes sociales asociados */}
                 {editProfile &&
-                    <EditProfile userId={userId}/>
+                    <EditProfile userId={userId} user={user} />
                 }
             </div>
         </div>

@@ -1,5 +1,5 @@
-import { Button, CircularProgress, FormControl, FormHelperText, Input, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select } from '@mui/material'
-import React, { useState } from 'react'
+import { CircularProgress, FormControl, FormHelperText, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,22 +13,28 @@ import CoffeeIcon from '@mui/icons-material/Coffee';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import { useFormik } from 'formik';
 import { RootState } from '../../../store/store';
+import { Button } from '@material-ui/core';
 
 
 
-const EditProfileForm = ({ userid }: any) => {
+const EditProfileForm = ({ userid, user }: any) => {
     const { t } = useTranslation();
     const dispatch = useDispatch()
     const { dispatchColor } = useContext(ColorContext);
     const [color, setColor] = useState('');
     
+    useEffect(() => {
+        if (user?.color?.key) 
+            setColor(user.color.key);
+    // eslint-disable-next-line
+    }, [user])
     
     const formik = useFormik({
         initialValues: {
-            instagram: '',
-            twitter: '',
-            cafecito: '',
-            facebook: ''
+            instagram: user.instagram,
+            twitter: user.twitter,
+            cafecito: user.cafecito,
+            facebook: user.facebook
         },
         onSubmit: values => {
             dispatch(startUpdatingProfile(userid, values))
