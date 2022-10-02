@@ -31,10 +31,10 @@ const EditProfileForm = ({ userid, user }: any) => {
     
     const formik = useFormik({
         initialValues: {
-            instagram: user.instagram,
-            twitter: user.twitter,
-            cafecito: user.cafecito,
-            facebook: user.facebook
+            instagram: user.instagram || '',
+            twitter: user.twitter || '',
+            cafecito: user.cafecito || '',
+            facebook: user.facebook || ''
         },
         onSubmit: values => {
             dispatch(startUpdatingProfile(userid, values))
