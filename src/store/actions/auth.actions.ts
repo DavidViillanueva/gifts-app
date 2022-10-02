@@ -108,7 +108,7 @@ export const startUpdatingProfile = (uid: string, publicProfile: any) => {
 
 export const updatePublicUser = (userData: any) => ({
     type: types.authUpdatePublicProfile,
-    payload: userData
+    payload: { ...userData }
 })
 
 export const setPublicUser = (user:any) => ({

@@ -47,7 +47,7 @@ export default function authReducer( state = initialState, action: any):authStat
         case types.authUpdatePublicProfile: 
             return {
                 ...state,
-                publicUser: {... action.payload}
+                publicUser: { ...state.publicUser, ...action.payload}
             }
         
         case types.authUnsetPublicProfile:
