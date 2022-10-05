@@ -20,6 +20,7 @@
     background-color: #0000003d;
     border-radius: 10px;
     padding: 1rem;
+    padding-bottom: 0.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,8 +55,10 @@
     }
     .profile__headerControls {
         display: flex;
-        flex-direction: row-reverse;
+        flex-direction: row;
         width: 100%;
+        justify-content: space-between;
         margin: 15px;
+        align-items: baseline;
     }
 }
