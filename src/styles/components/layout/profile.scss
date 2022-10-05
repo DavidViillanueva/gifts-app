@@ -32,12 +32,18 @@
         align-items: center;
         img {
             border-radius: 50%;
-            height: 160px;
+            height: 200px;
+            width: 200px;
             align-self: center;
             object-fit: contain;
             -webkit-box-shadow: 0px 9px 30px 2px rgba(0,0,0,0.26);
             -moz-box-shadow: 0px 9px 30px 2px rgba(0,0,0,0.26);
             box-shadow: 0px 9px 30px 2px rgba(0,0,0,0.26);
+            background-position: center;
+            /* Center the image */
+            background-repeat: no-repeat;
+            /* Do not repeat the image */
+            background-size: cover;
         }
 
         span {

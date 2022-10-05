@@ -17,14 +17,15 @@
     }
 
 }
+
 .form__column {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .form__control {
-  margin: 15px 0px !important;
+    margin: 15px 0px !important;
 }
 
 .form__centerloading {
@@ -33,9 +34,11 @@
     flex-direction: column;
     align-items: center;
 }
+
 .formControl {
     margin-bottom: 23px;
 }
+
 .form__buttons {
     margin-top: 10px;
     display: flex;
@@ -65,79 +68,155 @@
     background: none !important;
 }
 
+.form__profileHeader {
+    height: 120px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 20px;
+
+    input[type="file"] {
+        display: none;
+    }
+
+    .custom-file-upload {
+        border-radius: 50%;
+        display: inline-block;
+        position: relative;
+        padding: 6px;
+        cursor: pointer;
+        margin-bottom: 25px;
+    }
+
+    .img-wrap {
+        position: relative;
+        width: 110px;
+        height: 110px;
+        overflow: hidden;
+        border-radius: 50%;
+        align-self: center;
+            object-fit: contain;
+            -webkit-box-shadow: 0px 9px 30px 2px rgba(0,0,0,0.26);
+            -moz-box-shadow: 0px 9px 30px 2px rgba(0,0,0,0.26);
+            box-shadow: 0px 9px 30px 2px rgba(0,0,0,0.26);
+    }
+
+    .img-upload:before {
+        content: "";
+        position: absolute;
+        padding-top: 80px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: #63d3a6;
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        opacity: 0;
+        transition: .5s ease;
+        background-color: transparent;
+        background-image: url('../../../assets/upload.png');
+        background-position: center;
+        /* Center the image */
+        background-repeat: no-repeat;
+        /* Do not repeat the image */
+        background-size: cover;
+        /* Resize the background image to cover the entire container */
+    }
+
+    .img-upload:hover:before {
+        opacity: 1;
+        #profile-img {
+            filter: blur(2px);
+        }
+    }
+
+    img {
+        width: auto;
+        height: 100%;
+    }
+
+    label {
+        color: #676767;
+    }
+}
+
 .fileInputWrapper {
     $defaultColor: $primary;
     $height: 40px;
-    
+
     position: relative;
     width: 100%;
     height: $height;
     border: 1px solid $light-gray;
     border-radius: 5px 10px 10px 5px;
-    
+
     &:after {
-      content: attr(data-text);
-      font-size: 18px;
-      position: absolute;
-      top: 0;
-      left: 0;
-      background: #fff;
-      padding: 10px 15px;
-      display: block;
-      width: calc(100% - 40px);
-      pointer-events: none;
-      z-index: 20;
-      height: $height - 7px;
-      line-height: $height - 20px;
-      color: #999;
-      border-radius: 5px 10px 10px 5px;
-      font-weight: 300;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 1;
-      line-clamp: 1;
-      -webkit-box-orient: vertical;
+        content: attr(data-text);
+        font-size: 18px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #fff;
+        padding: 10px 15px;
+        display: block;
+        width: calc(100% - 40px);
+        pointer-events: none;
+        z-index: 20;
+        height: $height - 7px;
+        line-height: $height - 20px;
+        color: #999;
+        border-radius: 5px 10px 10px 5px;
+        font-weight: 300;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        line-clamp: 1;
+        -webkit-box-orient: vertical;
     }
-    
+
     &:before {
-      content: attr(upload-text);
-      position: absolute;
-      top: 0;
-      right: 0;
-      display: inline-block;
-      height: 40px;
-      background: $defaultColor;
-      color: #fff;
-      font-weight: 200;
-      z-index: 25;
-      font-size: 16px;
-      line-height: $height;
-      padding: 0 15px;
-      text-transform: uppercase;
-      pointer-events: none;
-      border-radius: 0 5px 5px 0;
+        content: attr(upload-text);
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: inline-block;
+        height: 40px;
+        background: $defaultColor;
+        color: #fff;
+        font-weight: 200;
+        z-index: 25;
+        font-size: 16px;
+        line-height: $height;
+        padding: 0 15px;
+        text-transform: uppercase;
+        pointer-events: none;
+        border-radius: 0 5px 5px 0;
     }
-    
+
     &:hover {
-      &:before {
-        background: darken($defaultColor, 10%);
-      }
+        &:before {
+            background: darken($defaultColor, 10%);
+        }
     }
-     input {
-      opacity: 0;
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      z-index: 99;
-      height: 40px;
-      margin: 0;
-      padding: 0;
-      display: block;
-      cursor: pointer;
-      width: 100%;
+
+    input {
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 99;
+        height: 40px;
+        margin: 0;
+        padding: 0;
+        display: block;
+        cursor: pointer;
+        width: 100%;
     }
-  
+
 }
