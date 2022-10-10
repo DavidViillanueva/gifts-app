@@ -53,7 +53,12 @@ i18n
                   publicProfile: "Estas son las cosas que le gustaria recibir a ",
                   createAccount: "Crear Cuenta",
                   return: "Regresar",
-                  logout: "Salir"
+                  logout: "Salir",
+                  facebook: "Facebook",
+                  instagram: "Instagram",
+                  cafecito: "Cafecito",
+                  twitter: "Twitter",
+                  editProfile: "Editar perfil"
                 },
                 button:{
                     login: "Ingresar",

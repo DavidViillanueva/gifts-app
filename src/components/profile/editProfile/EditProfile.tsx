@@ -3,7 +3,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import * as React from 'react';
 import { useState } from 'react';
 import EditProfileForm from './EditProfileForm';
-import { Box } from '@material-ui/core';
+import { Box, Tooltip } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -23,12 +24,15 @@ const style = {
 
 const EditProfile = ({ userId, user }: any) => {
     const [open, setOpen] = useState(false);
+    const { t } = useTranslation();
     const handleClose = () => setOpen(false);
     return (
         <>
-            <IconButton aria-label="edit" size="small" onClick={() => setOpen(true)}>
-                <EditIcon fontSize="inherit" />
-            </IconButton>
+            <Tooltip title={t('labels.editProfile') || ''}>
+                <IconButton aria-label="edit" size="small" onClick={() => setOpen(true)}>
+                    <EditIcon fontSize="inherit" />
+                </IconButton>
+            </Tooltip>
 
             <Modal
                 open={open}

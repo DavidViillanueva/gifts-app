@@ -27,21 +27,23 @@ const ItemCard = ({item, editPermission}:{item: IItem, editPermission: boolean})
                 <img 
                     src={item.picture || noPicture}
                     className={item.picture ? '' : 'image-filter'}
+                    alt="item"
                 ></img>
                 <p>{ item.itemDescription}</p>
             </div>
 
-            <div className='item__actions'>
                 {editPermission &&
-                    (ui.deleteLoading === item.id ) 
-                    ?
-                        <CircularProgress color="primary" size={30}/>
-                    :
-                        <IconButton aria-label="delete" size="large" onClick={ handleDelete}>
-                            <DeleteIcon color='error'/>
-                        </IconButton>
+                    <div className='item__actions'>
+                            {(ui.deleteLoading === item.id ) 
+                            ?
+                                <CircularProgress color="primary" size={30}/>
+                            :
+                                <IconButton aria-label="delete" size="large" onClick={ handleDelete}>
+                                    <DeleteIcon color='error'/>
+                                </IconButton>
+                            }
+                    </div>
                 }
-            </div>
         </div> 
     )
 }

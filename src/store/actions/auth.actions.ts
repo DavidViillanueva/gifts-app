@@ -1,11 +1,12 @@
 import firebase from 'firebase/compat/app';
-import { auth, authGoogleProvider, databaseRef } from '../../configs/firebaseConfig';
+import { auth, authGoogleProvider, databaseRef, storage } from '../../configs/firebaseConfig';
 import { types } from "../../configs/types";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { signInWithPopup } from "firebase/auth";
 import { setInitialState } from './items.actions';
 import { ColorI } from '../../models/ui.model';
+import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 
 
 export const startLoginWithEmailPassword = ( email: string, password:string) => {
@@ -80,9 +81,14 @@ export const login = ( uid:string, displayName:string|null) => ({
 export const startLoadingPublicUser = (uid: string = '') => {
     return async (dispatch:any) => {
         const docRef = doc(databaseRef, `${uid}/user-data`);
-        const docSnap = await getDoc(docRef);
+        const docSnap = await getDoc(docRef).then();
+        const pathReference = ref(storage,`${uid}/profile-picture`);
+        let profilePicture = '';
+        await getDownloadURL(pathReference).then((url) => {
+            profilePicture = url
+        })
         if(docSnap.exists())
-            dispatch(setPublicUser(docSnap.data()))
+            dispatch(setPublicUser({...docSnap.data(), profilePicture }))
     }
 }
 
@@ -104,6 +110,21 @@ export const startUpdatingProfile = (uid: string, publicProfile: any) => {
             }).catch( e => {console.error(e); dispatch( unsetLoading() );});
         }
     }  
+}
+
+export const startUploadinProfilePicture = (uid: string, picture: any) => {
+    return async (dispatch:any) => {
+        if(picture) {
+            const storageRef = ref(storage, `${uid}/profile-picture`);
+            uploadString(storageRef, picture , 'data_url')
+            .then(e => {
+                dispatch(updatePublicUser({ profilePicture: picture }))
+            })
+            .catch(e => {
+                console.error(e)
+            });
+        }
+    }
 }
 
 export const updatePublicUser = (userData: any) => ({

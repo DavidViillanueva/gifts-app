@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { colors } from '../../../configs/colors';
 import { types } from '../../../configs/types';
-import { startSettingColorThemePublicUser, startUpdatingProfile } from '../../../store/actions/auth.actions';
+import { startSettingColorThemePublicUser, startUpdatingProfile, startUploadinProfilePicture } from '../../../store/actions/auth.actions';
 import ColorContext from '../../../store/context/colorContext';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -14,7 +14,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import { useFormik } from 'formik';
 import { RootState } from '../../../store/store';
 import { Button } from '@material-ui/core';
-
+import profilePic from '../../../assets/profile.png';
 
 
 const EditProfileForm = ({ userid, user }: any) => {
@@ -22,28 +22,31 @@ const EditProfileForm = ({ userid, user }: any) => {
     const dispatch = useDispatch()
     const { dispatchColor } = useContext(ColorContext);
     const [color, setColor] = useState('');
-    
+    const [profilePicture, setProfilePicture] = useState<any>(user.profilePicture);
+
     useEffect(() => {
-        if (user?.color?.key) 
+        if (user?.color?.key)
             setColor(user.color.key);
-    // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [user])
-    
+
     const formik = useFormik({
         initialValues: {
             instagram: user.instagram || '',
             twitter: user.twitter || '',
             cafecito: user.cafecito || '',
-            facebook: user.facebook || ''
+            facebook: user.facebook || '',
+            name: user.name || ''
         },
         onSubmit: values => {
             dispatch(startUpdatingProfile(userid, values))
         },
     });
-    const validFacebook = formik.values.facebook && !formik.values.facebook.includes('facebook.com/');
-    const validInstagram = formik.values.instagram && !formik.values.instagram.includes('www.instagram.com/');
-    const validTwitter = formik.values.twitter && !formik.values.twitter.includes('twitter.com/');
-    const validCafecito = formik.values.cafecito && !formik.values.cafecito.includes('cafecito.app/');
+    const validFacebook = formik.values.facebook && !formik.values.facebook.includes('https://www.facebook.com/');
+    const validInstagram = formik.values.instagram && !formik.values.instagram.includes('https://www.instagram.com/');
+    const validTwitter = formik.values.twitter && !formik.values.twitter.includes('https://twitter.com/');
+    const validCafecito = formik.values.cafecito && !formik.values.cafecito.includes('https://cafecito.app/');
+    const validName = !formik.values.name
 
     let userData = useSelector((state: RootState) => {
         return state.auth
@@ -58,6 +61,40 @@ const EditProfileForm = ({ userid, user }: any) => {
     }
     return (
         <form className='form__column'>
+            <div className='form__profileHeader'>
+
+                <label htmlFor="photo-upload" className="custom-file-upload fas">
+                    <div className="img-wrap img-upload" >
+                        <img id="profile-img" src={profilePicture || profilePic} alt="profile"/>
+                    </div>
+                    <input id="photo-upload" type="file" onChange={(e) => {
+                        const fileReader = new FileReader();
+                        fileReader.onload = () => {
+                            if (fileReader.readyState === 2) {
+                                dispatch(startUploadinProfilePicture(userid,fileReader.result))
+                                setProfilePicture(fileReader.result);
+                            }
+                        };
+                        if (e.target?.files) {
+                            fileReader.readAsDataURL(e?.target?.files[0])
+                        }
+                    }} />
+                </label>
+                <FormControl className='form__control ml2' fullWidth variant="outlined">
+                    <InputLabel htmlFor="nameInput">{t('labels.form.name')}</InputLabel>
+                    <OutlinedInput
+                        id="nameInput"
+                        label={t('labels.form.name')}
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
+                        name='name'
+                        color='primary'
+                    />
+                    {validName &&
+                        <FormHelperText error id="nameInput">Error</FormHelperText>
+                    }
+                </FormControl>
+            </div>
             <FormControl className='form__control'>
                 <InputLabel id="colorSelect-label">{t('labels.form.color')}</InputLabel>
                 <Select
@@ -88,7 +125,7 @@ const EditProfileForm = ({ userid, user }: any) => {
                         </InputAdornment>
                     }
                 />
-                {validInstagram && 
+                {validInstagram &&
                     <FormHelperText error id="instagramInput">Error</FormHelperText>
                 }
             </FormControl>
@@ -107,7 +144,7 @@ const EditProfileForm = ({ userid, user }: any) => {
                         </InputAdornment>
                     }
                 />
-                {validTwitter && 
+                {validTwitter &&
                     <FormHelperText error id="twitterInput">Error</FormHelperText>
                 }
             </FormControl>
@@ -126,7 +163,7 @@ const EditProfileForm = ({ userid, user }: any) => {
                         </InputAdornment>
                     }
                 />
-                {validCafecito && 
+                {validCafecito &&
                     <FormHelperText error id="cafecitoInput">Error</FormHelperText>
                 }
             </FormControl>
@@ -145,25 +182,25 @@ const EditProfileForm = ({ userid, user }: any) => {
                         </InputAdornment>
                     }
                 />
-                {validFacebook && 
+                {validFacebook &&
                     <FormHelperText error id="facebookInput">Error</FormHelperText>
                 }
             </FormControl>
-            {userData.loading 
+            {userData.loading
                 ?
-                    <div className='form__centerloading'>
-                        <CircularProgress color="primary" size={30}/>
-                    </div>
+                <div className='form__centerloading'>
+                    <CircularProgress color="primary" size={30} />
+                </div>
                 :
-                    <Button
-                        variant="contained"
-                        onClick={ () => formik.handleSubmit() }
-                        color='primary'
-                        disabled={ validCafecito as boolean || validFacebook as boolean || validInstagram  as boolean|| validTwitter as boolean }
-                    >
-                        {t('button.save')}
-                    </Button>
-            } 
+                <Button
+                    variant="contained"
+                    onClick={() => formik.handleSubmit()}
+                    color='primary'
+                    disabled={validCafecito as boolean || validFacebook as boolean || validInstagram as boolean || validTwitter as boolean}
+                >
+                    {t('button.save')}
+                </Button>
+            }
         </form>
     )
 }
