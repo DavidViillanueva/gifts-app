@@ -27,7 +27,8 @@ const AddItemForm = () => {
         itemName: '',
         itemPrice: 0,
         itemDescription: '',
-        picture: ''
+        picture: '',
+        itemMark: false
     },
     onSubmit: values => {
       dispatch( startAddingItem( values, auth.uid ) )

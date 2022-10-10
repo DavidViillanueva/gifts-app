@@ -58,7 +58,9 @@ i18n
                   instagram: "Instagram",
                   cafecito: "Cafecito",
                   twitter: "Twitter",
-                  editProfile: "Editar perfil"
+                  editProfile: "Editar perfil",
+                  delete: "Eliminar producto",
+                  mark: "Marcar como regalado"
                 },
                 button:{
                     login: "Ingresar",
