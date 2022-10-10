@@ -7,6 +7,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import CoffeeIcon from '@mui/icons-material/Coffee';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import { IconButton, Tooltip } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 interface publicUser {
     name: string;
@@ -26,7 +27,7 @@ interface HeaderProfileI {
 
 const HeaderProfile = ({ user, userId, editProfile }: HeaderProfileI) => {
     const { color } = useContext(ColorContext);
-    console.log(user);
+    const { t } = useTranslation();
     return (
         <div className='profile__header' style={{background: color?.primary?.light}}>
             <div className='profile__imgContainer'>
@@ -37,31 +38,39 @@ const HeaderProfile = ({ user, userId, editProfile }: HeaderProfileI) => {
                 {/* imprimir los iconos de redes sociales asociados */}
                 <div className='profile__headerControlsSocial'>
                     { user.instagram &&
-                        <Tooltip title="Instagram">
-                            <IconButton aria-label="instagram" size="large" onClick={() => {}}>
-                                <InstagramIcon fontSize="inherit" />
-                            </IconButton>
+                        <Tooltip title={t('labels.instagram') || ''}>
+                            <a href={user.instagram} target="_blank" rel="noopener noreferrer">
+                                <IconButton aria-label="instagram" size="large">
+                                    <InstagramIcon fontSize="inherit"/>
+                                </IconButton>
+                            </a>
                         </Tooltip>
                     }
                     { user.twitter &&
-                        <Tooltip title="Twitter">
-                            <IconButton aria-label="twitter" size="large" onClick={() => {}}>
-                                <TwitterIcon fontSize="inherit" />
-                            </IconButton>
+                        <Tooltip title={t('labels.twitter') || ''}>
+                            <a href={user.twitter} target="_blank" rel="noopener noreferrer">
+                                <IconButton aria-label="twitter" size="large">
+                                    <TwitterIcon fontSize="inherit" />
+                                </IconButton>
+                            </a>
                         </Tooltip>
                     }
                     { user.cafecito &&
-                        <Tooltip title="Cafecito">
-                            <IconButton aria-label="coffe" size="large" onClick={() => {}}>
-                                <CoffeeIcon fontSize="inherit" />
-                            </IconButton>
+                        <Tooltip title={t('labels.cafecito') || ''}>
+                            <a href={user.cafecito} target="_blank" rel="noopener noreferrer">
+                                <IconButton aria-label="coffe" size="large" onClick={() => {}}>
+                                    <CoffeeIcon fontSize="inherit" />
+                                </IconButton>
+                            </a>
                         </Tooltip>
                     }
                     {user.facebook &&
-                        <Tooltip title="Facebook">
-                            <IconButton aria-label="facebook" size="large" onClick={() => {}}>
-                                <FacebookIcon fontSize="inherit" />
-                            </IconButton>
+                        <Tooltip title={t('labels.facebook') || ''}>
+                            <a href={user.facebook} target="_blank" rel="noopener noreferrer">
+                                <IconButton aria-label="facebook" size="large" onClick={() => {}}>
+                                    <FacebookIcon fontSize="inherit" />
+                                </IconButton>
+                            </a>
                         </Tooltip>
                     }
                 </div>

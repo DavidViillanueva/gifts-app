@@ -42,10 +42,10 @@ const EditProfileForm = ({ userid, user }: any) => {
             dispatch(startUpdatingProfile(userid, values))
         },
     });
-    const validFacebook = formik.values.facebook && !formik.values.facebook.includes('facebook.com/');
-    const validInstagram = formik.values.instagram && !formik.values.instagram.includes('www.instagram.com/');
-    const validTwitter = formik.values.twitter && !formik.values.twitter.includes('twitter.com/');
-    const validCafecito = formik.values.cafecito && !formik.values.cafecito.includes('cafecito.app/');
+    const validFacebook = formik.values.facebook && !formik.values.facebook.includes('https://www.facebook.com/');
+    const validInstagram = formik.values.instagram && !formik.values.instagram.includes('https://www.instagram.com/');
+    const validTwitter = formik.values.twitter && !formik.values.twitter.includes('https://twitter.com/');
+    const validCafecito = formik.values.cafecito && !formik.values.cafecito.includes('https://cafecito.app/');
     const validName = !formik.values.name
 
     let userData = useSelector((state: RootState) => {
