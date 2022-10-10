@@ -5,6 +5,10 @@
     flex-wrap: wrap;
 }
 
+.item__cardMark {
+    filter: grayscale(100%);
+}
+
 .item__card {
     height: 330px;
     width: 224px;

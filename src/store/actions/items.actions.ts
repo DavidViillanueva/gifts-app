@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore";
 import { errors } from "../../configs/errors.types";
 import { databaseRef, storage } from "../../configs/firebaseConfig";
 import { types } from "../../configs/types";
@@ -22,6 +22,7 @@ export const startLoadingItems = ( uid: string ) => {
                                 itemName: snapItem.itemName,
                                 itemPrice: snapItem.itemPrice,
                                 itemDescription: snapItem.itemDescription,
+                                itemMark: snapItem.itemMark,
                                 picture: url
                             }));
                         })
@@ -31,6 +32,7 @@ export const startLoadingItems = ( uid: string ) => {
                                 itemName: snapItem.itemName,
                                 itemPrice: snapItem.itemPrice,
                                 itemDescription: snapItem.itemDescription,
+                                itemMark: snapItem.itemMark,
                                 picture: ''
                             }));
                             
@@ -57,7 +59,8 @@ export const startAddingItem = ( item: IItem, uid: string ) => {
                     itemName: item.itemName,
                     itemPrice: item.itemPrice,
                     itemDescription: item.itemDescription,
-                    picture: item.picture
+                    picture: item.picture,
+                    itemMark: false
                 }))
                 if( item.picture ) {
                     const storageRef = ref(storage, `${uid}/${snap.id}`);
@@ -95,6 +98,24 @@ export const starDeleteItem = ( item: IItem, uid: string ) => {
             })
     }
 }
+
+export const startToggleMark = ( item: IItem, userUuid: string ) => {
+    return (dispatch: any) => {
+        dispatch( setDeleteLoading(item.id) )
+        if( item )
+            updateDoc(doc(databaseRef,`${userUuid}/giftapp/items/${item.id}`), { itemMark: !item.itemMark }).then(value => {
+                dispatch(markItem(item));
+                dispatch( unsetDeleteLoading() );
+            }).catch( e => {console.error(e); dispatch( unsetDeleteLoading() );});
+    }
+}
+
+const markItem = ( item: IItem ) => ({
+    type: types.itemsMark,
+    payload: {
+        item
+    }
+})
 
 const setLoading = () => ({
     type: types.itemsSetLoading

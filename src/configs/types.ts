@@ -8,6 +8,7 @@ export const types = {
     authUnsetPublicProfile: '[Auth] Unset public profile',
 
     itemsAdd: '[Items] Add item',
+    itemsMark: '[Items] Mark as gifted',
     itemsSet: '[Items] Set items',
     itemsRemove: '[Items] Remove item',
     itemsReset: '[Items] Reset',

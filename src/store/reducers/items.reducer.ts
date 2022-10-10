@@ -52,6 +52,17 @@ export default function itemsReducer( state = initialState, action: any):itemsSt
                 items: [...state.items, action.payload.item ]
             }
         
+        case types.itemsMark: 
+            return {
+                ...state,
+                items: state.items.map( item => {
+                    if( item.id === action.payload.item.id)
+                        return { ...item, itemMark: !item.itemMark};
+                    else
+                        return item;
+                })
+            }
+
         case types.itemsRemove: 
             return {
                 ...state,
