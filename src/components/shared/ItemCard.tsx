@@ -32,7 +32,7 @@ const ItemCard = ({item, editPermission}:{item: IItem, editPermission: boolean})
                 <h1 className='item__name'>{ item.itemName}</h1>
                 <span className='item__price'>
                     {item.itemMark ?
-                        'Producto ya regalado'
+                        t('labels.productMark')
                         :
                         `$ ${item.itemPrice}`
                     }

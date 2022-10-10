@@ -60,7 +60,8 @@ i18n
                   twitter: "Twitter",
                   editProfile: "Editar perfil",
                   delete: "Eliminar producto",
-                  mark: "Marcar como regalado"
+                  mark: "Marcar como regalado",
+                  productMark: "Producto ya regalado"
                 },
                 button:{
                     login: "Ingresar",
