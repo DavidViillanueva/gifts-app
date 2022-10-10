@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import {ReactComponent as AppLogo} from '../../assets/gift.svg';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../store/store';
 import { startLogout } from '../../store/actions/auth.actions';
@@ -39,7 +40,12 @@ const NavBar = () => {
         <ul className="nav justify-content-center header">
             <div className="nav-items">
                 <li className="nav-item m-4">
-                    <h2>{t('appName')}</h2>
+                    <div className='logo' onClick={() => { navigate('/')}}>
+                        <div style={{ width: '50px', height: '50px'}}>
+                            <AppLogo style={{ width: '50px', height: '50px'}}/>
+                        </div>
+                        <h2>{t('appName')}</h2>
+                    </div>
                 </li>
                 <li className="nav-item m-4">
                     {(!auth.logged) ?
