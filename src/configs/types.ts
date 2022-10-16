@@ -9,6 +9,7 @@ export const types = {
 
     itemsAdd: '[Items] Add item',
     itemsMark: '[Items] Mark as gifted',
+    itemsEdit: '[Items] Edit item',
     itemsSet: '[Items] Set items',
     itemsRemove: '[Items] Remove item',
     itemsReset: '[Items] Reset',

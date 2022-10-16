@@ -8,6 +8,7 @@ import { starDeleteItem, startToggleMark } from '../../store/actions/items.actio
 import noPicture from '../../assets/noImageAvailable.jpg';
 import { CircularProgress, IconButton, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import EditItem from './EditItem';
 
 const ItemCard = ({item, editPermission}:{item: IItem, editPermission: boolean}) => {
 
@@ -57,6 +58,7 @@ const ItemCard = ({item, editPermission}:{item: IItem, editPermission: boolean})
                                         <DeleteIcon color='error'/>
                                     </IconButton>
                                 </Tooltip>
+                                <EditItem item={item} />
                                 {(!item.itemMark) &&
                                     <Tooltip title={t('labels.mark') || ''}>
                                         <IconButton aria-label="checked" size="large" onClick={ handleMark }>
