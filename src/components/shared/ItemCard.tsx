@@ -2,6 +2,7 @@ import React from 'react'
 import { IItem } from '../../models/item.model';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { starDeleteItem, startToggleMark } from '../../store/actions/items.actions';
@@ -58,14 +59,25 @@ const ItemCard = ({item, editPermission}:{item: IItem, editPermission: boolean})
                                         <DeleteIcon color='error'/>
                                     </IconButton>
                                 </Tooltip>
-                                <EditItem item={item} />
-                                {(!item.itemMark) &&
-                                    <Tooltip title={t('labels.mark') || ''}>
-                                        <IconButton aria-label="checked" size="large" onClick={ handleMark }>
-                                            <CheckIcon color='success'/>
-                                        </IconButton>
-                                    </Tooltip>
+                                {(!item.itemMark) && 
+                                    <EditItem item={item} />
                                 }
+                                <Tooltip 
+                                    title={
+                                        (!item.itemMark) ?
+                                            t('labels.productMark') || ''
+                                        :
+                                            t('labels.productNoMark') || ''
+                                    }
+                                >
+                                    <IconButton aria-label="checked" size="large" onClick={ handleMark }>
+                                        {(!item.itemMark) ?
+                                            <CheckIcon color='success'/>
+                                        :
+                                            <CloseIcon color='error'/>
+                                        }
+                                    </IconButton>
+                                </Tooltip>
                                 
                             </>
                             }

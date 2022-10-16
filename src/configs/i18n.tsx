@@ -61,7 +61,8 @@ i18n
                   editProfile: "Editar perfil",
                   delete: "Eliminar producto",
                   mark: "Marcar como regalado",
-                  productMark: "Producto ya regalado"
+                  productMark: "Ya me regalaron esto!",
+                  productNoMark: "Aun no me regalaron esto!"
                 },
                 button:{
                     login: "Ingresar",
