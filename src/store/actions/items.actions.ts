@@ -78,6 +78,32 @@ export const startAddingItem = ( item: IItem, uid: string ) => {
     }
 }
 
+export const startEditingItem = (item: IItem, oldItem: IItem, uuid: string) => {
+    return (dispatch: any) => {
+        dispatch( setDeleteLoading(item.id) );
+        dispatch( setLoadingItem() )
+        const newItem = {
+            itemName: item.itemName ? item.itemName : oldItem.itemName,
+            itemPrice: item.itemPrice ? item.itemPrice : oldItem.itemPrice,
+            itemMark: item.itemMark ? item.itemMark : oldItem.itemMark,
+            itemDescription: item.itemDescription ? item.itemDescription : oldItem.itemDescription,
+            picture: item.picture ? item.picture : oldItem.picture 
+        }
+        if( item && oldItem )
+        updateDoc(doc(databaseRef,`${uuid}/giftapp/items/${oldItem.id}`), newItem)
+            .then(value => {
+                dispatch( editItem(newItem, oldItem.id) );
+                dispatch( unsetDeleteLoading() );
+                dispatch( unsetLoadingItem() );
+            })
+            .catch( e => {
+                console.error(e); 
+                dispatch( unsetDeleteLoading() );
+                dispatch( unsetLoadingItem() );
+            });
+    }
+}
+
 export const starDeleteItem = ( item: IItem, uid: string ) => {
     return ( dispatch: any ) => {
         dispatch( setDeleteLoading(item.id) )
@@ -114,6 +140,14 @@ const markItem = ( item: IItem ) => ({
     type: types.itemsMark,
     payload: {
         item
+    }
+})
+
+const editItem = ( newItem: IItem, itemId: string | undefined) => ({
+    type: types.itemsEdit,
+    payload: {
+        itemId,
+        newItem
     }
 })
 

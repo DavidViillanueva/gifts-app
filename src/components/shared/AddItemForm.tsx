@@ -5,106 +5,114 @@ import { useFormik } from 'formik';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux';
-import { startAddingItem } from '../../store/actions/items.actions';
+import { startAddingItem, startEditingItem } from '../../store/actions/items.actions';
 import { RootState } from '../../store/store';
+import { IItem } from '../../models/item.model';
 
-const AddItemForm = () => {
+const AddItemForm = ({ item }: { item?: IItem }) => {
+    console.log(item);
 
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  const { t } = useTranslation();
+    const { t } = useTranslation();
 
-  let auth  = useSelector((state: RootState) => {
-    return state.auth
-  })
+    let auth = useSelector((state: RootState) => {
+        return state.auth
+    })
 
-  let itemsData = useSelector((state: RootState) => {
-    return state.items
-  })
+    let itemsData = useSelector((state: RootState) => {
+        return state.items
+    })
 
-  const formik = useFormik({
-    initialValues: {
-        itemName: '',
-        itemPrice: 0,
-        itemDescription: '',
-        picture: '',
-        itemMark: false
-    },
-    onSubmit: values => {
-      dispatch( startAddingItem( values, auth.uid ) )
-    },
-});
+    const formik = useFormik({
+        initialValues: {
+            itemName: item?.itemName || '',
+            itemPrice: item?.itemPrice || 0,
+            itemDescription: item?.itemDescription || '',
+            picture: '',
+            itemMark: false
+        },
+        onSubmit: values => {
+            console.log(item);
+            if(item) 
+                // Editing
+                dispatch(startEditingItem(values,item,auth.uid));
+            else
+                // Creating
+                dispatch(startAddingItem(values, auth.uid))
+        },
+    });
 
-  const changeInputFileName = (e:any) => {
-    document.getElementById('fileInputWrapper')?.setAttribute('data-text',e);
-  }
+    const changeInputFileName = (e: any) => {
+        document.getElementById('fileInputWrapper')?.setAttribute('data-text', e);
+    }
 
-  return (
-    <form className='form__column'>
-      <FormControl className='form__control'>
-         <TextField
-            id="itemName"
-            name="itemName"
-            label={t('labels.form.itemName')}
-            variant="standard"
-            onChange={formik.handleChange}
-            value={formik.values.itemName}
-          />
-      </FormControl>
-      <FormControl className='form__control'>
-          <TextField
-            id="itemPrice"
-            name="itemPrice"
-            label={t('labels.form.itemPrice')}
-            variant="standard"
-            onChange={formik.handleChange}
-            value={formik.values.itemPrice}
-          />
-      </FormControl>
-      <FormControl className='form__control'>
-        <div id='fileInputWrapper'className='fileInputWrapper' data-text={ t('labels.form.selectFile') } upload-text={ t('labels.form.examine') }>
-          <input type="file" id="picture" name="picture" 
-            onChange={(e) => {
-              const fileReader = new FileReader();
-              fileReader.onload = () => {
-                if (fileReader.readyState === 2) {
-                  formik.setFieldValue('picture', fileReader.result);
+    return (
+        <form className='form__column'>
+            <FormControl className='form__control'>
+                <TextField
+                    id="itemName"
+                    name="itemName"
+                    label={t('labels.form.itemName')}
+                    variant="standard"
+                    onChange={formik.handleChange}
+                    value={formik.values.itemName}
+                />
+            </FormControl>
+            <FormControl className='form__control'>
+                <TextField
+                    id="itemPrice"
+                    name="itemPrice"
+                    label={t('labels.form.itemPrice')}
+                    variant="standard"
+                    onChange={formik.handleChange}
+                    value={formik.values.itemPrice}
+                />
+            </FormControl>
+            <FormControl className='form__control'>
+                <div id='fileInputWrapper' className='fileInputWrapper' data-text={t('labels.form.selectFile')} upload-text={t('labels.form.examine')}>
+                    <input type="file" id="picture" name="picture"
+                        onChange={(e) => {
+                            const fileReader = new FileReader();
+                            fileReader.onload = () => {
+                                if (fileReader.readyState === 2) {
+                                    formik.setFieldValue('picture', fileReader.result);
+                                }
+                            };
+                            if (e.target?.files) {
+                                changeInputFileName(e.target?.files[0].name);
+                                fileReader.readAsDataURL(e?.target?.files[0])
+                            }
+                        }}
+                    />
+                </div>
+            </FormControl>
+            <FormControl className='form__control'>
+                <TextField
+                    id="itemDescription"
+                    name="itemDescription"
+                    label={t('labels.form.itemDescription')}
+                    variant="standard"
+                    onChange={formik.handleChange}
+                    value={formik.values.itemDescription}
+                />
+            </FormControl>
+            <div className='form__buttons'>
+                {itemsData.loadingItem
+                    ?
+                    <CircularProgress color="primary" size={30} />
+                    :
+                    <Button
+                        variant="contained"
+                        onClick={() => formik.handleSubmit()}
+                        color="primary"
+                    >
+                        {t('button.itemSave')}
+                    </Button>
                 }
-              };
-              if( e.target?.files ){
-                changeInputFileName(e.target?.files[0].name);
-                fileReader.readAsDataURL(e?.target?.files[0])
-              }
-            }}
-          />
-        </div>
-      </FormControl>
-      <FormControl className='form__control'>
-          <TextField
-            id="itemDescription"
-            name="itemDescription"
-            label={t('labels.form.itemDescription')}
-            variant="standard"
-            onChange={formik.handleChange}
-            value={formik.values.itemDescription}
-          />
-      </FormControl>
-      <div className='form__buttons'>
-        {itemsData.loadingItem 
-        ?
-          <CircularProgress color="primary" size={30}/>
-        :
-          <Button
-              variant="contained"
-              onClick={ () => formik.handleSubmit() }
-              color="primary"
-          >
-              {t('button.itemSave')}
-          </Button>
-        }
-      </div>
-    </form>
-  )
+            </div>
+        </form>
+    )
 }
 
 export default AddItemForm
