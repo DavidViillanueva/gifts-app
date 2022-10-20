@@ -4,9 +4,10 @@ import { types } from "../../configs/types";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { signInWithPopup } from "firebase/auth";
-import { setInitialState } from './items.actions';
+import { setError, setInitialState } from './items.actions';
 import { ColorI } from '../../models/ui.model';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+import { errors } from '../../configs/errors.types';
 
 
 export const startLoginWithEmailPassword = ( email: string, password:string) => {
@@ -50,21 +51,22 @@ export const startRegisterWithGoogle = () => {
 
 export const startRegisterWithEmailPasswordName = ( email:string , password:string, name:string ) => {
     return ( dispatch:any ) => {
+        dispatch( setLoading() );
         createUserWithEmailAndPassword(auth, email, password )
             .then( async( userCredential ) =>{
                 const user = userCredential.user;
                 if( user ) {  
                     updateProfile(user,{ displayName: name})
-                    dispatch(
-                        login( user.uid, name)
-                    );
-
-                    await setDoc(doc(databaseRef, user.uid, "giftapp"), {}); 
+                    dispatch(login(user.uid, name));
+                    await setDoc(doc(databaseRef, user.uid, "giftapp"), {});
+                    dispatch( updatePublicUser({ name })); 
                     await setDoc(doc(databaseRef,`${user.uid}/user-data`), { name })
-
+                    
+                    dispatch( unsetLoading() );
                 }
             })
             .catch( e => {
+                dispatch( unsetLoading() );
                 alert(e)
             })
     }   
@@ -82,13 +84,19 @@ export const startLoadingPublicUser = (uid: string = '') => {
     return async (dispatch:any) => {
         const docRef = doc(databaseRef, `${uid}/user-data`);
         const docSnap = await getDoc(docRef).then();
+    
         const pathReference = ref(storage,`${uid}/profile-picture`);
         let profilePicture = '';
+
         await getDownloadURL(pathReference).then((url) => {
             profilePicture = url
-        })
-        if(docSnap.exists())
+        }).catch((e:any) => { profilePicture = ''})
+
+        if(docSnap.exists()) {
             dispatch(setPublicUser({...docSnap.data(), profilePicture }))
+        } else {
+            dispatch( setError(errors.E100) );
+        }
     }
 }
 

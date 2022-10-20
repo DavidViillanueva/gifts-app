@@ -62,7 +62,8 @@ i18n
                   delete: "Eliminar producto",
                   mark: "Marcar como regalado",
                   productMark: "Ya me regalaron esto!",
-                  productNoMark: "Aun no me regalaron esto!"
+                  productNoMark: "Aun no me regalaron esto!",
+                  noItemsData: "Este usuario aun no carga ningun producto"
                 },
                 button:{
                     login: "Ingresar",

@@ -1,7 +1,7 @@
 import { CircularProgress } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { errors } from '../../configs/errors.types';
 import { startLoadingPublicUser } from '../../store/actions/auth.actions';
 import { startLoadingItems } from '../../store/actions/items.actions';
@@ -15,11 +15,14 @@ import ColorContext from '../../store/context/colorContext';
 import { types } from '../../configs/types';
 import { doc, getDoc } from 'firebase/firestore';
 import { databaseRef } from '../../configs/firebaseConfig';
+import { useTranslation } from 'react-i18next';
 
 
 const Profile = () => {
     const dispatch = useDispatch();
     const { dispatchColor } = useContext(ColorContext)
+    const navigate = useNavigate();
+    const { t } = useTranslation();
     const { profileId } = useParams();
     const [isThisUser, setIsThisUser] = useState(false);
 
@@ -58,6 +61,9 @@ const Profile = () => {
             </div>
         )
 
+    if ((state.items.error === errors.E100))
+        navigate('/');
+
     return (
         <div className='profile__container'>
             <div className='profile__panel'>
@@ -69,13 +75,10 @@ const Profile = () => {
                     </div>
                 }
 
-                {(state.items.error === errors.E100) &&
-                    <h1>No existe el usuario</h1>
-                }
-                {(isObjEmpty(state.items.items)) &&
-                    <h1>Parece que no hay datos</h1>
-                }
                 <HeaderProfile user={state.auth.publicUser} userId={state.auth.uid} editProfile={isThisUser}/>
+                {(isObjEmpty(state.items.items)) &&
+                    <h1>{t('labels.noItemsData')}</h1>
+                }
                 {(!isObjEmpty(state.items.items)) &&
                     <ItemsCollection
                         editPermission={isThisUser}

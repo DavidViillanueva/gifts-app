@@ -167,7 +167,7 @@ const unsetLoadingItem = () => ({
     type: types.itemsUnsetLoadingItem
 })
 
-const setError = (error: string) => ({
+export const setError = (error: string) => ({
     type: types.itemsSetError,
     payload: {
         error: error

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { startRegisterWithEmailPasswordName } from '../../store/actions/auth.actions';
 import { RootState } from '../../store/store';
-import { TextField, FormControl, Button } from '@mui/material';
+import { TextField, FormControl, Button, CircularProgress } from '@mui/material';
 
 const Register = () => {
     const { t } = useTranslation();
@@ -64,13 +64,18 @@ const Register = () => {
                     />
                 </FormControl>
                 <div className='form__buttons'>
-                    <Button
-                        color='primary'
-                        type='submit'
-                        variant="contained"
-                    >
-                        {t('button.createAccount')}
-                    </Button>
+                    {userData.loading
+                        ?
+                        <CircularProgress color="primary" size={30} />
+                        :
+                        <Button
+                            color='primary'
+                            type='submit'
+                            variant="contained"
+                        >
+                            {t('button.createAccount')}
+                        </Button>
+                    }
                     <Button
                         variant="contained"
                         color='primary'
