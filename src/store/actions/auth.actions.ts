@@ -4,7 +4,7 @@ import { types } from "../../configs/types";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { signInWithPopup } from "firebase/auth";
-import { setError, setInitialState } from './items.actions';
+import { setError } from './items.actions';
 import { ColorI } from '../../models/ui.model';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import { errors } from '../../configs/errors.types';
@@ -159,7 +159,6 @@ const unsetLoading = () => ({
 export const startLogout = () => {
     return async( dispatch:any ) => {
         await auth.signOut();
-        dispatch( setInitialState() );
         dispatch( logout() );
     };
 };

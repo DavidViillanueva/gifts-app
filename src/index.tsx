@@ -9,11 +9,9 @@ import { store } from './store/store';
 import AppRouter from './routes/AppRouter';
 
 ReactDOM.render(
-  <React.StrictMode>
       <Provider store={store}>
             <AppRouter />
-      </Provider>
-  </React.StrictMode>,
+      </Provider>,
   document.getElementById('root')
 );
 
