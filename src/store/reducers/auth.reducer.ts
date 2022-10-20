@@ -57,7 +57,11 @@ export default function authReducer( state = initialState, action: any):authStat
             }
             
         case types.logout:
-            return initialState 
+            return {
+                ...state,
+                logged: false,
+                uid: ''
+            } 
         default:
             return state;
     };

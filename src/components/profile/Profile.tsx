@@ -46,8 +46,11 @@ const Profile = () => {
     }, [profileId])
     
     useEffect(() => {
+        console.log(profileId, state)
         if (profileId === state.auth.uid) {
             setIsThisUser(true);
+        } else {
+            setIsThisUser(false);
         }
     // eslint-disable-next-line  
     }, [state])
