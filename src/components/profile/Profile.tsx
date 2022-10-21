@@ -46,7 +46,6 @@ const Profile = () => {
     }, [profileId])
     
     useEffect(() => {
-        console.log(profileId, state)
         if (profileId === state.auth.uid) {
             setIsThisUser(true);
         } else {

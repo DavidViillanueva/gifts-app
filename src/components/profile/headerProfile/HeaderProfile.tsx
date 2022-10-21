@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import profilePic from '../../../assets/profile.png';
 import ColorContext from '../../../store/context/colorContext';
 import EditProfile from '../editProfile/EditProfile';
@@ -6,7 +6,8 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import CoffeeIcon from '@mui/icons-material/Coffee';
 import FacebookIcon from '@mui/icons-material/Facebook';
-import { IconButton, Tooltip } from '@mui/material';
+import ShareIcon from '@mui/icons-material/Share';
+import { ClickAwayListener, IconButton, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 interface publicUser {
@@ -28,6 +29,8 @@ interface HeaderProfileI {
 const HeaderProfile = ({ user, userId, editProfile }: HeaderProfileI) => {
     const { color } = useContext(ColorContext);
     const { t } = useTranslation();
+    const [openCopy, setOpenCopy] = useState(false);
+
     return (
         <div className='profile__header' style={{background: color?.primary?.light}}>
             <div className='profile__imgContainer'>
@@ -75,6 +78,26 @@ const HeaderProfile = ({ user, userId, editProfile }: HeaderProfileI) => {
                     }
                 </div>
                 <div>
+                    <ClickAwayListener onClickAway={() => { setOpenCopy(false)}}>
+                        <Tooltip 
+                            title={t('labels.shareProfile') || ''}
+                            PopperProps={{
+                                disablePortal: true,
+                            }}
+                            onClose={() => { setOpenCopy(false)}}
+                            open={openCopy}
+                            disableFocusListener
+                            disableHoverListener
+                            disableTouchListener
+                        >
+                            <IconButton aria-label="facebook" size="large" onClick={() => {
+                                setOpenCopy(true);
+                                navigator.clipboard.writeText(t('labels.messageProfile', { url:  window.location.href }));
+                            }}>
+                                <ShareIcon fontSize="inherit" />
+                            </IconButton>
+                        </Tooltip>
+                    </ClickAwayListener>
                     {editProfile &&
                         <EditProfile userId={userId} user={user} />
                     }

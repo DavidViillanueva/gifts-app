@@ -63,7 +63,9 @@ i18n
                   mark: "Marcar como regalado",
                   productMark: "Ya me regalaron esto!",
                   productNoMark: "Aun no me regalaron esto!",
-                  noItemsData: "Este usuario aun no carga ningun producto"
+                  noItemsData: "Este usuario aun no carga ningun producto",
+                  shareProfile: "Se copio en portapapeles. Ahora comparti el perfil con tus amigos!",
+                  messageProfile: "Hola! Este es mi lista de regalos deseados {{url}}."
                 },
                 button:{
                     login: "Ingresar",

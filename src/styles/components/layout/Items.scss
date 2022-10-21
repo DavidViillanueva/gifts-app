@@ -10,8 +10,8 @@
 }
 
 .item__card {
-    height: 330px;
-    width: 224px;
+    height: 360px;
+    width: 254px;
     margin: 20px;
     padding: 9px;
     border-radius: 9px;
@@ -47,9 +47,10 @@
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
-            -webkit-line-clamp: 2;
-            line-clamp: 2;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
             -webkit-box-orient: vertical;
+            margin-bottom: 0px;
         }
         
         img {
@@ -69,6 +70,32 @@
     flex-direction: row-reverse;
 }
 
+.item__addItemModals {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 24;
+    padding: 1rem;
+}
+
 .image-filter {
     filter: opacity(0.3);
+}
+
+@media only screen and (max-width: 768px) {
+    .item__addItemModals {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90vw;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 24;
+        padding: 1rem;
+    }
 }
