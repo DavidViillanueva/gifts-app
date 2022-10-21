@@ -1,18 +1,19 @@
 import { CircularProgress } from '@material-ui/core';
-import { TextField, FormControl } from '@mui/material';
+import { TextField, FormControl, InputAdornment } from '@mui/material';
 import { Button } from '@material-ui/core';
 import { useFormik } from 'formik';
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux';
 import { startAddingItem, startEditingItem } from '../../store/actions/items.actions';
 import { RootState } from '../../store/store';
 import { IItem } from '../../models/item.model';
+import upload from '../../assets/upload.png';
 
 const AddItemForm = ({ item }: { item?: IItem }) => {
-    console.log(item);
 
     const dispatch = useDispatch();
+    const [picture, setPicture] = useState<any>(item?.picture || upload)
 
     const { t } = useTranslation();
 
@@ -29,11 +30,10 @@ const AddItemForm = ({ item }: { item?: IItem }) => {
             itemName: item?.itemName || '',
             itemPrice: item?.itemPrice || 0,
             itemDescription: item?.itemDescription || '',
-            picture: '',
+            picture: '' || item?.picture,
             itemMark: false
         },
         onSubmit: values => {
-            console.log(item);
             if(item) 
                 // Editing
                 dispatch(startEditingItem(values,item,auth.uid));
@@ -43,9 +43,6 @@ const AddItemForm = ({ item }: { item?: IItem }) => {
         },
     });
 
-    const changeInputFileName = (e: any) => {
-        document.getElementById('fileInputWrapper')?.setAttribute('data-text', e);
-    }
 
     return (
         <form className='form__column'>
@@ -67,26 +64,30 @@ const AddItemForm = ({ item }: { item?: IItem }) => {
                     variant="standard"
                     onChange={formik.handleChange}
                     value={formik.values.itemPrice}
+                    InputProps={{
+                        startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                    }}
                 />
             </FormControl>
-            <FormControl className='form__control'>
-                <div id='fileInputWrapper' className='fileInputWrapper' data-text={t('labels.form.selectFile')} upload-text={t('labels.form.examine')}>
-                    <input type="file" id="picture" name="picture"
-                        onChange={(e) => {
-                            const fileReader = new FileReader();
-                            fileReader.onload = () => {
-                                if (fileReader.readyState === 2) {
-                                    formik.setFieldValue('picture', fileReader.result);
-                                }
-                            };
-                            if (e.target?.files) {
-                                changeInputFileName(e.target?.files[0].name);
-                                fileReader.readAsDataURL(e?.target?.files[0])
+            <div className='loading__container'>
+                <label htmlFor="photo-upload" className="custom-file-upload fas">
+                    <div className="img-wrap img-upload" >
+                        <img id="profile-img" src={picture} alt="profile"/>
+                    </div>
+                    <input id="photo-upload" type="file" onChange={(e) => {
+                        const fileReader = new FileReader();
+                        fileReader.onload = () => {
+                            if (fileReader.readyState === 2) {
+                                setPicture(fileReader.result);
+                                formik.setFieldValue('picture', fileReader.result);
                             }
-                        }}
-                    />
-                </div>
-            </FormControl>
+                        };
+                        if (e.target?.files) {
+                            fileReader.readAsDataURL(e?.target?.files[0])
+                        }
+                    }} />
+                </label>
+            </div>
             <FormControl className='form__control'>
                 <TextField
                     id="itemDescription"
