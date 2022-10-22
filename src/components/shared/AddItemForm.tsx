@@ -43,6 +43,8 @@ const AddItemForm = ({ item }: { item?: IItem }) => {
         },
     });
 
+    const validName = formik.values.itemName;
+
 
     return (
         <form className='form__column'>
@@ -107,6 +109,7 @@ const AddItemForm = ({ item }: { item?: IItem }) => {
                         variant="contained"
                         onClick={() => formik.handleSubmit()}
                         color="primary"
+                        disabled={ !validName }
                     >
                         {t('button.itemSave')}
                     </Button>
