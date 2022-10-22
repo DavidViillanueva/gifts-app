@@ -29,6 +29,7 @@ const AddItemForm = ({ item }: { item?: IItem }) => {
         initialValues: {
             itemName: item?.itemName || '',
             itemPrice: item?.itemPrice || 0,
+            itemStore: item?.itemStore || '',
             itemDescription: item?.itemDescription || '',
             picture: '' || item?.picture,
             itemMark: false
@@ -44,6 +45,7 @@ const AddItemForm = ({ item }: { item?: IItem }) => {
     });
 
     const validName = formik.values.itemName;
+    const validPicture = formik.values.picture;
 
 
     return (
@@ -69,6 +71,16 @@ const AddItemForm = ({ item }: { item?: IItem }) => {
                     InputProps={{
                         startAdornment: <InputAdornment position="start">$</InputAdornment>,
                     }}
+                />
+            </FormControl>
+            <FormControl className='form__control'>
+                <TextField
+                    id="itemStore"
+                    name="itemStore"
+                    label={t('labels.form.linkStore')}
+                    variant="standard"
+                    onChange={formik.handleChange}
+                    value={formik.values.itemStore}
                 />
             </FormControl>
             <div className='loading__container'>
@@ -109,7 +121,7 @@ const AddItemForm = ({ item }: { item?: IItem }) => {
                         variant="contained"
                         onClick={() => formik.handleSubmit()}
                         color="primary"
-                        disabled={ !validName }
+                        disabled={ !validName || !validPicture }
                     >
                         {t('button.itemSave')}
                     </Button>

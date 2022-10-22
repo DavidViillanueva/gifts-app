@@ -44,7 +44,8 @@ i18n
                     facebookInput: "Tu perfil en Facebook",
                     instagramInput: "Tu perfil en Instagram",
                     twitterInput: "Tu perfil de Twitter",
-                    cafecitoInput: "Tu perfil en Cafecito.App"
+                    cafecitoInput: "Tu perfil en Cafecito.App",
+                    linkStore: "Link a la tienda"
                   },
                   login: "Ingresar",
                   loginWithGoogle: "Ingresar con Google",
@@ -65,7 +66,8 @@ i18n
                   productNoMark: "Aun no me regalaron esto!",
                   noItemsData: "Este usuario aun no carga ningun producto",
                   shareProfile: "Se copio en portapapeles. Ahora comparti el perfil con tus amigos!",
-                  messageProfile: "Hola! Este es mi lista de regalos deseados {{url}}."
+                  messageProfile: "Hola! Este es mi lista de regalos deseados {{url}}.",
+                  store: "Ir a la tienda"
                 },
                 button:{
                     login: "Ingresar",

@@ -21,6 +21,7 @@ export const startLoadingItems = ( uid: string ) => {
                                 id: doc.id,
                                 itemName: snapItem.itemName,
                                 itemPrice: snapItem.itemPrice,
+                                itemStore: snapItem.itemStore,
                                 itemDescription: snapItem.itemDescription,
                                 itemMark: snapItem.itemMark,
                                 picture: url
@@ -31,6 +32,7 @@ export const startLoadingItems = ( uid: string ) => {
                                 id: doc.id,
                                 itemName: snapItem.itemName,
                                 itemPrice: snapItem.itemPrice,
+                                itemStore: snapItem.itemStore,
                                 itemDescription: snapItem.itemDescription,
                                 itemMark: snapItem.itemMark,
                                 picture: ''
@@ -58,6 +60,7 @@ export const startAddingItem = ( item: IItem, uid: string ) => {
                     id: snap.id,
                     itemName: item.itemName,
                     itemPrice: item.itemPrice,
+                    itemStore: item.itemStore,
                     itemDescription: item.itemDescription,
                     picture: item.picture,
                     itemMark: false
@@ -85,6 +88,7 @@ export const startEditingItem = (item: IItem, oldItem: IItem, uuid: string) => {
         const newItem = {
             itemName: item.itemName ? item.itemName : oldItem.itemName,
             itemPrice: item.itemPrice ? item.itemPrice : oldItem.itemPrice,
+            itemStore: item.itemStore ? item.itemStore : oldItem.itemStore,
             itemMark: item.itemMark ? item.itemMark : oldItem.itemMark,
             itemDescription: item.itemDescription ? item.itemDescription : oldItem.itemDescription,
             picture: item.picture ? item.picture : oldItem.picture 

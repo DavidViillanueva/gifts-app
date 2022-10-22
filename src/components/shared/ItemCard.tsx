@@ -3,6 +3,7 @@ import { IItem } from '../../models/item.model';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import PublicIcon from '@mui/icons-material/Public';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { starDeleteItem, startToggleMark } from '../../store/actions/items.actions';
@@ -28,6 +29,8 @@ const ItemCard = ({item, editPermission}:{item: IItem, editPermission: boolean})
         dispatch( startToggleMark(item,auth.uid) );
     }
 
+    console.log(item);
+
     return(
         <div className={item.itemMark ? 'item__card item__cardMark' : 'item__card'} >
             <div className='item__body'>
@@ -46,45 +49,53 @@ const ItemCard = ({item, editPermission}:{item: IItem, editPermission: boolean})
                 ></img>
                 <p>{ item.itemDescription}</p>
             </div>
-
-                {editPermission &&
-                    <div className='item__actions'>
+                <div className='item__actions'>
+                    {editPermission &&
+                        <>
                             {(ui.deleteLoading === item.id ) 
-                            ?
-                                <CircularProgress color="primary" size={30}/>
-                            :
-                            <> 
-                                <Tooltip title={t('labels.delete') || ''}>
-                                    <IconButton aria-label="delete" size="large" onClick={ handleDelete }>
-                                        <DeleteIcon color='error'/>
-                                    </IconButton>
-                                </Tooltip>
-                                {(!item.itemMark) && 
-                                    <EditItem item={item} />
-                                }
-                                <Tooltip 
-                                    title={
-                                        (!item.itemMark) ?
-                                            t('labels.productMark') || ''
-                                        :
-                                            t('labels.productNoMark') || ''
+                                ?
+                                    <CircularProgress color="primary" size={30}/>
+                                :
+                                <> 
+                                    <Tooltip title={t('labels.delete') || ''}>
+                                        <IconButton aria-label="delete" size="large" onClick={ handleDelete }>
+                                            <DeleteIcon color='error'/>
+                                        </IconButton>
+                                    </Tooltip>
+                                    {(!item.itemMark) && 
+                                        <EditItem item={item} />
                                     }
-                                >
-                                    <IconButton aria-label="checked" size="large" onClick={ handleMark }>
-                                        {(!item.itemMark) ?
-                                            <CheckIcon color='success'/>
-                                        :
-                                            <CloseIcon color='error'/>
+                                    <Tooltip 
+                                        title={
+                                            (!item.itemMark) ?
+                                                t('labels.productMark') || ''
+                                            :
+                                                t('labels.productNoMark') || ''
                                         }
-                                    </IconButton>
-                                </Tooltip>
-                                
-                            </>
+                                    >
+                                        <IconButton aria-label="checked" size="large" onClick={ handleMark }>
+                                            {(!item.itemMark) ?
+                                                <CheckIcon color='success'/>
+                                            :
+                                                <CloseIcon color='error'/>
+                                            }
+                                        </IconButton>
+                                    </Tooltip>
+                                    
+                                </>
                             }
-
-                            
-                    </div>
-                }
+                        </>
+                    }
+                    {item?.itemStore &&
+                        <Tooltip title={t('labels.store') || ''}>
+                            <a href={item?.itemStore} target="_blank" rel="noopener noreferrer">
+                                <IconButton aria-label="store" size="large">
+                                    <PublicIcon color='success'/>
+                                </IconButton>
+                            </a>
+                        </Tooltip>
+                    }
+                </div>
         </div> 
     )
 }
