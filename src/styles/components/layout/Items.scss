@@ -1,8 +1,10 @@
 
 .item__collection {
     display: flex;
-    max-width: 1060px;
+    max-width: 1176px;
     flex-wrap: wrap;
+    
+
 }
 
 .item__cardMark {
@@ -97,5 +99,9 @@
         border-radius: 15px;
         box-shadow: 24;
         padding: 1rem;
+    }
+
+    .item__collection {
+        justify-content: center;
     }
 }

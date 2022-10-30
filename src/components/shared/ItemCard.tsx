@@ -29,8 +29,6 @@ const ItemCard = ({item, editPermission}:{item: IItem, editPermission: boolean})
         dispatch( startToggleMark(item,auth.uid) );
     }
 
-    console.log(item);
-
     return(
         <div className={item.itemMark ? 'item__card item__cardMark' : 'item__card'} >
             <div className='item__body'>
