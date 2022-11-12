@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect  } from 'react';
 import profilePic from '../../../assets/profile.png';
 import ColorContext from '../../../store/context/colorContext';
 import EditProfile from '../editProfile/EditProfile';
@@ -69,52 +69,52 @@ const HeaderProfile = ({ user, userId, editProfile }: HeaderProfileI) => {
         })
     // eslint-disable-next-line
     }, []);
-    
-
     return (
         <div className='profile__header' style={{background: color?.primary?.light}}>
             <div className='profile__headerControls'>
-                {!editProfile ?
+                
+                {(!editProfile && userId) &&
                     <Checkbox 
                         icon={<FavoriteBorder />} 
                         checkedIcon={<Favorite />} 
                         onChange={ handleFavoriteToggle }
                         checked={favoriteProfile}
                     />
-                : 
-                <>
-                    <Button
-                        id="basic-button"
-                        aria-controls={open ? 'basic-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
-                        onClick={handleClick}
-                        color="primary"
-                    >
-                        Favoritos
-                    </Button>
-                    <Menu
-                        id="basic-menu"
-                        open={open}
-                        onClose={handleClose}
-                        anchorEl={anchorEl}
-                        MenuListProps={{
-                        'aria-labelledby': 'basic-button',
-                        }}
-                    >
-                        {user?.favoriteProfiles?.map(favoriteProfile => (
-                            <MenuItem  
-                                key={`${favoriteProfile.name}-${favoriteProfile.uuid}`} 
-                                onClick={() => { handleFavoriteRedirect(favoriteProfile.uuid) }}
-                            >
-                                {favoriteProfile.name}
-                            </MenuItem>
-                        ))}
-                        {!user?.favoriteProfiles &&
-                            <MenuItem>Agrega el perfil de tus amigos como favorito!</MenuItem>
-                        }
-                    </Menu>
-                </>
+                }
+                {editProfile &&
+                    <>
+                        <Button
+                            id="basic-button"
+                            aria-controls={open ? 'basic-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? 'true' : undefined}
+                            onClick={handleClick}
+                            color="primary"
+                        >
+                            Favoritos
+                        </Button>
+                        <Menu
+                            id="basic-menu"
+                            open={open}
+                            onClose={handleClose}
+                            anchorEl={anchorEl}
+                            MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                            }}
+                        >
+                            {user?.favoriteProfiles?.map(favoriteProfile => (
+                                <MenuItem  
+                                    key={`${favoriteProfile.name}-${favoriteProfile.uuid}`} 
+                                    onClick={() => { handleFavoriteRedirect(favoriteProfile.uuid) }}
+                                >
+                                    {favoriteProfile.name}
+                                </MenuItem>
+                            ))}
+                            {!user?.favoriteProfiles &&
+                                <MenuItem>Agrega el perfil de tus amigos como favorito!</MenuItem>
+                            }
+                        </Menu>
+                    </>
                 }
             </div>
             <div className='profile__imgContainer'>
