@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import profilePic from '../../../assets/profile.png';
 import ColorContext from '../../../store/context/colorContext';
 import EditProfile from '../editProfile/EditProfile';
@@ -7,8 +7,13 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import CoffeeIcon from '@mui/icons-material/Coffee';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import ShareIcon from '@mui/icons-material/Share';
-import { ClickAwayListener, IconButton, Tooltip } from '@mui/material';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import Favorite from '@mui/icons-material/Favorite';
+import { Button, Checkbox, ClickAwayListener, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { startSettingFavoriteProfile } from '../../../store/actions/auth.actions';
 
 interface publicUser {
     name: string;
@@ -17,6 +22,7 @@ interface publicUser {
     facebook: string;
     instagram: string;
     twitter: string;
+    favoriteProfiles: any[];
 }
 
 interface HeaderProfileI {
@@ -28,11 +34,89 @@ interface HeaderProfileI {
 
 const HeaderProfile = ({ user, userId, editProfile }: HeaderProfileI) => {
     const { color } = useContext(ColorContext);
+    const dispatch = useDispatch();
     const { t } = useTranslation();
     const [openCopy, setOpenCopy] = useState(false);
+    const { profileId } = useParams();
+    const navigate = useNavigate();
+
+    const [favoriteProfile, setfavoriteProfile] = useState<boolean>(false)
+
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleFavoriteRedirect = (favoriteUuid:string) => {
+        navigate(`/profile/${favoriteUuid}`);
+        handleClose();
+    };
+
+    const handleFavoriteToggle = () => {
+        dispatch( startSettingFavoriteProfile(userId, profileId || '', user.name) );
+        setfavoriteProfile(true);
+    };
+
+    useEffect(() => {
+        user?.favoriteProfiles?.forEach( favoriteProfile => {
+            console.log({ favoriteProfile: favoriteProfile.uuid, profileId})
+            if( favoriteProfile.uuid === profileId)
+                setfavoriteProfile(true)
+        })
+    // eslint-disable-next-line
+    }, []);
+    
 
     return (
         <div className='profile__header' style={{background: color?.primary?.light}}>
+            <div className='profile__headerControls'>
+                {!editProfile ?
+                    <Checkbox 
+                        icon={<FavoriteBorder />} 
+                        checkedIcon={<Favorite />} 
+                        onChange={ handleFavoriteToggle }
+                        checked={favoriteProfile}
+                    />
+                : 
+                <>
+                    <Button
+                        id="basic-button"
+                        aria-controls={open ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleClick}
+                        color="primary"
+                    >
+                        Favoritos
+                    </Button>
+                    <Menu
+                        id="basic-menu"
+                        open={open}
+                        onClose={handleClose}
+                        anchorEl={anchorEl}
+                        MenuListProps={{
+                        'aria-labelledby': 'basic-button',
+                        }}
+                    >
+                        {user?.favoriteProfiles?.map(favoriteProfile => (
+                            <MenuItem  
+                                key={`${favoriteProfile.name}-${favoriteProfile.uuid}`} 
+                                onClick={() => { handleFavoriteRedirect(favoriteProfile.uuid) }}
+                            >
+                                {favoriteProfile.name}
+                            </MenuItem>
+                        ))}
+                        {!user?.favoriteProfiles &&
+                            <MenuItem>Agrega el perfil de tus amigos como favorito!</MenuItem>
+                        }
+                    </Menu>
+                </>
+                }
+            </div>
             <div className='profile__imgContainer'>
                 <img src={user.profilePicture || profilePic} alt='profile'></img>
                 <span>{ user.name }</span>

@@ -61,6 +61,7 @@ const Register = () => {
                         onChange={formik.handleChange}
                         value={formik.values.password}
                         type="password"
+                        helperText="Minimo 6 caracteres"
                     />
                 </FormControl>
                 <div className='form__buttons'>

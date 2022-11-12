@@ -8,6 +8,7 @@ import { setError } from './items.actions';
 import { ColorI } from '../../models/ui.model';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import { errors } from '../../configs/errors.types';
+import Swal from 'sweetalert2';
 
 
 export const startLoginWithEmailPassword = ( email: string, password:string) => {
@@ -22,7 +23,12 @@ export const startLoginWithEmailPassword = ( email: string, password:string) => 
                 dispatch( unsetLoading() );
             })
             .catch( e => {
-                alert(e)
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'No existe un usuario con esos datos.',
+                    icon: 'error',
+                    confirmButtonText: 'Entendido'
+                });
                 dispatch( unsetLoading() );
             })
     }
@@ -67,7 +73,13 @@ export const startRegisterWithEmailPasswordName = ( email:string , password:stri
             })
             .catch( e => {
                 dispatch( unsetLoading() );
-                alert(e)
+                if(e.code.includes('auth/weak-password'))
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'La contraseña debe ser de 6 o más caracteres.',
+                        icon: 'error',
+                        confirmButtonText: 'Entendido'
+                    });
             })
     }   
 }
@@ -148,6 +160,24 @@ export const setPublicUser = (user:any) => ({
 export const unsetPublicUser = () => ({
     type: types.authUnsetPublicProfile
 })
+
+export const startSettingFavoriteProfile = (uuid:string, favoriteUuid:string, favoriteName: string) => {
+    return async (dispatch:any) => {
+        // dispatch( setLoading() );
+        if(uuid) {
+            const docRef = doc(databaseRef, `${uuid}/user-data`);
+            const docSnap = await getDoc(docRef).then();
+            const publicProfileOld = docSnap.data()
+            const favoriteProfiles = publicProfileOld?.favoriteProfiles || [];
+            favoriteProfiles.push({name: favoriteName,uuid:favoriteUuid});
+            updateDoc(doc(databaseRef,`${uuid}/user-data`), { ...publicProfileOld, favoriteProfiles }).then(value => {
+                // dispatch( unsetLoading() );
+                console.log({ ...publicProfileOld, favoriteProfiles });
+                // dispatch( updatePublicUser({ ...publicProfileOld, favoriteProfiles }));
+            }).catch( e => {console.error(e); dispatch( unsetLoading() );});
+        }
+    }  
+}
 const setLoading = () => ({
     type: types.authSetLoading
 })
