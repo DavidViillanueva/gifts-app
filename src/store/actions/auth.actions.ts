@@ -163,17 +163,27 @@ export const unsetPublicUser = () => ({
 
 export const startSettingFavoriteProfile = (uuid:string, favoriteUuid:string, favoriteName: string) => {
     return async (dispatch:any) => {
-        // dispatch( setLoading() );
         if(uuid) {
             const docRef = doc(databaseRef, `${uuid}/user-data`);
             const docSnap = await getDoc(docRef).then();
             const publicProfileOld = docSnap.data()
-            const favoriteProfiles = publicProfileOld?.favoriteProfiles || [];
-            favoriteProfiles.push({name: favoriteName,uuid:favoriteUuid});
+            let favoriteProfiles = publicProfileOld?.favoriteProfiles || [];
+            let isFavorite = false;
+            favoriteProfiles.forEach( (favoriteProfile:any) => {
+                if(favoriteProfile.uuid === favoriteUuid) 
+                    isFavorite = true;
+            });
+            console.log(isFavorite);
+            if (isFavorite) {
+                // Ya es favorito lo tengo que sacar
+                favoriteProfiles = favoriteProfiles.filter((favoriteProfile:any) => favoriteProfile.uuid !== favoriteUuid);
+                console.log(favoriteProfiles);
+            } else {
+                // No es favorito lo agrego
+                favoriteProfiles.push({name: favoriteName,uuid:favoriteUuid});
+            }
             updateDoc(doc(databaseRef,`${uuid}/user-data`), { ...publicProfileOld, favoriteProfiles }).then(value => {
-                // dispatch( unsetLoading() );
                 console.log({ ...publicProfileOld, favoriteProfiles });
-                // dispatch( updatePublicUser({ ...publicProfileOld, favoriteProfiles }));
             }).catch( e => {console.error(e); dispatch( unsetLoading() );});
         }
     }  

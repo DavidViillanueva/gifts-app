@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { startSettingFavoriteProfile } from '../../../store/actions/auth.actions';
+import Swal from 'sweetalert2';
 
 interface publicUser {
     name: string;
@@ -62,13 +63,22 @@ const HeaderProfile = ({ user, userId, editProfile }: HeaderProfileI) => {
     };
 
     useEffect(() => {
+        console.log(user.favoriteProfiles);
         user?.favoriteProfiles?.forEach( favoriteProfile => {
-            console.log({ favoriteProfile: favoriteProfile.uuid, profileId})
             if( favoriteProfile.uuid === profileId)
                 setfavoriteProfile(true)
         })
     // eslint-disable-next-line
     }, []);
+
+    const handleInfoPopup = () => {
+        Swal.fire({
+            title: 'Agregar favoritos',
+            text: 'Pedile el perfil a tu amigo y hace click en el corazon (en la esquina superior izquierda) para agregarlo como favorito!',
+            icon: 'info',
+            confirmButtonText: 'Entendido'
+        });
+    }
     return (
         <div className='profile__header' style={{background: color?.primary?.light}}>
             <div className='profile__headerControls'>
@@ -111,7 +121,7 @@ const HeaderProfile = ({ user, userId, editProfile }: HeaderProfileI) => {
                                 </MenuItem>
                             ))}
                             {!user?.favoriteProfiles &&
-                                <MenuItem>Agrega el perfil de tus amigos como favorito!</MenuItem>
+                                <MenuItem onClick={ handleInfoPopup }>Agrega el perfil de tus amigos como favorito!</MenuItem>
                             }
                         </Menu>
                     </>
