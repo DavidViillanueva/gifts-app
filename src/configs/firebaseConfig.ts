@@ -1,7 +1,7 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import { getStorage, ref, uploadString } from "firebase/storage";
+import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
 import { GoogleAuthProvider } from "firebase/auth";
 import {getAuth} from 'firebase/auth'
