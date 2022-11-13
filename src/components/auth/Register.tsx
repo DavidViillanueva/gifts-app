@@ -1,15 +1,19 @@
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {  useFormik } from 'formik';
+import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { startRegisterWithEmailPasswordName } from '../../store/actions/auth.actions';
 import { RootState } from '../../store/store';
-import { TextField, FormControl, Button, CircularProgress } from '@mui/material';
+import { FormControl, Button, CircularProgress, InputLabel, Input, InputAdornment, IconButton } from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const Register = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     let navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
 
     let userData = useSelector((state: RootState) => {
         return state.auth
@@ -24,7 +28,7 @@ const Register = () => {
         onSubmit: values => {
             dispatch( startRegisterWithEmailPasswordName(values.email,values.password,values.name) )
             if( userData.uid )
-                navigate(`/profile/${ userData.uid}`);
+                navigate(`/profile/${userData.uid}`);
         },
     });
 
@@ -33,35 +37,47 @@ const Register = () => {
             <form onSubmit={ formik.handleSubmit } className='form__column'>
                 <span>{ t('labels.createAccount')}</span>
                 <FormControl className="form__control">
-                    <TextField
+                    <InputLabel htmlFor="standard-adornment-password">{t('labels.form.name')}</InputLabel>
+                    <Input
                         id="name"
                         name="name"
-                        label={t('labels.form.name')}
-                        variant="standard"
+                        type="text"
                         onChange={formik.handleChange}
                         value={formik.values.name}
+                        color='primary'
                     />
                 </FormControl>
                 <FormControl className="form__control">
-                    <TextField
+                    <InputLabel htmlFor="standard-adornment-password">{t('labels.form.email')}</InputLabel>
+                    <Input
                         id="email"
                         name="email"
-                        label={t('labels.form.email')}
-                        variant="standard"
+                        type="text"
                         onChange={formik.handleChange}
                         value={formik.values.email}
+                        color='primary'
                     />
                 </FormControl>
                 <FormControl className="form__control">
-                    <TextField
+                    <InputLabel htmlFor="standard-adornment-password">{t('labels.form.password')}</InputLabel>
+                    <Input
                         id="password"
                         name="password"
-                        label={t('labels.form.password')}
-                        variant="standard"
+                        type={showPassword ? 'text' : 'password'}
                         onChange={formik.handleChange}
                         value={formik.values.password}
-                        type="password"
-                        helperText="Minimo 6 caracteres"
+                        color='primary'
+                        endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={() => { setShowPassword(!showPassword); }}
+                                onMouseDown={(e) => { e.preventDefault(); }}
+                              >
+                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                              </IconButton>
+                            </InputAdornment>
+                        }
                     />
                 </FormControl>
                 <div className='form__buttons'>
