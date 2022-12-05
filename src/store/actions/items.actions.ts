@@ -1,6 +1,6 @@
 import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore";
 import { errors } from "../../configs/errors.types";
-import { databaseRef, storage } from "../../configs/firebaseConfig";
+import { analytics, databaseRef, storage } from "../../configs/firebaseConfig";
 import { types } from "../../configs/types";
 import { IItem} from "../../models/item.model";
 import { deleteObject, getDownloadURL, ref, uploadString } from "firebase/storage";
@@ -57,7 +57,6 @@ export const startAddingItem = ( item: IItem, uid: string ) => {
         dispatch( setLoadingItem() )
         addDoc(collection(databaseRef,`${uid}/giftapp/items` ), item)
             .then( snap => {
-                const analytics = getAnalytics();
                 logEvent(analytics, 'add_item', {
                     user: uid,
                     item_id: snap.id

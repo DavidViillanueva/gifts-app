@@ -30,4 +30,4 @@ const storage = getStorage();
 const auth = getAuth(firebaseApp);
 
 export default Object.freeze({ auth, databaseRef })
-export { auth, databaseRef , firebaseApp, authGoogleProvider, storage }
+export { auth, databaseRef , firebaseApp, authGoogleProvider, storage, analytics }
