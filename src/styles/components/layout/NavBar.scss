@@ -12,3 +12,11 @@
     align-items: flex-end;
     cursor: pointer;
 }
+
+@media only screen and (max-width: 768px) { 
+    .logo {
+        h2 {
+            display: none;
+        }
+    }
+}
