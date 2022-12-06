@@ -5,13 +5,15 @@ interface authState {
     name: string,
     uid: string,
     loading: boolean;
-    publicUser?: any
+    publicUser?: any;
+    favoriteProfiles: any[]
 }
 const initialState:authState = {
     logged: false,
     name: "",
     uid: "",
     loading: false,
+    favoriteProfiles: [],
     publicUser: {}
 }
 
@@ -36,6 +38,12 @@ export default function authReducer( state = initialState, action: any):authStat
             return {
                 ...state,
                 loading: false
+            }
+
+        case types.authSetFavoriteProfiles:
+            return {
+                ...state,
+                favoriteProfiles: action.payload
             }
         
         case types.authSetPublicProfile:

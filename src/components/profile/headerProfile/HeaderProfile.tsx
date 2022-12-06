@@ -12,9 +12,10 @@ import Favorite from '@mui/icons-material/Favorite';
 import { Button, Checkbox, ClickAwayListener, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { startSettingFavoriteProfile } from '../../../store/actions/auth.actions';
 import Swal from 'sweetalert2';
+import { RootState } from '../../../store/store';
 
 interface publicUser {
     name: string;
@@ -41,6 +42,11 @@ const HeaderProfile = ({ user, userId, editProfile }: HeaderProfileI) => {
     const { profileId } = useParams();
     const navigate = useNavigate();
 
+    let auth = useSelector((state: RootState) => {
+        return state.auth
+    })
+
+
     const [favoriteProfile, setfavoriteProfile] = useState<boolean>(false)
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -59,17 +65,16 @@ const HeaderProfile = ({ user, userId, editProfile }: HeaderProfileI) => {
 
     const handleFavoriteToggle = () => {
         dispatch( startSettingFavoriteProfile(userId, profileId || '', user.name) );
-        setfavoriteProfile(true);
+        setfavoriteProfile(!favoriteProfile);
     };
 
     useEffect(() => {
-        console.log(user.favoriteProfiles);
-        user?.favoriteProfiles?.forEach( favoriteProfile => {
+        auth?.favoriteProfiles?.forEach( favoriteProfile => {
             if( favoriteProfile.uuid === profileId)
                 setfavoriteProfile(true)
         })
     // eslint-disable-next-line
-    }, []);
+    }, [auth]);
 
     const handleInfoPopup = () => {
         Swal.fire({

@@ -94,20 +94,24 @@ export const login = ( uid:string, displayName:string|null) => ({
 
 export const startLoadingPublicUser = (uid: string = '') => {
     return async (dispatch:any) => {
-        const docRef = doc(databaseRef, `${uid}/user-data`);
-        const docSnap = await getDoc(docRef).then();
+        try {
+            const docRef = doc(databaseRef, `${uid}/user-data`);
+            const docSnap = await getDoc(docRef).then();
+        
+            const pathReference = ref(storage,`${uid}/profile-picture`);
+            let profilePicture = '';
     
-        const pathReference = ref(storage,`${uid}/profile-picture`);
-        let profilePicture = '';
-
-        await getDownloadURL(pathReference).then((url) => {
-            profilePicture = url
-        }).catch((e:any) => { profilePicture = ''})
-
-        if(docSnap.exists()) {
-            dispatch(setPublicUser({...docSnap.data(), profilePicture }))
-        } else {
-            dispatch( setError(errors.E100) );
+            await getDownloadURL(pathReference).then((url) => {
+                profilePicture = url
+            }).catch((e:any) => { profilePicture = ''})
+    
+            if(docSnap.exists()) {
+                dispatch(setPublicUser({...docSnap.data(), profilePicture }))
+            } else {
+                dispatch( setError(errors.E100) );
+            }
+        } catch (error) {
+            console.error(error);
         }
     }
 }
@@ -147,6 +151,11 @@ export const startUploadinProfilePicture = (uid: string, picture: any) => {
     }
 }
 
+export const setFavoriteProfiles = (favoriteProfiles: any) => ({
+    type: types.authSetFavoriteProfiles,
+    payload: favoriteProfiles
+})
+
 export const updatePublicUser = (userData: any) => ({
     type: types.authUpdatePublicProfile,
     payload: { ...userData }
@@ -177,7 +186,6 @@ export const startSettingFavoriteProfile = (uuid:string, favoriteUuid:string, fa
             if (isFavorite) {
                 // Ya es favorito lo tengo que sacar
                 favoriteProfiles = favoriteProfiles.filter((favoriteProfile:any) => favoriteProfile.uuid !== favoriteUuid);
-                console.log(favoriteProfiles);
             } else {
                 // No es favorito lo agrego
                 favoriteProfiles.push({name: favoriteName,uuid:favoriteUuid});

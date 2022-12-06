@@ -6,6 +6,8 @@ export const types = {
     authSetPublicProfile: '[Auth] Set public profile',
     authUpdatePublicProfile: '[Auth] Update public profile',
     authUnsetPublicProfile: '[Auth] Unset public profile',
+    authSetFavoriteProfiles: '[Auth] Set favorite profiles',
+    authUnsetFavoriteProfiles: '[Auth] Unset favorite profiles',
 
     itemsAdd: '[Items] Add item',
     itemsMark: '[Items] Mark as gifted',

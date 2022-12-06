@@ -8,13 +8,14 @@ import Login from "../components/auth/Login";
 import Register from "../components/auth/Register";
 import NavBar from "../components/layout/NavBar";
 import Profile from "../components/profile/Profile";
-import { auth } from "../configs/firebaseConfig";
+import { auth, databaseRef } from "../configs/firebaseConfig";
 import GiftsApp from "../GiftsApp";
-import { login } from "../store/actions/auth.actions";
+import { login, setFavoriteProfiles } from "../store/actions/auth.actions";
 import PublicRoute from "./PublicRoute";
 import ColorContext from "../store/context/colorContext";
 import { colors } from "../configs/colors";
 import { colorReducer } from "../store/reducers/color.reducer";
+import { doc, getDoc } from "firebase/firestore";
 
 const AppRouter = () => {
     const dispatch = useDispatch();
@@ -27,6 +28,9 @@ const AppRouter = () => {
     onAuthStateChanged(auth, async (user) => {
         if (user?.uid) {
             dispatch(login(user.uid, user.displayName));
+            const docRef = doc(databaseRef, `${user.uid}/user-data`);
+            const docSnap = await getDoc(docRef);
+            dispatch(setFavoriteProfiles(docSnap.data()?.favoriteProfiles))
             setUid(user.uid);
             setIsLogged(true);
         } else {

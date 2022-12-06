@@ -5,7 +5,7 @@ import { types } from "../../configs/types";
 import { IItem} from "../../models/item.model";
 import { deleteObject, getDownloadURL, ref, uploadString } from "firebase/storage";
 import { setDeleteLoading, unsetDeleteLoading } from "./ui.actions";
-import { getAnalytics, logEvent } from "firebase/analytics";
+import { logEvent } from "firebase/analytics";
 
 export const startLoadingItems = ( uid: string ) => {
     return async ( dispatch: any) => {
