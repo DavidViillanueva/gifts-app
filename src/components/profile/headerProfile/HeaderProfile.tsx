@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { startSettingFavoriteProfile } from '../../../store/actions/auth.actions';
 import Swal from 'sweetalert2';
 import { RootState } from '../../../store/store';
+import { deleteProfile } from '../../../utils/profileUtils';
+// import { useFlags } from 'flagsmith/react';
 
 interface publicUser {
     name: string;
@@ -41,6 +43,9 @@ const HeaderProfile = ({ user, userId, editProfile }: HeaderProfileI) => {
     const [openCopy, setOpenCopy] = useState(false);
     const { profileId } = useParams();
     const navigate = useNavigate();
+    // const flags = useFlags(['deleteprofile']);
+
+    // console.log(flags)
 
     let auth = useSelector((state: RootState) => {
         return state.auth
@@ -83,6 +88,11 @@ const HeaderProfile = ({ user, userId, editProfile }: HeaderProfileI) => {
             icon: 'info',
             confirmButtonText: 'Entendido'
         });
+    }
+
+    const handleDeleteProfile = () => {
+        if( profileId)
+            deleteProfile(profileId);
     }
     return (
         <div className='profile__header' style={{background: color?.primary?.light}}>
@@ -131,6 +141,19 @@ const HeaderProfile = ({ user, userId, editProfile }: HeaderProfileI) => {
                         </Menu>
                     </>
                 }
+                <Button
+                    id="basic-button"
+                    aria-controls={open ? 'basic-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                    onClick={handleDeleteProfile}
+                    color="primary"
+                >
+                    Borrar perfil
+                </Button>
+                {/* {flags.delete_profile.enabled &&
+                    <p>flag borrar enabled</p>
+                } */}
             </div>
             <div className='profile__imgContainer'>
                 <img src={user.profilePicture || profilePic} alt='profile'></img>
