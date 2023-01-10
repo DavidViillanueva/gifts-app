@@ -1,9 +1,10 @@
-import { firebaseApp, analytics } from "../configs/firebaseConfig";
+import { analytics, firebaseFunctions } from "../configs/firebaseConfig";
 import { logEvent } from "firebase/analytics";
+import { httpsCallable } from "firebase/functions";
 
 export const deleteProfile = (userUuid: string) => {
-    const deleteFn = firebaseApp.functions().httpsCallable('recursiveDelete');
-    deleteFn({ path: userUuid })
+    const deleteFn = httpsCallable( firebaseFunctions , 'recursiveDelete');
+    deleteFn({ userUuidToDelete: userUuid })
         .then(function(result) {
             logEvent(analytics, 'delete_profile', {
                 result: JSON.stringify(result)

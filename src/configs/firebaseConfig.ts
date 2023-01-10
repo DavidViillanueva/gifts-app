@@ -5,7 +5,8 @@ import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
 import { GoogleAuthProvider } from "firebase/auth";
-import {getAuth} from 'firebase/auth'
+import { getFunctions } from 'firebase/functions';
+import {getAuth} from 'firebase/auth';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
@@ -19,6 +20,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const firebaseApp = firebase.initializeApp(firebaseConfig);
+const firebaseFunctions = getFunctions(firebaseApp);
 
 const analytics = getAnalytics(firebaseApp);
 
@@ -30,4 +32,4 @@ const storage = getStorage();
 const auth = getAuth(firebaseApp);
 
 export default Object.freeze({ auth, databaseRef })
-export { auth, databaseRef , firebaseApp, authGoogleProvider, storage, analytics }
+export { auth, databaseRef , firebaseApp, authGoogleProvider, storage, analytics, firebaseFunctions }

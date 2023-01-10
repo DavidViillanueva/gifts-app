@@ -17,7 +17,7 @@ exports.recursiveDelete = functions
     })
     .https.onCall(async (data, context) => {
       // Only allow admin users to execute this function.
-      if (!(context.auth && context.auth.token && context.auth.token.admin)) {
+      if (!(context.auth)) {
         throw new functions.https.HttpsError(
             "permission-denied",
             "Must be an administrative user to initiate delete."
@@ -25,15 +25,15 @@ exports.recursiveDelete = functions
       }
 
 
-      const path = data.path;
+      const uuidToDelete = data.userUuidToDelete;
       console.log(
-          `User ${context.auth.uid} has requested to delete path ${path}`
+          `Request to delete the user ${uuidToDelete}`
       );
 
       // Run a recursive delete on the given document or collection path.
       // The 'token' must be set in the functions config, and can be generated
       // at the command line by running 'firebase login:ci'.
-      await firebaseTools.firestore.delete(path, {
+      await firebaseTools.firestore.delete(`/${uuidToDelete}`, {
         project: "gifts-app-9027e",
         recursive: true,
         force: true,
@@ -41,6 +41,6 @@ exports.recursiveDelete = functions
       });
 
       return {
-        path: path,
+        userDeleted: uuidToDelete,
       };
     });

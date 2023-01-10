@@ -1,8 +1,7 @@
 import { CircularProgress } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom'
-import { errors } from '../../configs/errors.types';
+import { useParams } from 'react-router-dom'
 import { startLoadingPublicUser } from '../../store/actions/auth.actions';
 import { startLoadingItems } from '../../store/actions/items.actions';
 import { RootState } from '../../store/store';
@@ -21,7 +20,6 @@ import { useTranslation } from 'react-i18next';
 const Profile = () => {
     const dispatch = useDispatch();
     const { dispatchColor } = useContext(ColorContext)
-    const navigate = useNavigate();
     const { t } = useTranslation();
     const { profileId } = useParams();
     const [isThisUser, setIsThisUser] = useState(false);
@@ -62,9 +60,6 @@ const Profile = () => {
                 <CircularProgress color="primary" size={30} />
             </div>
         )
-
-    if ((state.items.error === errors.E100))
-        navigate('/');
 
     return (
         <div className='profile__container'>
