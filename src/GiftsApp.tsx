@@ -1,19 +1,11 @@
 import React from 'react';
 import Homepage from './components/layout/Homepage';
-import {FlagsmithProvider} from 'flagsmith/react'
-import flagsmith from 'flagsmith'
+
 
 const GiftsApp = () => {
-  return <div>
-    <FlagsmithProvider 
-        options={{
-            environmentID: "fNhFSkuPyvtndEw35sLcWs",
-        }} 
-        flagsmith={flagsmith}
-    >
+    return <div>
         <Homepage />
-    </FlagsmithProvider>
-  </div>;
+    </div>;
 };
 
 export default GiftsApp;

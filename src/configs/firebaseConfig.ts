@@ -6,7 +6,7 @@ import { getFirestore } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
 import { GoogleAuthProvider } from "firebase/auth";
 import { getFunctions } from 'firebase/functions';
-import {getAuth} from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
@@ -31,5 +31,6 @@ const storage = getStorage();
 
 const auth = getAuth(firebaseApp);
 
+
 export default Object.freeze({ auth, databaseRef })
-export { auth, databaseRef , firebaseApp, authGoogleProvider, storage, analytics, firebaseFunctions }
+export { auth, databaseRef, firebaseApp, authGoogleProvider, storage, analytics, firebaseFunctions }

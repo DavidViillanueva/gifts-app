@@ -6,20 +6,22 @@ interface authState {
     uid: string,
     loading: boolean;
     publicUser?: any;
-    favoriteProfiles: any[]
+    favoriteProfiles: any[],
+    typeUser: string
 }
-const initialState:authState = {
+const initialState: authState = {
     logged: false,
     name: "",
     uid: "",
     loading: false,
     favoriteProfiles: [],
-    publicUser: {}
+    publicUser: {},
+    typeUser: "user"
 }
 
 
-export default function authReducer( state = initialState, action: any):authState {
-    switch ( action.type ) {
+export default function authReducer(state = initialState, action: any): authState {
+    switch (action.type) {
         case types.login:
             return {
                 ...state,
@@ -27,8 +29,8 @@ export default function authReducer( state = initialState, action: any):authStat
                 name: action.payload.displayName,
                 logged: true,
             }
-        
-        case types.authSetLoading: 
+
+        case types.authSetLoading:
             return {
                 ...state,
                 loading: true
@@ -45,31 +47,37 @@ export default function authReducer( state = initialState, action: any):authStat
                 ...state,
                 favoriteProfiles: action.payload
             }
-        
+
+        case types.authSetTypeUser:
+            return {
+                ...state,
+                typeUser: action.payload
+            }
+
         case types.authSetPublicProfile:
             return {
                 ...state,
                 publicUser: action.payload
             }
 
-        case types.authUpdatePublicProfile: 
+        case types.authUpdatePublicProfile:
             return {
                 ...state,
-                publicUser: { ...state.publicUser, ...action.payload}
+                publicUser: { ...state.publicUser, ...action.payload }
             }
-        
+
         case types.authUnsetPublicProfile:
             return {
                 ...state,
                 publicUser: {}
             }
-            
+
         case types.logout:
             return {
                 ...state,
                 logged: false,
                 uid: ''
-            } 
+            }
         default:
             return state;
     };

@@ -7,12 +7,21 @@ import './styles/styles.scss'
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import AppRouter from './routes/AppRouter';
+import { FlagsmithProvider } from 'flagsmith/react';
+import flagsmith from 'flagsmith'
 
 ReactDOM.render(
-      <Provider store={store}>
+    <FlagsmithProvider
+        options={{
+            environmentID: process.env.REACT_APP_FLAGSMITH_ENV_ID || '',
+        }}
+        flagsmith={flagsmith}
+    >
+        <Provider store={store}>
             <AppRouter />
-      </Provider>,
-  document.getElementById('root')
+        </Provider>
+    </FlagsmithProvider>,
+    document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -3,7 +3,8 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { startLoginWithEmailPassword } from '../../store/actions/auth.actions';
+import { starLoginWithGoogle, startLoginWithEmailPassword } from '../../store/actions/auth.actions';
+import GoogleIcon from '@mui/icons-material/Google';
 import { RootState } from '../../store/store';
 import { FormControl, IconButton, Input, InputLabel } from '@mui/material';
 import Button from '@mui/material/Button';
@@ -60,25 +61,25 @@ const Login = () => {
                         color='primary'
                         endAdornment={
                             <InputAdornment position="end">
-                              <IconButton
-                                aria-label="toggle password visibility"
-                                onClick={() => { setShowPassword(!showPassword); }}
-                                onMouseDown={(e) => { e.preventDefault(); }}
-                              >
-                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                              </IconButton>
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={() => { setShowPassword(!showPassword); }}
+                                    onMouseDown={(e) => { e.preventDefault(); }}
+                                >
+                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
                             </InputAdornment>
                         }
                     />
                 </FormControl>
                 <div className='form__buttons'>
-                    {userData.loading 
-                    ?
-                        <CircularProgress color="primary" size={30}/>
-                    :
+                    {userData.loading
+                        ?
+                        <CircularProgress color="primary" size={30} />
+                        :
                         <Button
                             variant="contained"
-                            onClick={ (e) => { e.preventDefault(); formik.handleSubmit() }}
+                            onClick={(e) => { e.preventDefault(); formik.handleSubmit() }}
                             color='primary'
                             type='submit'
                         >
@@ -93,6 +94,16 @@ const Login = () => {
                         {t('button.return')}
                     </Button>
                 </div>
+
+                <hr></hr>
+                <Button
+                    variant="contained"
+                    onClick={(e) => { dispatch(starLoginWithGoogle()); }}
+                    color='primary'
+                    startIcon={<GoogleIcon />}
+                >
+                    {t('labels.loginWithGoogle')}
+                </Button>
             </form>
         </div>
     );
