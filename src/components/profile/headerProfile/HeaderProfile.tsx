@@ -9,7 +9,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import ShareIcon from '@mui/icons-material/Share';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
-import { Button, Checkbox, ClickAwayListener, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
+import { Button, Checkbox, CircularProgress, ClickAwayListener, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -56,7 +56,7 @@ const HeaderProfile = ({ user, userId, editProfile, typeUser }: HeaderProfileI) 
 
 
     const [favoriteProfile, setfavoriteProfile] = useState<boolean>(false)
-
+    const [loadingDeleteProfile, setLoadingDeleteProfile] = useState(false);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -94,8 +94,24 @@ const HeaderProfile = ({ user, userId, editProfile, typeUser }: HeaderProfileI) 
     }
 
     const handleDeleteProfile = () => {
-        if (profileId)
-            deleteProfile(profileId);
+        if (profileId) {
+            setLoadingDeleteProfile(true);
+            deleteProfile(profileId)
+                .then(value => {
+                    setLoadingDeleteProfile(false);
+                    navigate('/');
+                })
+                .catch(err => {
+                    Swal.fire({
+                        title: 'Ocurrio un error',
+                        text: 'Por favor intentelo nuevamente, si el error persiste comuniquese con el personal tecnico',
+                        icon: 'error',
+                        confirmButtonText: 'Entendido'
+                    });
+                    setLoadingDeleteProfile(false);
+                });
+        }
+
     }
     return (
         <div className='profile__header' style={{ background: color?.primary?.light }}>
@@ -145,16 +161,24 @@ const HeaderProfile = ({ user, userId, editProfile, typeUser }: HeaderProfileI) 
                     </>
                 }
                 {ft_delete_profile.enabled && typeUser === userTypes.admin &&
-                    <Button
-                        id="basic-button"
-                        aria-controls={open ? 'basic-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
-                        onClick={handleDeleteProfile}
-                        color="primary"
-                    >
-                        Borrar perfil
-                    </Button>
+                    <div>
+                        {loadingDeleteProfile ?
+                            <div className='form__centerloading'>
+                                <CircularProgress color="primary" size={30} />
+                            </div>
+                            :
+                            <Button
+                                id="basic-button"
+                                aria-controls={open ? 'basic-menu' : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={open ? 'true' : undefined}
+                                onClick={handleDeleteProfile}
+                                color="primary"
+                            >
+                                Borrar perfil
+                            </Button>
+                        }
+                    </div>
                 }
             </div>
             <div className='profile__imgContainer'>

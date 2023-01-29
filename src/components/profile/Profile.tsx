@@ -2,7 +2,7 @@ import { CircularProgress } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'
-import { setTypeUser, startLoadingPublicUser } from '../../store/actions/auth.actions';
+import { startLoadingPublicUser } from '../../store/actions/auth.actions';
 import { startLoadingItems } from '../../store/actions/items.actions';
 import { RootState } from '../../store/store';
 import { isObjEmpty } from '../../utils/isObjEmpty';
@@ -16,6 +16,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { databaseRef } from '../../configs/firebaseConfig';
 import { useTranslation } from 'react-i18next';
 import { errors } from '../../configs/errors.types';
+import Message from '../shared/Message';
 
 
 const Profile = () => {
@@ -67,7 +68,7 @@ const Profile = () => {
 
 
     if (state.items.error === errors.E101)
-        return <h1>El usuario no existe</h1>
+        return <Message message={t('labels.userNoExist')} />
     return (
         <div className='profile__container'>
             <div className='profile__panel'>
@@ -81,7 +82,7 @@ const Profile = () => {
 
                 <HeaderProfile user={state.auth.publicUser} userId={state.auth.uid} typeUser={state.auth.typeUser} editProfile={isThisUser} />
                 {(isObjEmpty(state.items.items)) &&
-                    <h1>{t('labels.noItemsData')}</h1>
+                    <Message message={t('labels.noItemsData')} subtitle={isThisUser ? t('labels.noItemsDataSubtitle') : ""} />
                 }
                 {(!isObjEmpty(state.items.items)) &&
                     <ItemsCollection
