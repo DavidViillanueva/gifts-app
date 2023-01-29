@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { startRegisterWithEmailPasswordName } from '../../store/actions/auth.actions';
+import { starLoginWithGoogle, startRegisterWithEmailPasswordName } from '../../store/actions/auth.actions';
+import GoogleIcon from '@mui/icons-material/Google';
 import { RootState } from '../../store/store';
 import { FormControl, Button, CircularProgress, InputLabel, Input, InputAdornment, IconButton } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
@@ -21,21 +22,21 @@ const Register = () => {
 
     const formik = useFormik({
         initialValues: {
-          name: '',
-          email: '',
-          password: '',
+            name: '',
+            email: '',
+            password: '',
         },
         onSubmit: values => {
-            dispatch( startRegisterWithEmailPasswordName(values.email,values.password,values.name) )
-            if( userData.uid )
+            dispatch(startRegisterWithEmailPasswordName(values.email, values.password, values.name))
+            if (userData.uid)
                 navigate(`/profile/${userData.uid}`);
         },
     });
 
-    return(   
+    return (
         <div className='form__container-centered'>
-            <form onSubmit={ formik.handleSubmit } className='form__column'>
-                <span>{ t('labels.createAccount')}</span>
+            <form onSubmit={formik.handleSubmit} className='form__column'>
+                <span>{t('labels.createAccount')}</span>
                 <FormControl className="form__control">
                     <InputLabel htmlFor="standard-adornment-password">{t('labels.form.name')}</InputLabel>
                     <Input
@@ -69,13 +70,13 @@ const Register = () => {
                         color='primary'
                         endAdornment={
                             <InputAdornment position="end">
-                              <IconButton
-                                aria-label="toggle password visibility"
-                                onClick={() => { setShowPassword(!showPassword); }}
-                                onMouseDown={(e) => { e.preventDefault(); }}
-                              >
-                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                              </IconButton>
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={() => { setShowPassword(!showPassword); }}
+                                    onMouseDown={(e) => { e.preventDefault(); }}
+                                >
+                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
                             </InputAdornment>
                         }
                     />
@@ -96,11 +97,21 @@ const Register = () => {
                     <Button
                         variant="contained"
                         color='primary'
-                        onClick={ () => { navigate(-1) }}
+                        onClick={() => { navigate(-1) }}
                     >
                         {t('button.return')}
                     </Button>
                 </div>
+
+                <hr></hr>
+                <Button
+                    variant="contained"
+                    onClick={(e) => { dispatch(starLoginWithGoogle()); }}
+                    color='primary'
+                    startIcon={<GoogleIcon />}
+                >
+                    {t('labels.loginWithGoogle')}
+                </Button>
 
             </form>
         </div>

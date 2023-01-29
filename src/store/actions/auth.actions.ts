@@ -11,69 +11,81 @@ import { errors } from '../../configs/errors.types';
 import Swal from 'sweetalert2';
 
 
-export const startLoginWithEmailPassword = ( email: string, password:string) => {
-    return ( dispatch:any) => {
-        dispatch( setLoading() );
-        firebase.auth().signInWithEmailAndPassword(email,password)
-            .then( ({ user }) => {
+export const startLoginWithEmailPassword = (email: string, password: string) => {
+    return (dispatch: any) => {
+        dispatch(setLoading());
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(({ user }) => {
                 if (user)
-                    dispatch (
-                        login( user.uid, user.displayName )
+                    dispatch(
+                        login(user.uid, user.displayName)
                     )
-                dispatch( unsetLoading() );
+                dispatch(unsetLoading());
             })
-            .catch( e => {
+            .catch(e => {
                 Swal.fire({
                     title: 'Error!',
                     text: 'No existe un usuario con esos datos.',
                     icon: 'error',
                     confirmButtonText: 'Entendido'
                 });
-                dispatch( unsetLoading() );
+                dispatch(unsetLoading());
             })
     }
 };
 
 export const starLoginWithGoogle = () => {
-return ( (dispatch:any) => {
-    dispatch( setLoading() );
-    signInWithPopup(auth, authGoogleProvider)
-      .then((result) => {
-        const user = result.user;
-        dispatch( login(user.uid, user.displayName) );
-        dispatch( unsetLoading() );
-      }).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error( errorCode + errorMessage)
-        dispatch( unsetLoading() );
-      });
-} )
+    return ((dispatch: any) => {
+        dispatch(setLoading());
+        signInWithPopup(auth, authGoogleProvider)
+            .then(async (result) => {
+                const user = result.user;
+                const docRef = doc(databaseRef, `${user.uid}/user-data`);
+
+                if (docRef) {
+                    getDoc(docRef).then(async docSnap => {
+                        if (!docSnap.exists()) {
+                            await setDoc(doc(databaseRef, `${user.uid}/user-data`), { name: user.displayName, type: 'user' })
+                            await setDoc(doc(databaseRef, user.uid, "giftapp"), {});
+                            dispatch(updatePublicUser({ name: user.displayName }));
+                        }
+                    })
+                }
+
+                dispatch(login(user.uid, user.displayName));
+                dispatch(unsetLoading());
+            }).catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.error(errorCode + errorMessage)
+                dispatch(unsetLoading());
+            });
+    })
 }
 
 export const startRegisterWithGoogle = () => {
 
 }
 
-export const startRegisterWithEmailPasswordName = ( email:string , password:string, name:string ) => {
-    return ( dispatch:any ) => {
-        dispatch( setLoading() );
-        createUserWithEmailAndPassword(auth, email, password )
-            .then( async( userCredential ) =>{
+export const startRegisterWithEmailPasswordName = (email: string, password: string, name: string) => {
+    return (dispatch: any) => {
+        dispatch(setLoading());
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(async (userCredential) => {
                 const user = userCredential.user;
-                if( user ) {  
-                    updateProfile(user,{ displayName: name})
+                if (user) {
+                    updateProfile(user, { displayName: name })
                     dispatch(login(user.uid, name));
                     await setDoc(doc(databaseRef, user.uid, "giftapp"), {});
-                    dispatch( updatePublicUser({ name })); 
-                    await setDoc(doc(databaseRef,`${user.uid}/user-data`), { name })
-                    
-                    dispatch( unsetLoading() );
+                    dispatch(updatePublicUser({ name }));
+                    await setDoc(doc(databaseRef, `${user.uid}/user-data`), { name, type: 'user' })
+
+                    dispatch(unsetLoading());
                 }
             })
-            .catch( e => {
-                dispatch( unsetLoading() );
-                if(e.code.includes('auth/weak-password'))
+            .catch(e => {
+                dispatch(unsetLoading());
+                if (e.code.includes('auth/weak-password'))
                     Swal.fire({
                         title: 'Error!',
                         text: 'La contraseña debe ser de 6 o más caracteres.',
@@ -81,10 +93,10 @@ export const startRegisterWithEmailPasswordName = ( email:string , password:stri
                         confirmButtonText: 'Entendido'
                     });
             })
-    }   
+    }
 }
 
-export const login = ( uid:string, displayName:string|null) => ({
+export const login = (uid: string, displayName: string | null) => ({
     type: types.login,
     payload: {
         uid,
@@ -93,60 +105,61 @@ export const login = ( uid:string, displayName:string|null) => ({
 });
 
 export const startLoadingPublicUser = (uid: string = '') => {
-    return async (dispatch:any) => {
+    return async (dispatch: any) => {
         try {
             const docRef = doc(databaseRef, `${uid}/user-data`);
             const docSnap = await getDoc(docRef).then();
-        
-            const pathReference = ref(storage,`${uid}/profile-picture`);
+
+            const pathReference = ref(storage, `${uid}/profile-picture`);
             let profilePicture = '';
-    
-            await getDownloadURL(pathReference).then((url) => {
-                profilePicture = url
-            }).catch((e:any) => { profilePicture = ''})
-    
-            if(docSnap.exists()) {
-                dispatch(setPublicUser({...docSnap.data(), profilePicture }))
+
+            if (pathReference)
+                await getDownloadURL(pathReference).then((url) => {
+                    profilePicture = url
+                }).catch((e: any) => { console.log('no hay foto de perfil'); profilePicture = '' })
+
+            if (docSnap.exists()) {
+                dispatch(setPublicUser({ ...docSnap.data(), profilePicture }))
             } else {
-                dispatch( setError(errors.E100) );
+                dispatch(setError(errors.E101));
             }
         } catch (error) {
-            console.error(error);
+            console.error(error + 'start loading pubblic user');
         }
     }
 }
 
-export const startSettingColorThemePublicUser = (uid: string, color: ColorI ) => {
-    return async (dispatch:any) => {
-        if(uid) {
-            await updateDoc(doc(databaseRef,`${uid}/user-data`), { color });
+export const startSettingColorThemePublicUser = (uid: string, color: ColorI) => {
+    return async (dispatch: any) => {
+        if (uid) {
+            await updateDoc(doc(databaseRef, `${uid}/user-data`), { color });
         }
-    }  
+    }
 }
 
 export const startUpdatingProfile = (uid: string, publicProfile: any) => {
-    return async (dispatch:any) => {
-        dispatch( setLoading() );
-        if(uid) {
-            updateDoc(doc(databaseRef,`${uid}/user-data`), { ...publicProfile }).then(value => {
-                dispatch( unsetLoading() );
-                dispatch( updatePublicUser({ ...publicProfile }));
-            }).catch( e => {console.error(e); dispatch( unsetLoading() );});
+    return async (dispatch: any) => {
+        dispatch(setLoading());
+        if (uid) {
+            updateDoc(doc(databaseRef, `${uid}/user-data`), { ...publicProfile }).then(value => {
+                dispatch(unsetLoading());
+                dispatch(updatePublicUser({ ...publicProfile }));
+            }).catch(e => { console.error(e); dispatch(unsetLoading()); });
         }
-    }  
+    }
 }
 
 export const startUploadinProfilePicture = (uid: string, picture: any) => {
-    return async (dispatch:any) => {
-        if(picture) {
+    return async (dispatch: any) => {
+        if (picture) {
             const storageRef = ref(storage, `${uid}/profile-picture`);
-            uploadString(storageRef, picture , 'data_url')
-            .then(e => {
-                dispatch(updatePublicUser({ profilePicture: picture }))
-            })
-            .catch(e => {
-                console.error(e)
-            });
+            uploadString(storageRef, picture, 'data_url')
+                .then(e => {
+                    dispatch(updatePublicUser({ profilePicture: picture }))
+                })
+                .catch(e => {
+                    console.error(e)
+                });
         }
     }
 }
@@ -156,12 +169,18 @@ export const setFavoriteProfiles = (favoriteProfiles: any) => ({
     payload: favoriteProfiles
 })
 
+
+export const setTypeUser = (typeUser: string) => ({
+    type: types.authSetTypeUser,
+    payload: typeUser
+})
+
 export const updatePublicUser = (userData: any) => ({
     type: types.authUpdatePublicProfile,
     payload: { ...userData }
 })
 
-export const setPublicUser = (user:any) => ({
+export const setPublicUser = (user: any) => ({
     type: types.authSetPublicProfile,
     payload: user
 })
@@ -170,31 +189,30 @@ export const unsetPublicUser = () => ({
     type: types.authUnsetPublicProfile
 })
 
-export const startSettingFavoriteProfile = (uuid:string, favoriteUuid:string, favoriteName: string) => {
-    return async (dispatch:any) => {
-        if(uuid) {
+export const startSettingFavoriteProfile = (uuid: string, favoriteUuid: string, favoriteName: string) => {
+    return async (dispatch: any) => {
+        if (uuid) {
             const docRef = doc(databaseRef, `${uuid}/user-data`);
             const docSnap = await getDoc(docRef).then();
             const publicProfileOld = docSnap.data()
             let favoriteProfiles = publicProfileOld?.favoriteProfiles || [];
             let isFavorite = false;
-            favoriteProfiles.forEach( (favoriteProfile:any) => {
-                if(favoriteProfile.uuid === favoriteUuid) 
+            favoriteProfiles.forEach((favoriteProfile: any) => {
+                if (favoriteProfile.uuid === favoriteUuid)
                     isFavorite = true;
             });
-            console.log(isFavorite);
             if (isFavorite) {
                 // Ya es favorito lo tengo que sacar
-                favoriteProfiles = favoriteProfiles.filter((favoriteProfile:any) => favoriteProfile.uuid !== favoriteUuid);
+                favoriteProfiles = favoriteProfiles.filter((favoriteProfile: any) => favoriteProfile.uuid !== favoriteUuid);
             } else {
                 // No es favorito lo agrego
-                favoriteProfiles.push({name: favoriteName,uuid:favoriteUuid});
+                favoriteProfiles.push({ name: favoriteName, uuid: favoriteUuid });
             }
-            updateDoc(doc(databaseRef,`${uuid}/user-data`), { ...publicProfileOld, favoriteProfiles }).then(value => {
-                console.log({ ...publicProfileOld, favoriteProfiles });
-            }).catch( e => {console.error(e); dispatch( unsetLoading() );});
+            updateDoc(doc(databaseRef, `${uuid}/user-data`), { ...publicProfileOld, favoriteProfiles }).then(value => {
+                console.log();
+            }).catch(e => { console.error(e); dispatch(unsetLoading()); });
         }
-    }  
+    }
 }
 const setLoading = () => ({
     type: types.authSetLoading
@@ -205,9 +223,9 @@ const unsetLoading = () => ({
 })
 
 export const startLogout = () => {
-    return async( dispatch:any ) => {
+    return async (dispatch: any) => {
         await auth.signOut();
-        dispatch( logout() );
+        dispatch(logout());
     };
 };
 

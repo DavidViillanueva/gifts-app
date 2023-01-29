@@ -8,6 +8,7 @@ export const types = {
     authUnsetPublicProfile: '[Auth] Unset public profile',
     authSetFavoriteProfiles: '[Auth] Set favorite profiles',
     authUnsetFavoriteProfiles: '[Auth] Unset favorite profiles',
+    authSetTypeUser: '[Auth] Set Type user',
 
     itemsAdd: '[Items] Add item',
     itemsMark: '[Items] Mark as gifted',
@@ -25,5 +26,5 @@ export const types = {
 
     uiSetDeleteLoading: '[UI] Set delete loading',
     uiUnsetDeleteLoading: '[UI] Unset delete loading',
-    uiSetProfileColor: '[UI] set profile color' 
+    uiSetProfileColor: '[UI] set profile color'
 }

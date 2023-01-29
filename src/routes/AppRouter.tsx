@@ -10,7 +10,7 @@ import NavBar from "../components/layout/NavBar";
 import Profile from "../components/profile/Profile";
 import { auth, databaseRef } from "../configs/firebaseConfig";
 import GiftsApp from "../GiftsApp";
-import { login, setFavoriteProfiles } from "../store/actions/auth.actions";
+import { login, setFavoriteProfiles, setTypeUser } from "../store/actions/auth.actions";
 import PublicRoute from "./PublicRoute";
 import ColorContext from "../store/context/colorContext";
 import { colors } from "../configs/colors";
@@ -23,36 +23,37 @@ const AppRouter = () => {
     const [isLogged, setIsLogged] = useState(false)
     const [uid, setUid] = useState('');
     const [colorTheme, setColorTheme] = useState(colors.pink);
-    const [state, dispatchColor ] = useReducer(colorReducer, colors.pink);    
+    const [state, dispatchColor] = useReducer(colorReducer, colors.pink);
 
     onAuthStateChanged(auth, async (user) => {
         if (user?.uid) {
             dispatch(login(user.uid, user.displayName));
             const docRef = doc(databaseRef, `${user.uid}/user-data`);
             const docSnap = await getDoc(docRef);
-            dispatch(setFavoriteProfiles(docSnap.data()?.favoriteProfiles))
+            dispatch(setFavoriteProfiles(docSnap.data()?.favoriteProfiles));
+            dispatch(setTypeUser(docSnap.data()?.type))
             setUid(user.uid);
             setIsLogged(true);
         } else {
             setIsLogged(false);
         }
     })
-    
+
     useEffect(() => {
         setColorTheme(state.color);
     }, [state])
-    
+
     const theme = createTheme({
         palette: colorTheme
     })
 
 
     return (
-        <ColorContext.Provider value={{color: colorTheme, dispatchColor}}>
+        <ColorContext.Provider value={{ color: colorTheme, dispatchColor }}>
             <ThemeProvider theme={theme}>
                 <BrowserRouter>
                     <NavBar />
-                    
+
                     <Routes>
                         <Route path="/" element={<GiftsApp />} />
 
